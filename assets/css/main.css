@@ -3741,7 +3741,7 @@ input, select, textarea {
 			-ms-transition: color 0.2s ease;
 			transition: color 0.2s ease;
 			border: 0;
-			color: rgba(155, 155, 155, 0.685);
+			color: rgba(155, 155, 155, 0.808);
 			display: block;
 			font-size: 0.65em;
 			font-weight: bold;
@@ -3765,7 +3765,7 @@ input, select, textarea {
 			}
 
 			#sidebar nav a:before {
-				background: #ffffff;
+				background: #808080;
 			}
 
 			#sidebar nav a:after {
@@ -3781,11 +3781,11 @@ input, select, textarea {
 			}
 
 			#sidebar nav a:hover {
-				color: rgba(235, 235, 235, 0.658);
+				color: rgba(216, 216, 216, 0.863);
 			}
 
 			#sidebar nav a.active {
-				color: #f3f3f3fa;
+				color: #fffffffa;
 			}
 
 				#sidebar nav a.active:after {
@@ -3861,7 +3861,7 @@ input, select, textarea {
 
 						#sidebar nav a:after {
 							background-image: none;
-							background-color: #e01194;
+							background-color: #f0f0f0ee;
 						}
 
 		}
