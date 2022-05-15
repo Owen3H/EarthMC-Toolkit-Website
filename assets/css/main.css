@@ -2996,6 +2996,7 @@ input, select, textarea {
 		-webkit-flex-direction: row-reverse;
 		-ms-flex-direction: row-reverse;
 		flex-direction: row-reverse;
+		justify-content: space-between;
 		max-height: 24em;
 		min-height: 21.5;
 	}
@@ -3049,6 +3050,7 @@ input, select, textarea {
 			-webkit-justify-content: center;
 			-ms-justify-content: center;
 			justify-content: center;
+			align-items: flex-end;
 			width: 42em;
 			-ms-flex: 1;
 		}
@@ -3090,8 +3092,8 @@ input, select, textarea {
 		@media screen and (max-width: 1680px) {
 
 			.spotlights > section > .content {
-				padding: 4em 4em 2em 2em ;
-				width: 35vh;
+				padding: 4em 4em 2em 2em;
+				width: 42em;
 			}
 
 		}
@@ -3099,7 +3101,7 @@ input, select, textarea {
 		@media screen and (max-width: 980px) {
 
 			.spotlights > section {
-				display: block;
+				display:flex
 			}
 
 				.spotlights > section > .image {
@@ -3108,7 +3110,7 @@ input, select, textarea {
 				}
 
 				.spotlights > section > .content {
-					width: 100%;
+					width: 42em;
 				}
 
 				.spotlights > section.inactive > .content > .inner,
@@ -3123,15 +3125,10 @@ input, select, textarea {
 
 		@media screen and (max-width: 736px) {
 
-			.spotlights > section > .image {
-				height: 35vh;
-				min-height: 15em;
-			}
-
 			.spotlights > section > .content {
-				padding: 3em 2em 1em 2em ;
+				padding: 3em 2em 1em 2em;
+				width: 42em;
 			}
-
 		}
 
 /* Table */
