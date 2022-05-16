@@ -98,7 +98,7 @@ input, select, textarea {
 	}
 
 	body {
-		background: #f1e9e9;
+		background: #111111;
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -115,33 +115,17 @@ input, select, textarea {
 /* Type */
 
 	body, input, select, textarea {
-		color: rgb(255 255 255 / 78%);
+		color: rgb(215, 215, 215);
 		font-family: Arial, Helvetica, sans-serif;
-		font-size: 16.5pt;
+		font-size: 13.5pt;
 		font-weight: normal;
 		line-height: 1.75;
 	}
 
-		@media screen and (max-width: 1680px) {
-
-			body, input, select, textarea {
-				font-size: 13pt;
-			}
-
-		}
-
-		@media screen and (max-width: 1280px) {
-
-			body, input, select, textarea {
-				font-size: 12pt;
-			}
-
-		}
-
 		@media screen and (max-width: 360px) {
 
 			body, input, select, textarea {
-				font-size: 11pt;
+				font-size: 12pt;
 			}
 
 		}
@@ -162,7 +146,7 @@ input, select, textarea {
 		}
 
 	strong, b {
-		color: #ffffff;
+		color: rgb(243, 253, 255);
 		font-weight: bold;
 	}
 
@@ -171,14 +155,14 @@ input, select, textarea {
 	}
 
 	p {
-		margin: 0 0 2em 0;
+		margin: 0 0 1.05em 0;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #ffffff;
+		color: #eaeaeae2;
 		font-weight: bold;
-		line-height: 1.5;
-		margin: 0 0 0.5em 0;
+		line-height: 2;
+		margin: 0 0 0 0;
 	}
 
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -187,7 +171,7 @@ input, select, textarea {
 		}
 
 	h1 {
-		font-size: 2.75em;
+		font-size: 2.4em;
 	}
 
 		h1.major {
@@ -275,14 +259,14 @@ input, select, textarea {
 	}
 
 	blockquote {
-		border-left: solid 4px rgba(255, 255, 255, 0.15);
+		border-left: solid 4px rgba(215, 117, 31, 0.971);
 		font-style: italic;
 		margin: 0 0 2em 0;
 		padding: 0.5em 0 0.5em 2em;
 	}
 
 	code {
-		background: rgba(209, 27, 27, 0.589);
+		background: rgba(94, 83, 121, 0.589);
 		border-radius: 0.25em;
 		border: solid 1px rgba(255, 255, 255, 0.15);
 		font-family: "Courier New", monospace;
@@ -3372,7 +3356,7 @@ input, select, textarea {
 		display: -webkit-flex;
 		display: -ms-flex;
 		display: flex;
-		background-color: #ffffff;
+		background-color: #246645;
 		cursor: default;
 		padding: 1.75em 2em;
 	}
