@@ -2997,8 +2997,9 @@ input, select, textarea {
 		-ms-flex-direction: row-reverse;
 		flex-direction: row-reverse;
 		justify-content: space-between;
-		max-height: 24em;
-		min-height: 21.5;
+		max-height: 22em;
+		min-height: 21em;
+		min-width: 70vh;
 	}
 
 		body.is-ie .spotlights > section {
@@ -3011,8 +3012,10 @@ input, select, textarea {
 			border-radius: 0;
 			display: flex;
 			position: relative;
-			max-width: 24em;
-			min-width: 21.5em;
+			min-width: 45vh;
+			max-width: 60vh;	
+			min-height: 36vh;
+			max-height: 55vh;
 		}
 
 			.spotlights > section > .image img {
@@ -3049,8 +3052,7 @@ input, select, textarea {
 			-moz-justify-content: center;
 			-webkit-justify-content: center;
 			-ms-justify-content: center;
-			justify-content: center;
-			align-items: flex-end;
+			justify-content: space-between;
 			width: 42em;
 			-ms-flex: 1;
 		}
@@ -3092,8 +3094,7 @@ input, select, textarea {
 		@media screen and (max-width: 1680px) {
 
 			.spotlights > section > .content {
-				padding: 4em 4em 2em 2em;
-				width: 42em;
+				width: 5vh;
 			}
 
 		}
@@ -3101,13 +3102,8 @@ input, select, textarea {
 		@media screen and (max-width: 980px) {
 
 			.spotlights > section {
-				display:flex
+				display: flex;
 			}
-
-				.spotlights > section > .image {
-					width: 100%;
-					height: 35vh;
-				}
 
 				.spotlights > section > .content {
 					width: 42em;
@@ -3126,8 +3122,7 @@ input, select, textarea {
 		@media screen and (max-width: 736px) {
 
 			.spotlights > section > .content {
-				padding: 3em 2em 1em 2em;
-				width: 42em;
+				min-width: 42em;
 			}
 		}
 
