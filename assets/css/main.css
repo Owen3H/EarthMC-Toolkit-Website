@@ -33,29 +33,36 @@ body {
 }
 
 details {
-    border: 1px solid rgb(60, 101, 82);
-    border-radius: 4px;
-    padding: .5em 1em 0;
+    border: 2px groove rgb(60, 101, 82);
+    border-radius: 8px;
+    padding: .5em 1.1em;
+	margin-bottom: 0.7em;
+	margin-top: 0.6em;
 }
 
 summary {
     font-weight: bold;
-    margin: -.5em -.5em 0;
-    padding: .5em;
+    margin: 0em -.3em;
+    padding: .2em;
+	cursor: pointer;
+}
+
+summary[open] {
+    font-weight: bold;
+    margin: 0em -.5em;
+    padding: .1em;
 	cursor: pointer;
 }
 
 details[open] {
     padding: 1em;
-}
-
-details[open] p {
-    padding: 0.5em;
-	margin: auto;
+	margin-bottom: -.2em;
+	margin-top: .3em;
 }
 
 details[open] summary {
-	margin: -.5em -.5em 0;
+	margin: -.5em -.8em;
+	padding: .3em;
 }
 
 ol, ul {
@@ -140,9 +147,12 @@ input, select, textarea {
 		bottom: 0;
 		right: 0;
 		position: absolute;
-		width: 150em;
-		height: 60em;
-		z-index: -1;   
+		width: 120m;
+		height: 61.5em;
+		z-index: -1;
+		background-size: cover;                  
+		background-repeat: no-repeat;
+		background-position: center center;              
 	  }
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -163,7 +173,7 @@ input, select, textarea {
 		font-family: Arial, Helvetica, sans-serif;
 		font-size: 13.5pt;
 		font-weight: normal;
-		line-height: 1.75;
+		line-height: 1.6em;
 	}
 
 		@media screen and (max-width: 360px) {
@@ -244,7 +254,6 @@ input, select, textarea {
 
 	h2 {
 		font-size: 1.75em;
-		margin-top: 1.8vh;
 	}
 
 	h3 {
@@ -3269,11 +3278,11 @@ input, select, textarea {
 		}
 
 		.wrapper.style1 {
-			background-color: #11573cec;
+			background-color: #0f3f2fec;
 		}
 
 		.wrapper.style1-alt {
-			background-color: #111111;
+			background-color: #131313;
 		}
 
 		.wrapper.style2 {
