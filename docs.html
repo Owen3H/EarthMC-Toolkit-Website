@@ -13,20 +13,19 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
-	<body class="is-preload">
+	<body-alt class="is-preload">	
 
 		<!-- Header -->
-			<header id="header">
-				<a href="index.html" class="title">EarthMC Toolkit / API Docs</a>
-				<nav>
-					<ul>
-						<li><a href="index.html">Home</a></li>
-						<li><a href="resources.html">Resources</a></li>
-						<li><a href="commands.html" class="active">Bot Commands</a></li>
-						<li><a href="docs.html" class="active">API Docs</a></li>
-					</ul>
-				</nav>
-			</header>
+		<header id="header">
+			<a href="index.html" class="title">EarthMC Toolkit / API Docs</a>
+			<nav>
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="commands.html" class="active">Bot Commands</a></li>
+					<li><a href="docs.html" class="active">API Docs</a></li>
+				</ul>
+			</nav>
+		</header>
 
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -35,14 +34,15 @@
 					<section id="main" class="wrapper">
 						<div class="inner">
 							<h1></p>API Documentation <p class="major fas fa-book"></p></h1>
-							<p>The EarthMC API is served using Heroku and Express and provides plenty of data such as townless, nations, alliances and more with most endpoints being cached to decrease response times. The repository is open source and can be found <a href="https://github.com/Owen3H/EarthMC-API">here.</a>
+							<p>The EarthMC API is served using Heroku and Express and provides plenty of data such as townless, nations, alliances and more with most endpoints being cached to decrease response times. 
+							   The repository is open source and can be found <a href="https://github.com/Owen3H/EarthMC-API">here.</a>
 							
 							<!-- Text -->
 								<section>
 									<h2>Quick Start <p class="major fas fa-bolt"></p></h2>
 									<p>For this example, we will use JavaScript combined with the
-										<a href="https://npmjs.com">Node Package Manager</a> to install a fetch package that will allow us to send GET requests.
-										<blockquote>Note: To stop abuse, there is a rate limit of <b>10</b> requests per <b>5</b> seconds.</blockquote>
+										<a href="https://npmjs.com">Node Package Manager</a> to install a fetch package that will allow us to send <b>GET</b> requests.
+										<blockquote>Note: To stop abuse, there is a rate limit of <b>14</b> requests per <b>6</b> seconds.</blockquote>
 										1. Install a fetch package in your chosen language.<br>
 											<code>$ npm install node-fetch</code>
 										<br><br>2. Require/import the package.<br>
@@ -59,7 +59,39 @@ towns.forEach(t => {
 
 							<!-- Lists -->
 								<section>
-									<h2>Endpoints</h2>
+									<h2>Endpoint Info</h2>
+									<body>
+										<section>
+											<p>This section provides all of the endpoints available for use, 
+											   note that for generic routes you will not need to pass in a map to the URL.
+											</p>
+											<p>To begin, your URL to fetch must begin with the following:<code>https://earthmc-api.herokuapp.com/api/v1/</code>
+												<br>Then, one of the routes from the list below can be appended to create a full endpoint.
+											</p>
+											<h3>Route List</h3>
+										  <article>
+											<details>
+											  <summary>Generic</summary>											  <details>
+												<summary>Server Info</summary>
+												<p>Route Name:<code>serverinfo</code>
+													<br>Response: Object or code 404</p>	
+											  </details>
+											  <details>
+												<summary>All Players</summary>
+												<p>Route Name:<code>allplayers</code>
+													<br>Response: Array of player objects</p>
+											  </details>
+											</details>
+											<details>
+											  <summary>Map Specific</summary>
+											  
+											</details>
+										  </article>
+									  
+										</section>
+									  </body>
+
+									<h2>Getting Data</h2>
 									<div class="row">
 										<div class="col-6 col-12-medium">
 											<h3>Get single object</h3>
@@ -90,15 +122,6 @@ towns.forEach(t => {
 					</section>
 
 			</div>
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper alt">
-				<div class="inner">
-					<ul class="menu">
-						Website design provided by <a href="http://html5up.net">HTML5 UP</a>
-					</ul>
-				</div>
-			</footer>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>

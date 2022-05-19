@@ -32,6 +32,32 @@ body {
 	line-height: 1;
 }
 
+details {
+    border: 1px solid rgb(60, 101, 82);
+    border-radius: 4px;
+    padding: .5em 1em 0;
+}
+
+summary {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    padding: .5em;
+	cursor: pointer;
+}
+
+details[open] {
+    padding: 1em;
+}
+
+details[open] p {
+    padding: 0.5em;
+	margin: auto;
+}
+
+details[open] summary {
+	margin: -.5em -.5em 0;
+}
+
 ol, ul {
 	list-style: none;
 }
@@ -98,8 +124,26 @@ input, select, textarea {
 	}
 
 	body {
-		background: #111111;
+		background: #030303fc;
 	}
+
+	body-alt {
+		background: #030303fc;
+	}
+	
+	body-alt::after {
+		content: "";
+		background: url('../../images/london_bg.png');
+		opacity: 0.35;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		position: absolute;
+		width: 150em;
+		height: 60em;
+		z-index: -1;   
+	  }
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
 			-moz-animation: none !important;
@@ -159,9 +203,9 @@ input, select, textarea {
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #eaeaeae2;
+		color: #edeefd;
 		font-weight: bold;
-		line-height: 2;
+		line-height: 2em;
 		margin: 0 0 0 0;
 	}
 
@@ -200,6 +244,7 @@ input, select, textarea {
 
 	h2 {
 		font-size: 1.75em;
+		margin-top: 1.8vh;
 	}
 
 	h3 {
@@ -3358,14 +3403,14 @@ input, select, textarea {
 		display: -webkit-flex;
 		display: -ms-flex;
 		display: flex;
-		background-color: #246645;
+		background-color: #0b0b0bf6;
 		cursor: default;
-		padding: 1.75em 2em;
+		padding: 1.15em 3em;
 	}
 
 		#header > .title {
 			border: 0;
-			color: #ffffff;
+			color: #c7c7c7e1;
 			display: block;
 			font-size: 1.25em;
 			font-weight: bold;
@@ -3512,7 +3557,7 @@ input, select, textarea {
 
 	#sidebar {
 		padding: 2.5em 2.5em 0.5em 2.5em;
-		background: #0f0f0f;
+		background: #0d0d0dfd;
 		cursor: default;
 		height: 100vh;
 		left: 0;
@@ -3749,7 +3794,7 @@ input, select, textarea {
 			}
 
 			#sidebar nav a:before {
-				background: #808080;
+				background: #b4b4b4d7;
 			}
 
 			#sidebar nav a:after {
@@ -3765,11 +3810,11 @@ input, select, textarea {
 			}
 
 			#sidebar nav a:hover {
-				color: rgba(216, 216, 216, 0.863);
+				color: rgba(216, 216, 216, 0.924);
 			}
 
 			#sidebar nav a.active {
-				color: #fffffffa;
+				color: #fdfdfd;
 			}
 
 				#sidebar nav a.active:after {
@@ -3845,7 +3890,7 @@ input, select, textarea {
 
 						#sidebar nav a:after {
 							background-image: none;
-							background-color: #f0f0f0ee;
+							background-color: #ecececee;
 						}
 
 		}
