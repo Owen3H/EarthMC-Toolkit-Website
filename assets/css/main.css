@@ -35,34 +35,39 @@ body {
 details {
     border: 2px groove rgb(60, 101, 82);
     border-radius: 8px;
-    padding: .5em 1.1em;
-	margin-bottom: 0.7em;
-	margin-top: 0.6em;
+    padding: .6em 0.7em;
+	margin-bottom: 0.1em;
+	margin-top: 0.2em;
 }
 
 summary {
     font-weight: bold;
     margin: 0em -.3em;
-    padding: .2em;
+	padding: .4em 0.6em;
 	cursor: pointer;
 }
 
 summary[open] {
     font-weight: bold;
     margin: 0em -.5em;
-    padding: .1em;
+    padding: .2em 0.7em;
 	cursor: pointer;
 }
 
 details[open] {
-    padding: 1em;
-	margin-bottom: -.2em;
-	margin-top: .3em;
+	margin-bottom: -0em;
+	margin-top: 0.5em;
 }
 
 details[open] summary {
+	margin: -.4em -0.8em;
+}
+
+details[open] p {
 	margin: -.5em -.8em;
-	padding: .3em;
+	margin-left: 0.35em;
+	margin-top: 0.3em;
+	margin-bottom: 0.5em;
 }
 
 ol, ul {
@@ -142,12 +147,12 @@ input, select, textarea {
 		content: "";
 		background: url('../../images/london_bg.png');
 		opacity: 0.35;
-		top: 0;
+		top: -2em;
 		left: 0;
 		bottom: 0;
 		right: 0;
 		position: absolute;
-		width: 120m;
+		width: 130em;
 		height: 61.5em;
 		z-index: -1;
 		background-size: cover;                  

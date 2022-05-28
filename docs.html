@@ -75,17 +75,88 @@ towns.forEach(t => {
 											  <details>
 												<summary>Server Info</summary>
 												<p>Route Name:<code>serverinfo</code>
-													<br>Response: Object or code 404</p>	
-											  </details>
-											  <details>
-												<summary>All Players</summary>
-												<p>Route Name:<code>allplayers</code>
-													<br>Response: Array of player objects</p>
+													<br>Response: Object | Error string + 404
+													<br>Timeout (ms):<code>5000</code></p>	
 											  </details>
 											</details>
 											<details>
 											  <summary>Map Specific</summary>
-											  
+											  <p>Replace the 'map' parameter with the map name.</p>
+											  <details>
+												<summary>All Players</summary>
+												<p>Route Name:<code>map/allplayers</code>
+												<br>Response: Array of players. (with custom data)
+												<br>Timeout (ms):<code>30000</code></p>
+											  </details>
+											  <details>
+												<summary>Online Players</summary>
+												<p>Route Name:<code>map/onlineplayers</code>
+												<br>Response: Array of online players.
+												<br>Timeout (ms):<code>5000</code></p>
+											  </details>
+											  <details>
+												<summary>Townless Players</summary>
+												<p>Route Name:<code>map/townlessplayers</code>
+												<br>Response: Array of townless players.
+												<br>Timeout (ms):<code>5000</code></p>
+											  </details>
+											  <details>
+												<summary>Residents</summary>
+												<p>Route Name:<code>map/residents</code>
+												<br>Response: Array of residents from all towns.
+												<br>Timeout (ms):<code>5000</code></p>
+											  </details>
+											  <details>
+												<summary>Towns</summary>
+												<p>Route Name:<code>map/towns</code>
+												<br>Response: Array of towns.
+												<br>Timeout (ms):<code>10000</code></p>
+											  </details>
+											  <details>
+												<summary>Nations</summary>
+												<p>Route Name:<code>map/nations</code>
+												<br>Response: Array of nations.
+												<br>Timeout (ms):<code>30000</code></p>
+												<details>
+													<summary>Invitable Towns</summary>
+													<p>Route Name:<code>map/nationName/invitable</code>
+													<br>Response: Array of towns within the nation's invite range.
+													<br>Timeout (ms):<code>10000</code></p>
+												</details>
+											  </details>
+											  <details>
+												<summary>Alliances</summary>
+												<p>Route Name:<code>map/alliances</code>
+												<br>Response: Array of alliances. (Registered by our editors)
+												<br>Timeout (ms):<code>30</code></p>
+											  </details>
+											  <details>
+												<summary>News</summary>
+												<p>Route Name:<code>map/news</code>
+												<br>Response: Object with the latest news. (Reported in EMCL)
+												<br>Timeout (ms):<code>5</code></p>
+											  </details>
+											  <details>
+												<summary>Nearby</summary>											
+												<details>
+													<summary>Players</summary>
+													<p>Route Name:<code>map/nearbyplayers/xPos/zPos/xBlocks/zBlocks</code>
+													<br>Response: Array of nearby players within at the specified position and radius.
+													<br>Timeout (ms):<code>5000</code></p>
+												  </details>
+												<details>
+													<summary>Towns</summary>
+													<p>Route Name:<code>map/nearbytowns/xPos/zPos/xBlocks/zBlocks/</code>
+													<br>Response: Array of nearby towns within at the specified position and radius.
+													<br>Timeout (ms):<code>5000</code></p>
+												  </details>
+												<details>
+													<summary>Nations</summary>
+													<p>Route Name:<code>map/nearbynations/xPos/zPos/xBlocks/zBlocks</code>
+													<br>Response: Array of nearby nations within at the specified position and radius.
+													<br>Timeout (ms):<code>5000</code></p>
+												</details>
+											  </details>
 											</details>
 										  </article>
 									  
