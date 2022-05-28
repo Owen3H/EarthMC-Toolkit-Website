@@ -65,9 +65,8 @@ towns.forEach(t => {
 											<p>This section provides all of the endpoints available for use, 
 											   note that for generic routes you will not need to pass in a map to the URL.
 											</p>
-											<p>To begin, your URL to fetch must begin with the following:<code>https://earthmc-api.herokuapp.com/api/v1/</code>
-												<br>Then, one of the routes from the list below can be appended to create a full endpoint.
-											</p>
+											<p>To begin, your URL to fetch must begin with the following:<code>https://earthmc-api.herokuapp.com/api/v1/</code><br>
+											   Then, one of the routes from the list below can be appended to create a full endpoint.</p>
 											<h3>Route List</h3>
 										  <article>
 											<details>
@@ -86,7 +85,7 @@ towns.forEach(t => {
 												<summary>All Players</summary>
 												<p>Route Name:<code>map/allplayers</code>
 												<br>Response: Array of players. (with custom data)
-												<br>Timeout (ms):<code>30000</code></p>
+												<br>Timeout (ms):<code>15000</code></p>
 											  </details>
 											  <details>
 												<summary>Online Players</summary>
@@ -128,13 +127,13 @@ towns.forEach(t => {
 												<summary>Alliances</summary>
 												<p>Route Name:<code>map/alliances</code>
 												<br>Response: Array of alliances. (Registered by our editors)
-												<br>Timeout (ms):<code>30</code></p>
+												<br>Timeout (ms):<code>10000</code></p>
 											  </details>
 											  <details>
 												<summary>News</summary>
 												<p>Route Name:<code>map/news</code>
 												<br>Response: Object with the latest news. (Reported in EMCL)
-												<br>Timeout (ms):<code>5</code></p>
+												<br>Timeout (ms):<code>5000</code></p>
 											  </details>
 											  <details>
 												<summary>Nearby</summary>											
