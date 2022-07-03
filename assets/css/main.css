@@ -22,52 +22,55 @@ section, summary, time, mark, audio, video {
 	border: 0;
 	font-size: 100%;
 	font: inherit;
-	vertical-align: baseline;}
+	vertical-align: baseline;
+}
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-	display: block;}
+	display: block;
+}
 
 body {
 	line-height: 1;
 }
 
 details {
-    border: 2px groove rgb(60, 101, 82);
-    border-radius: 8px;
-    padding: .6em 0.7em;
-	margin-bottom: 0.1em;
-	margin-top: 0.2em;
+    border: 3px rgba(27, 81, 50, 0.956);
+	border-style: groove;
+    border-radius: 12px;
+    padding: .4em 0.7em;
+	margin-bottom: 0.4em;
+	margin-top: 0.5em;
+	background-color: rgba(22, 33, 43, 0.805);
 }
 
 summary {
     font-weight: bold;
-    margin: 0em -.3em;
-	padding: .4em 0.6em;
+    margin: 0.6em -.3em;
+	padding: .1em 0.7em;
 	cursor: pointer;
 }
 
 summary[open] {
     font-weight: bold;
-    margin: 0em -.5em;
-    padding: .2em 0.7em;
+    padding: .4em 0.7em;
 	cursor: pointer;
 }
 
 details[open] {
-	margin-bottom: -0em;
-	margin-top: 0.5em;
+	margin-bottom: 0em;
+	margin-top: 0.2em;
 }
 
 details[open] summary {
-	margin: -.4em -0.8em;
+	margin: 0.2em -0.6em;
+	padding: .4em 0.7em;
 }
 
 details[open] p {
-	margin: -.5em -.8em;
-	margin-left: 0.35em;
-	margin-top: 0.3em;
-	margin-bottom: 0.5em;
+	margin-left: 1.22em;
+	margin-top: 0.2em;
+	margin-bottom: 0.7em;
 }
 
 ol, ul {
@@ -146,18 +149,16 @@ input, select, textarea {
 	body-alt::after {
 		content: "";
 		background: url('../../images/london_bg.png');
-		opacity: 0.35;
+		opacity: 0.32;
 		top: -2em;
-		left: 0;
-		bottom: 0;
-		right: 0;
 		position: absolute;
 		width: 130em;
-		height: 61.5em;
+		height: 200em;
 		z-index: -1;
 		background-size: cover;                  
 		background-repeat: no-repeat;
-		background-position: center center;              
+		background-position: center center;   
+		background-attachment: fixed; 
 	  }
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {

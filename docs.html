@@ -21,8 +21,8 @@
 			<nav>
 				<ul>
 					<li><a href="index.html">Home</a></li>
-					<li><a href="commands.html" class="active">Bot Commands</a></li>
 					<li><a href="docs.html" class="active">API Docs</a></li>
+					<li><a href="commands.html" class="active">Bot Commands</a></li>	
 				</ul>
 			</nav>
 		</header>
@@ -51,9 +51,9 @@
 											<pre><code>var towns = await fetch('https://earthmc-api.herokuapp.com/api/v1/aurora/towns').catch(() => {})
 if (!towns) // Handle error
 
-towns.forEach(t => {
-   // Your code here
-})
+// Example code
+towns = towns.map(t => t.area > 50) 
+console.log(towns)
 </code></pre>
 								</section>
 
