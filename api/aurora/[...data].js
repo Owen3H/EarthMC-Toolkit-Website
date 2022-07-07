@@ -16,7 +16,7 @@ async function handler(req, res) {
     const { data } = req.query
     console.log(req.query)
 
-    if (!data) return res.status(404).send('Error: Data type not specified.')
+    //if (!data) return res.status(404).send('Error: Data type not specified.')
 
     let out = await output(data)
     if (!out) return res.status(404).send(`Parameter ${data[0]} not recognized.`)
