@@ -1,7 +1,7 @@
-export default function handler(req, res) {
+const emc = require('earthmc')
+module.exports = (req, res) => {
     const { data } = req.query
 
-    const emc = require('earthmc')
     if (data.toLowerCase() == 'nations') {
         let nations = await emc.Aurora.getNations()
         res.status(200).json(nations)
