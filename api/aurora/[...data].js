@@ -14,6 +14,8 @@ const output = async data => {
 
 async function handler(req, res) {
     const { data } = req.query
+    console.log(req.query)
+
     if (!data) return res.status(404).send('Error: Data type not specified.')
 
     let out = await output(data)
@@ -24,6 +26,6 @@ async function handler(req, res) {
 }
 
 export {
-    output,
-    handler as default
+    handler as default,
+    output
 }
