@@ -4,15 +4,22 @@ const output = async data => {
     switch(data.toLowerCase()) {
         case 'towns': return await Aurora.getTowns()
         case 'nations': return await Aurora.getNations()
-        default: return `Data parameter ${data} not recognized.`
+        case 'allplayers': return await Aurora.getAllPlayers()
+        case 'residents': return await Aurora.getResidents()
+        case 'townless': return await Aurora.getTownless()
+        case 'onlineplayers': return await Aurora.getOnlinePlayers(true)
+        default: return 
     }
 }
 
 async function handler(req, res) {
     const { data } = req.query
-    if (!data) return res.status(404).send('Error: Data not specified.')
+    if (!data) return res.status(404).send('Error: Data type not specified.')
 
-    res.status(200).json(await output(data))
+    let out = await output(data)
+    if (!out) return res.status(404).send(`Data parameter ${data} not recognized.`)
+
+    res.status(200).json(out)
 }
 
 export {
