@@ -1,13 +1,13 @@
-const { Aurora } = require('earthmc')
+const { Nova } = require('earthmc')
 
 const output = async data => {
     switch(data.toLowerCase()) {
-        case 'towns': return await Aurora.getTowns()
-        case 'nations': return await Aurora.getNations()
-        case 'allplayers': return await Aurora.getAllPlayers()
-        case 'residents': return await Aurora.getResidents()
-        case 'townless': return await Aurora.getTownless()
-        case 'onlineplayers': return await Aurora.getOnlinePlayers(true)
+        case 'towns': return await Nova.getTowns()
+        case 'nations': return await Nova.getNations()
+        case 'allplayers': return await Nova.getAllPlayers()
+        case 'residents': return await Nova.getResidents()
+        case 'townless': return await Nova.getTownless()
+        case 'onlineplayers': return await Nova.getOnlinePlayers(true)
         default: return null
     }
 }
