@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Owen3H/earthmc-toolkit-webpage#readme",
   "dependencies": {
-    "earthmc": "^3.3.2"
+    "earthmc": "^3.3.2",
+    "next": "^12.2.0"
   }
 }
