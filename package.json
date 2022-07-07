@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Owen3H/earthmc-toolkit-webpage/issues"
   },
-  "homepage": "https://github.com/Owen3H/earthmc-toolkit-webpage#readme"
+  "homepage": "https://github.com/Owen3H/earthmc-toolkit-webpage#readme",
+  "dependencies": {
+    "earthmc": "^3.3.1"
+  }
 }
