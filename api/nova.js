@@ -19,6 +19,7 @@ async function handler(req, res) {
     let out = await output(data)
     if (!out) return res.status(404).send(`Data parameter ${data} not recognized.`)
 
+    res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate')
     res.status(200).json(out)
 }
 
