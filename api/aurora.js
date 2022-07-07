@@ -15,4 +15,7 @@ async function handler(req, res) {
     res.status(200).json(await output(data))
 }
 
-export default handler
+export {
+    handler as default,
+    output
+}
