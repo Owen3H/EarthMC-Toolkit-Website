@@ -1,5 +1,5 @@
 const emc = require('earthmc')
-async function nations(req, res) {
+module.exports = async (req, res) => {
     const { data } = req.query
 
     if (data.toLowerCase() == 'nations') {
@@ -9,5 +9,3 @@ async function nations(req, res) {
 
     return res.status(404).send('Error: Data not specified.')
 }
-
-module.exports = { nations }
