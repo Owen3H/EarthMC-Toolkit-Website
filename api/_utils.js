@@ -1,4 +1,4 @@
-const output = (data, map) => {
+const output = async (data, map) => {
     switch(data.toLowerCase()) {
         case 'towns': return await map.getTowns()
         case 'nations': return await map.getNations()
