@@ -24,13 +24,11 @@ const single = async (data, map) => {
 }
  
 async function send(req, res, map) {
-    if (Object.keys(req.query).length < 1)
-        return res.status(404).send('Error: Data type not specified.')
-
     console.dir(req.query)
     const {data = []} = req.query
-   
-    let out = Array.isArray(data) ? await single(data, map) : await multi(data, map)
+    console.dir(data)
+
+    let out = data.length > 1 ? await single(data, map) : await multi(data, map)
     if (!out) return res.status(400).send(`Parameter ${data} not recognized.`)
     
     res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate')
