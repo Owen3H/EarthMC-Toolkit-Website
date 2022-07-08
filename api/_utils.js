@@ -1,5 +1,3 @@
-const { useRouter } = require('next/router')
-
 const multi = async (data, map) => {
     switch(data.toLowerCase()) {
         case 'towns': return await map.getTowns()
@@ -28,12 +26,8 @@ async function send(req, res, map) {
     if (Object.keys(req.query).length < 1)
         return res.status(404).send('Error: Data type not specified.')
 
-    const router = useRouter()
-
-    console.log(router.query)
     console.log(req.query)
-
-    const { data = [] } = router.query
+    const data = req.query.data
    
     let out = Array.isArray(data) ? await single(data, map) : await multi(data, map)
     if (!out) return res.status(400).send(`Parameter ${data} not recognized.`)
