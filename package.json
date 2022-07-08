@@ -20,6 +20,8 @@
   "homepage": "https://github.com/Owen3H/earthmc-toolkit-webpage#readme",
   "dependencies": {
     "earthmc": "^3.3.2",
-    "next": "^12.2.0"
+    "next": "^12.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
