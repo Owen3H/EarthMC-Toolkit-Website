@@ -24,6 +24,8 @@ const single = async (data, map) => {
 
 async function send(req, res, map) {
     const { data } = req.query
+    console.log(req.query)
+
     if (!data) return res.status(404).send('Error: Data type not specified.')
 
     let out = Array.isArray(data) ? await single(data, map) : await multi(data, map)
