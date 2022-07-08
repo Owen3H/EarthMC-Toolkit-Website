@@ -29,7 +29,7 @@ async function send(req, res, map) {
     console.log(req.query)
     const data = req.query.data
    
-    let out = Array.isArray(data) ? await single(data, map) : await multi(data, map)
+    let out = Array.isArray(data) ? await single(data, map) : await multi(req.query['...data'], map)
     if (!out) return res.status(400).send(`Parameter ${data} not recognized.`)
     
     res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate')
