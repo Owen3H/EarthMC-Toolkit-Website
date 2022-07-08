@@ -10,7 +10,7 @@ const output = async (data, map) => {
     }
 }
 
-export default function send(req, res, map) {
+async function send(req, res, map) {
     const data = req.query.data
     if (!data) return res.status(404).send('Error: Data type not specified.')
 
