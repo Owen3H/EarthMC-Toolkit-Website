@@ -1,5 +1,5 @@
 const multi = async (data, map) => {
-    switch(data?.toLowerCase()) {
+    switch(data.toLowerCase()) {
         case 'towns': return await map.getTowns()
         case 'nations': return await map.getNations()
         case 'allplayers': return await map.getAllPlayers()
@@ -25,10 +25,9 @@ const single = async (data, map) => {
  
 async function send(req, res, map) {
     console.dir(req.query)
-    const {data = []} = req.query
-    console.dir(data)
+    let params = Object.values(req.query)
 
-    let out = data.length > 1 ? await single(data, map) : await multi(data, map)
+    let out = params.length > 1 ? await single(params, map) : await multi(params[0], map)
     if (!out) return res.status(400).send(`Parameter ${data} not recognized.`)
     
     res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate')
