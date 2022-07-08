@@ -1,13 +1,4 @@
 const { Nova } = require('earthmc'),
-      utils = require('../_utils'),
-      { useRouter } = require('next/router')
+      utils = require('../_utils')
 
-export default (req, res) => {
-    const router = useRouter()
-
-    console.log(router.query)
-    console.log(req.query)
-
-    const { data = [] } = router.query
-    utils.send(data, res, Nova)
-}
+export default (req, res) => utils.send(req, res, Nova)
