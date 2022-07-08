@@ -1,4 +1,4 @@
-const output = async (data, map) => {
+const multi = async (data, map) => {
     switch(data.toLowerCase()) {
         case 'towns': return await map.getTowns()
         case 'nations': return await map.getNations()
@@ -10,11 +10,23 @@ const output = async (data, map) => {
     }
 }
 
+const single = async (data, map) => {
+    let value = data[1].toLowerCase()
+    switch(data[0].toLowerCase()) {
+        case 'towns': return await map.getTown(value)
+        case 'nations': return await map.getNation(value)
+        case 'allplayers': return await map.getPlayer(value)
+        case 'residents': return await map.getResident(value)
+        case 'onlineplayers': return await map.getOnlinePlayer(value)
+        default: return null
+    }
+}
+
 async function send(req, res, map) {
-    const data = req.query.data
+    const { data } = req.query
     if (!data) return res.status(404).send('Error: Data type not specified.')
 
-    let out = await output(data, map)
+    let out = Array.isArray(data) ? await single(data, map) : await multi(data, map)
     if (!out) return res.status(404).send(`Parameter ${data} not recognized.`)
     
     res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate')
@@ -22,6 +34,6 @@ async function send(req, res, map) {
 }
 
 export {
-    send,
-    output
+    send as default,
+    send
 }
