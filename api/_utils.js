@@ -29,7 +29,11 @@ async function send(req, res, map) {
         return res.status(404).send('Error: Data type not specified.')
 
     const router = useRouter()
-    const { data } = router.query
+
+    console.log(router.query)
+    console.log(req.query)
+
+    const { data = [] } = router.query
    
     let out = Array.isArray(data) ? await single(data, map) : await multi(data, map)
     if (!out) return res.status(400).send(`Parameter ${data} not recognized.`)
