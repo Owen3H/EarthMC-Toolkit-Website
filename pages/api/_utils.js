@@ -34,6 +34,5 @@ async function send(req, res, map) {
 }
 
 export {
-    send as default,
     send
 }
