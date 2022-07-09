@@ -1,4 +1,4 @@
-const { Nova } = require('earthmc'),
-      utils = require('../_utils')
+const emc = require('earthmc'),
+      serve = require('../../../utils/route').default
 
-export default (req, res) => utils.send(req, res, Nova)
+export default (req, res) => serve(req, res, emc.Nova)

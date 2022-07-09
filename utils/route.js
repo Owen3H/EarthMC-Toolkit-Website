@@ -23,7 +23,7 @@ const single = async (data, map) => {
     }
 }
  
-async function send(req, res, map) {
+async function serve(req, res, map) {
     let { data } = req.query
 
     let out = data.length > 1 ? await single(data, map) : await multi(data[0], map)
@@ -33,6 +33,4 @@ async function send(req, res, map) {
     res.status(200).json(out)
 }
 
-export {
-    send
-}
+export default serve
