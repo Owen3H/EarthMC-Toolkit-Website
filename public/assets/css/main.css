@@ -35,13 +35,13 @@ body {
 }
 
 details {
-    border: 2px rgba(90, 163, 180, 0.533);
-	border-style: ridge;
+    border: 2px rgba(80, 120, 162, 0.675);
+	border-style: outset;
     border-radius: 8px;
     padding: .5em 0.6em;
 	margin-bottom: 0.6em;
 	margin-top: 0.5em;
-	background-color: rgba(22, 33, 43, 0.829);
+	background-color: rgba(21, 33, 43, 0.738);
 }
 
 summary {
@@ -321,8 +321,8 @@ input, select, textarea {
 	blockquote {
 		border-left: solid 4px rgba(215, 117, 31, 0.971);
 		font-style: italic;
-		margin: 0 0 2em 0;
-		padding: 0.5em 0 0.5em 2em;
+		margin: 0 0 1.8em 0;
+		padding: 0.5em 0 0.5em 1.4em;
 	}
 
 	code {
