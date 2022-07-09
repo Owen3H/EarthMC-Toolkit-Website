@@ -1,32 +1,21 @@
-const multi = async (data, map) => {
-    switch(data.toLowerCase()) {
-        case 'towns': return await map.getTowns()
-        case 'nations': return await map.getNations()
-        case 'allplayers': return await map.getAllPlayers()
-        case 'residents': return await map.getResidents()
-        case 'townless': return await map.getTownless()
-        case 'onlineplayers': return await map.getOnlinePlayers(true)
+const getData = async (params, map) => {
+    const [dataType, single] = params,
+          value = single?.toLowerCase() ?? null
+
+    switch(dataType) {
+        case 'towns': return single ? await map.getTown(value) : await map.getTowns()  
+        case 'nations': return single ? await map.getNation(value) : await map.getNations()
+        case 'allplayers': return single ? await map.getPlayer(value) :await map.getAllPlayers()
+        case 'residents': return single ? await map.getResident(value) : await map.getResidents()
+        case 'onlineplayers': return single ? await map.getOnlinePlayer(value) : await map.getOnlinePlayers(true)
         default: return null
     }
 }
 
-const single = async (data, map) => {
-    let value = data[1].toLowerCase()
-    
-    switch(data[0].toLowerCase()) {
-        case 'towns': return await map.getTown(value)
-        case 'nations': return await map.getNation(value)
-        case 'allplayers': return await map.getPlayer(value)
-        case 'residents': return await map.getResident(value)
-        case 'onlineplayers': return await map.getOnlinePlayer(value)
-        default: return null
-    }
-}
- 
 async function serve(req, res, map) {
-    let { data } = req.query
-
-    let out = data.length > 1 ? await single(data, map) : await multi(data[0], map)
+    let { params } = req.query,
+        out = await getData(params, map)
+        
     if (!out) return res.status(400).send(`Parameter ${data} not recognized.`)
     
     res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate')

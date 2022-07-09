@@ -35,13 +35,13 @@ body {
 }
 
 details {
-    border: 3px rgba(27, 81, 50, 0.956);
-	border-style: groove;
-    border-radius: 12px;
-    padding: .5em 0.7em;
-	margin-bottom: 0.4em;
+    border: 2px rgba(90, 163, 180, 0.533);
+	border-style: ridge;
+    border-radius: 8px;
+    padding: .5em 0.6em;
+	margin-bottom: 0.6em;
 	margin-top: 0.5em;
-	background-color: rgba(22, 33, 43, 0.805);
+	background-color: rgba(22, 33, 43, 0.829);
 }
 
 summary {
@@ -58,7 +58,7 @@ summary[open] {
 }
 
 details[open] {
-	margin-bottom: 0em;
+	margin-bottom: 0.5em;
 	margin-top: 0.2em;
 }
 
@@ -139,26 +139,26 @@ input, select, textarea {
 	}
 
 	body {
-		background: #030303fc;
+		background: #000000;
 	}
 
 	body-alt {
-		background: #030303fc;
+		background: #121212fc;
 	}
 	
 	body-alt::after {
 		content: "";
 		background: url('../../images/london_bg.png');
-		opacity: 0.32;
-		top: -2em;
-		position: absolute;
-		width: 130em;
-		height: 200em;
+		opacity: 0.25;
+		bottom: 0em;
+		position: fixed;
+		width: 100%;
+		height: 100%;
 		z-index: -1;
 		background-size: cover;                  
 		background-repeat: no-repeat;
-		background-position: center center;   
-		background-attachment: fixed; 
+		background-position: bottom left;   
+		background-attachment: scroll; 
 	  }
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
