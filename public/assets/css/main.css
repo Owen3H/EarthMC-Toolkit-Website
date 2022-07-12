@@ -149,7 +149,7 @@ input, select, textarea {
 	body-alt::after {
 		content: "";
 		background: url('../../images/london_bg.png');
-		opacity: 0.25;
+		opacity: 0.22;
 		bottom: 0em;
 		position: fixed;
 		width: 100%;
@@ -1877,8 +1877,8 @@ input, select, textarea {
 		-ms-transition: border-color 0.2s ease;
 		transition: border-color 0.2s ease;
 		background-color: transparent;
-		border: solid 1px !important;
-		border-color: rgba(255, 255, 255, 0.15) !important;
+		border: outset 2.3px !important;
+		border-color: rgba(10, 131, 168, 0.886) !important;
 		border-radius: 3em;
 		color: #ffffff !important;
 		cursor: pointer;
@@ -1886,10 +1886,10 @@ input, select, textarea {
 		font-size: 0.6em;
 		font-weight: bold;
 		height: calc(4.75em + 2px);
-		letter-spacing: 0.25em;
+		letter-spacing: 0.15em;
 		line-height: 4.75em;
 		outline: 0;
-		padding: 0 3.75em;
+		padding: 0 2em;
 		position: relative;
 		text-align: center;
 		text-decoration: none;
@@ -1907,12 +1907,13 @@ input, select, textarea {
 			-ms-transform: scale(0.25);
 			transform: scale(0.25);
 			pointer-events: none;
-			-moz-transition: opacity 0.2s ease, -moz-transform 0.2s ease;
-			-webkit-transition: opacity 0.2s ease, -webkit-transform 0.2s ease;
-			-ms-transition: opacity 0.2s ease, -ms-transform 0.2s ease;
-			transition: opacity 0.2s ease, transform 0.2s ease;
-			background: #ffffff;
-			border-radius: 3em;
+			-moz-transition: opacity 0.2s ease, -moz-transform 0.25s ease;
+			-webkit-transition: opacity 0.2s ease, -webkit-transform 0.25s ease;
+			-ms-transition: opacity 0.2s ease, -ms-transform 0.25s ease;
+			transition: opacity 0.4s ease, transform 0.25s ease;
+			background: rgba(121, 177, 255, 0.842);
+			border-color: rgba(76, 160, 255, 0.879) !important;
+			border-radius: 2em;
 			content: '';
 			height: 100%;
 			left: 0;
@@ -1951,7 +1952,7 @@ input, select, textarea {
 		input[type="button"].large,
 		button.large,
 		.button.large {
-			font-size: 0.8em;
+			font-size: 0.78em;
 		}
 
 		input[type="submit"].primary,
@@ -1998,7 +1999,7 @@ input, select, textarea {
 			input[type="button"]:hover:after,
 			button:hover:after,
 			.button:hover:after {
-				opacity: 0.05;
+				opacity: 0.09;
 				-moz-transform: scale(1);
 				-webkit-transform: scale(1);
 				-ms-transform: scale(1);
