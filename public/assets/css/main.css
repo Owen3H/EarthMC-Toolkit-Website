@@ -25,6 +25,13 @@ section, summary, time, mark, audio, video {
 	vertical-align: baseline;
 }
 
+p.error-centered {
+	text-align: center;
+	margin-top: 7.1em;
+	font-size: 62px;
+	color: rgba(230, 57, 57, 0.987);
+}
+
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
