@@ -1,4 +1,2 @@
-const emc = require('earthmc'),
-      serve = require('../../../utils/route').default
-
-export default (req, res) => serve(req, res, emc.Aurora)
+const serve = require('../../../utils/route').default
+export default (req, res) => serve(req, res, 'aurora')
