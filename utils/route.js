@@ -35,7 +35,9 @@ const getData = async (params, mapName) => {
 }
 
 async function serve(req, res, map) {
-    let out = await getData({params} = req.query, map)
+    let { params } = req.query,
+        out = await getData(params, map)
+
     if (!out) return res.status(400).send(out)
     
     res.setHeader('Cache-Control', 's-maxage=2, stale-while-revalidate=30')
