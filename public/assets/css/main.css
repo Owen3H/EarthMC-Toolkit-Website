@@ -3428,7 +3428,7 @@ input, select, textarea {
 		display: -webkit-flex;
 		display: -ms-flex;
 		display: flex;
-		background-color: #0b0b0bf6;
+		background-color: #0d0d0deb;
 		cursor: default;
 		padding: 1.15em 3em;
 	}
@@ -3446,7 +3446,8 @@ input, select, textarea {
 			-webkit-flex: 1;
 			-ms-flex: 1;
 			flex: 1;
-			text-align: right;
+			text-align: center;
+			font-size: 21px;
 		}
 
 			#header > nav > ul {
@@ -3467,7 +3468,7 @@ input, select, textarea {
 
 					#header > nav > ul > li a {
 						border: 0;
-						color: rgba(255, 255, 255, 0.35);
+						color: rgba(244, 244, 244, 0.642);
 						display: inline-block;
 						font-size: 0.6em;
 						font-weight: bold;
@@ -3480,7 +3481,7 @@ input, select, textarea {
 						}
 
 						#header > nav > ul > li a.active {
-							color: #ffffff;
+							color: #16c9f6fa;
 						}
 
 		@media screen and (max-width: 736px) {

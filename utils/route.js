@@ -1,5 +1,6 @@
 const modify = require("earthmc-dynmap-plus"),
-      emc = require("earthmc")
+      emc = require("earthmc"),
+      endpoint = require("earthmc/endpoint")
 
 const getData = async (params, mapName) => {
     const [dataType, ...args] = params,
@@ -13,7 +14,11 @@ const getData = async (params, mapName) => {
             return await modify(mapName, aType) ?? "Error fetching modified map data, please try again."
         }
         case 'update': {
-            
+            let raw = await endpoint.playerData('aurora')
+            if (raw?.updates) raw.updates = raw.updates.filter(e => e.msg != "areaupdated" && e.msg != "markerupdated") 
+            else raw = "Error fetching player update, please try again."
+
+            return raw
         }
         case 'towns': {
             if (!value) return await map.getTowns()
@@ -26,6 +31,9 @@ const getData = async (params, mapName) => {
             if (!filter) return await map.getNation(value)
 
             return validFilter(filter) ?? await map.getInvitableTowns(value, false)
+        }
+        case 'nearby': {
+            
         }
         case 'allplayers': return value ? await map.getPlayer(value) : await map.getAllPlayers()
         case 'residents': return value ? await map.getResident(value) : await map.getResidents()
@@ -40,7 +48,7 @@ async function serve(req, res, map) {
 
     if (!out) return res.status(400).send(out)
     
-    res.setHeader('Cache-Control', 's-maxage=2, stale-while-revalidate=30')
+    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=15')
     res.status(200).json(out)
 }
 
