@@ -2,6 +2,24 @@ const modify = require("earthmc-dynmap-plus"),
       emc = require("earthmc"),
       endpoint = require("earthmc/endpoint")
 
+async function serve(req, res, map) {
+    let { params } = req.query
+
+    if (req.method === 'POST') {
+        let out = await post(params, map)
+
+        res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=15')
+        res.status(200).json(out)
+    }
+    else {
+        let out = await get(params, map)
+        if (!out) return res.status(400).send(out)
+        
+        res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=15')
+        res.status(200).json(out)
+    }
+}
+
 const get = async (params, mapName) => {
     const [dataType, ...args] = params,
           map = mapName == 'nova' ? emc.Nova : emc.Aurora
@@ -55,19 +73,8 @@ const get = async (params, mapName) => {
     }
 }
 
-async function serve(req, res, map) {
-    if (req.method === 'POST') {
-
-    }
-    else {
-        let { params } = req.query,
-            out = await get(params, map)
-
-        if (!out) return res.status(400).send(out)
-        
-        res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=15')
-        res.status(200).json(out)
-    }
+const post = async (data, mapName) => {
+    
 }
 
 const validParam = param => {
