@@ -222,7 +222,7 @@ input, select, textarea {
 	}
 
 	p {
-		margin: 0 0 1em 0;
+		margin: 0.4em 0 0 0;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
@@ -338,9 +338,8 @@ input, select, textarea {
 		border: groove 2.3px rgba(5, 148, 129, 0.905);
 		font: 18px tahoma;
 		font-weight: 540;
-		margin-left: 6px;
-		margin-top: 4px;
-		padding: 0.4em 0.65em;
+		margin-left: 4px;
+		padding: 0.25em 0.45em;
 	}
 
 	pre {

@@ -2,15 +2,16 @@ const modify = require("earthmc-dynmap-plus"),
       emc = require("earthmc"),
       endpoint = require("earthmc/endpoint")
 
-const getData = async (params, mapName) => {
+const get = async (params, mapName) => {
     const [dataType, ...args] = params,
-          value = args[0] ? args[0].toLowerCase() : null,
-          filter = args[1] ? args[1].toLowerCase() : null,
           map = mapName == 'nova' ? emc.Nova : emc.Aurora
+    
+    const single = args[0]?.toLowerCase() ?? null
+          filter = args[1]?.toLowerCase() ?? null   
 
-    switch(dataType) {
+    switch(dataType.toLowerCase()) {
         case 'markers': {
-            let aType = validFilter(filter) ?? 'mega'
+            let aType = validParam(filter) ?? 'mega'
             return await modify(mapName, aType) ?? "Error fetching modified map data, please try again."
         }
         case 'update': {
@@ -21,41 +22,57 @@ const getData = async (params, mapName) => {
             return raw
         }
         case 'towns': {
-            if (!value) return await map.getTowns()
-            if (!filter) return await map.getTown(value)
+            if (!single) return await map.getTowns()
+            if (!filter) return await map.getTown(single)
 
-            return validFilter(filter) ?? await map.getJoinableNations(value)
+            return validParam(filter) ?? await map.getJoinableNations(single)
         }
         case 'nations': {
-            if (!value) return await map.getNations()
-            if (!filter) return await map.getNation(value)
+            if (!single) return await map.getNations()
+            if (!filter) return await map.getNation(single)
 
-            return validFilter(filter) ?? await map.getInvitableTowns(value, false)
+            return validParam(filter) ?? await map.getInvitableTowns(single, false)
         }
         case 'nearby': {
-            
+            if (args.length < 4) return 'Not enough arguments specified! Refer to the documentation.'
+
+            let type = validParam(single)
+            if (type) return type
+
+            let inputs = [
+                args[1], args[2], 
+                args[3], args[4] ?? args[3] 
+            ]
+
+            if (single == 'players') return map.getNearbyPlayers(...inputs)
+            if (single == 'towns') return map.getNearbyTowns(...inputs)
+            if (single == 'nations') return map.getNearbyNations(...inputs)
         }
-        case 'allplayers': return value ? await map.getPlayer(value) : await map.getAllPlayers()
-        case 'residents': return value ? await map.getResident(value) : await map.getResidents()
-        case 'onlineplayers': return value ? await map.getOnlinePlayer(value) : await map.getOnlinePlayers(true)
+        case 'allplayers': return single ? await map.getPlayer(single) : await map.getAllPlayers()
+        case 'residents': return single ? await map.getResident(single) : await map.getResidents()
+        case 'onlineplayers': return single ? await map.getOnlinePlayer(single) : await map.getOnlinePlayers(true)
         default: return `Parameter ${dataType} not recognized.`
     }
 }
 
 async function serve(req, res, map) {
-    let { params } = req.query,
-        out = await getData(params, map)
+    if (req.method === 'POST') {
+        
+    }
+    else {
+        let { params } = req.query,
+            out = await get(params, map)
 
-    if (!out) return res.status(400).send(out)
-    
-    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=15')
-    res.status(200).json(out)
+        if (!out) return res.status(400).send(out)
+        
+        res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=15')
+        res.status(200).json(out)
+    }
 }
 
-const validFilter = filter => {
-    let arr = ['invitable', 'joinable']
-    if (arr.includes(filter)) return null
-    return `Parameter ${filter} not recognized.`
+const validParam = param => {
+    let arr = ['invitable', 'joinable', 'towns', 'nations', 'players']
+    return arr.includes(param) ? null : `Parameter ${param} not recognized.`
 }
 
 export default serve
