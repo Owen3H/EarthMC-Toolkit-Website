@@ -6,7 +6,7 @@ const get = async (params, mapName) => {
     const [dataType, ...args] = params,
           map = mapName == 'nova' ? emc.Nova : emc.Aurora
     
-    const single = args[0]?.toLowerCase() ?? null
+    const single = args[0]?.toLowerCase() ?? null,
           filter = args[1]?.toLowerCase() ?? null   
 
     switch(dataType.toLowerCase()) {
@@ -57,7 +57,7 @@ const get = async (params, mapName) => {
 
 async function serve(req, res, map) {
     if (req.method === 'POST') {
-        
+
     }
     else {
         let { params } = req.query,
