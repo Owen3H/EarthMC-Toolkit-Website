@@ -1,31 +1,52 @@
-const modify = require("earthmc-dynmap-plus"),
-      emc = require("earthmc"),
-      endpoint = require("earthmc/endpoint")
+const emc = require("earthmc"), endpoint = emc.endpoint,
+      modify = require("earthmc-dynmap-plus/index"),
+      { NextApiResponse: NextRes, NextApiRequest: NextReq } = require('next')
 
-async function serve(req, res, map) {
-    let { params } = req.query
+/**
+ * Handles how the response is served according to the map.
+ * @param { NextReq } req - The request object from the client.
+ * @param { NextRes } res - The response object to send, usually JSON.
+ * @param { 'aurora' | 'nova' } map - The EarthMC map name to use. Defaults to 'aurora'.
+ */
+async function serve(req, res, mapName = 'aurora') {
+    let { params } = req.query,
+        map = mapName == 'nova' ? emc.Nova : emc.Aurora
 
-    if (req.method === 'POST') {
-        let out = await post(params, map)
+    let out = req.method == 'POST' 
+            ? await post(req.headers['AUTH_KEY'], req.body)
+            : await get(params, map)
 
-        res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=15')
-        res.status(200).json(out)
-    }
-    else {
-        let out = await get(params, map)
-        if (!out) return res.status(400).send(out)
-        
-        res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=15')
-        res.status(200).json(out)
+    switch(out) {
+        case null:
+        case undefined: return res.status(404).json('Error: Unknown or invalid request!')
+        case 'no-auth': return res.status(403).json("Refused to send request, invalid auth key!")
+        default: {
+            if (out.toLowerCase().includes('error')) res.status(500)
+            else {
+                res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=15')   
+                res.status(200)
+            }
+
+            res.json(out)
+        }
     }
 }
 
-const get = async (params, mapName) => {
-    const [dataType, ...args] = params,
-          map = mapName == 'nova' ? emc.Nova : emc.Aurora
-    
-    const single = args[0]?.toLowerCase() ?? null,
-          filter = args[1]?.toLowerCase() ?? null   
+const post = async (authKey, data) => {
+    if (authKey != process.env.AUTH_KEY) return 'no-auth'
+    if (!data || Object.keys(data).length < 1) return null
+
+    return data
+}
+
+const args = [],
+      arg = index => args[index]?.toLowerCase() ?? null
+
+const get = async (params, map) => {
+    args = params.splice(1)
+
+    const { dataType } = params,
+          single = arg(0), filter = arg(1)
 
     switch(dataType.toLowerCase()) {
         case 'markers': {
@@ -71,10 +92,6 @@ const get = async (params, mapName) => {
         case 'onlineplayers': return single ? await map.getOnlinePlayer(single) : await map.getOnlinePlayers(true)
         default: return `Parameter ${dataType} not recognized.`
     }
-}
-
-const post = async (data, mapName) => {
-    
 }
 
 const validParam = param => {

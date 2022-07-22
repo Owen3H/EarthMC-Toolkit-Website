@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/Owen3H/earthmc-toolkit-webpage#readme",
   "dependencies": {
-    "earthmc": "^3.3.2",
+    "earthmc": "^3.3.3",
     "earthmc-dynmap-plus": "^1.2.0",
     "next": "^12.2.0",
     "react": "^18.2.0",
