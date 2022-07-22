@@ -40,8 +40,8 @@ const post = async (authKey, data) => {
     return data
 }
 
-const args = [],
-      arg = index => args[index]?.toLowerCase() ?? null
+var args = [],
+    arg = index => args[index]?.toLowerCase() ?? null
 
 const get = async (params, map) => {
     args = params.splice(1)
