@@ -2,7 +2,9 @@ const emc = require("earthmc"), endpoint = emc.endpoint,
       modify = require("earthmc-dynmap-plus/index"),
       cache = require("memory-cache")
     
-var { NextApiResponse, NextApiRequest } = require('next')
+var { NextApiResponse, NextApiRequest } = require('next'),
+    arg = index => args[index]?.toLowerCase() ?? null,
+    args = []
 
 /**
  * Handles how the response is served according to the map.
@@ -13,37 +15,49 @@ var { NextApiResponse, NextApiRequest } = require('next')
 async function serve(req, res, mapName = 'aurora') {
     let { params } = req.query,
         map = mapName == 'nova' ? emc.Nova : emc.Aurora
-
+        
     let out = req.method == 'POST' 
-            ? await post(map, req.headers.authorization, req.body)
+            ? await post(map, req, params)
             : await get(params, map)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
     switch(out) {
         case 'no-auth': return res.status(403).json("Refused to send request, invalid auth key!")
         case 'cache-miss': return res.status(404).json('Data not cached yet, try again soon.')
+        case 'fetch-error': return res.status(500).json('Error fetching data, please try again.')
         default: {
-            if (typeof out == 'string' && out.toLowerCase().includes('error')) res.status(500)
+            if (typeof out == 'string' && out.includes('does not exist')) res.status(404).json(out)
             else {
-                res.setHeader('Cache-Control', 's-maxage=160, stale-while-revalidate=180')   
-                res.status(200)
+                res.setHeader('Cache-Control', 's-maxage=2, stale-while-revalidate=180')   
+                res.status(200).json(out)
             }
-
-            res.json(out)
         }
     }
 }
 
-const post = async (map, authKey, data) => {
+const post = async (map, req, params) => {
+    let authKey = req.headers['authorization'],
+        data = req.body,
+        [dataType] = params
+
     if (authKey != process.env.AUTH_KEY) return 'no-auth'
     if (!data || Object.keys(data).length < 1) return null
 
-    cache.put(`${map}_alliances`, data)
-    return data
-}
+    switch(dataType) {
+        case 'alliances': cache.put(`${map}_alliances`, data)
+        case 'allplayers': {
+            var allPlayers = await emc.Aurora.getAllPlayers().catch(() => {})
+            if (!allPlayers) return 'fetch-error'
 
-var args = [],
-    arg = index => args[index]?.toLowerCase() ?? null
+            const mergeByName = (a1, a2) => a1.map(itm => ({...a2.find(item => (item.name === itm.name) && item), ...itm}))
+            data = mergeByName(allPlayers, req.body)
+
+            cache.put(`${map}_players`, data)
+        }
+    }
+    
+    res.status(200).json(data)
+}
 
 const get = async (params, map) => {
     args = params.slice(1)
@@ -54,12 +68,12 @@ const get = async (params, map) => {
     switch(dataType.toLowerCase()) {
         case 'markers': {
             let aType = validParam(filter) ?? 'mega'
-            return await modify(map == emc.Nova ? 'nova' : 'aurora', aType) ?? "Error fetching modified map data, please try again."
+            return await modify(map == emc.Nova ? 'nova' : 'aurora', aType) ?? 'fetch-error'
         }
         case 'update': {
             let raw = await endpoint.playerData('aurora')
             if (raw?.updates) raw.updates = raw.updates.filter(e => e.msg != "areaupdated" && e.msg != "markerupdated") 
-            else raw = "Error fetching player update, please try again."
+            else raw = 'fetch-error'
 
             return raw
         }
@@ -94,9 +108,16 @@ const get = async (params, map) => {
             let alliances = cache.get(`${map}_alliances`)
             if (!alliances) return 'cache-miss'
 
-            return single ? alliances.find(a => a.allianceName == single) : alliances
+            return !single ? alliances : alliances.find(a => a.allianceName.toLowerCase() == single.toLowerCase())
         }
-        case 'allplayers': return single ? await map.getPlayer(single) : await map.getAllPlayers()
+        case 'allplayers': {
+            var cachedPlayers = cache.get(`${map}_players`)
+            if (!cachedPlayers) return 'cache-miss'
+            if (!single) return cachedPlayers
+
+            var player = cachedPlayers.find(p => p.name.toLowerCase() == single.toLowerCase())
+            return player ?? "That player does not exist!"
+        }
         case 'residents': return single ? await map.getResident(single) : await map.getResidents()
         case 'onlineplayers': return single ? await map.getOnlinePlayer(single) : await map.getOnlinePlayers(true)
         default: return `Parameter ${dataType} not recognized.`
