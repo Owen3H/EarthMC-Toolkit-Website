@@ -40,12 +40,12 @@ const post = async (authKey, data) => {
 }
 
 var args = [],
-    arg = index => args[index] ? args[index].toLowerCase() : null
+    arg = index => args[index]?.toLowerCase() ?? null
 
 const get = async (params, map) => {
     args = params.slice(1)
 
-    const { dataType } = params,
+    const [dataType] = params,
           single = arg(0), filter = arg(1)
 
     switch(dataType.toLowerCase()) {
