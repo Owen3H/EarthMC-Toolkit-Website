@@ -14,7 +14,7 @@ async function serve(req, res, mapName = 'aurora') {
         map = mapName == 'nova' ? emc.Nova : emc.Aurora
 
     let out = req.method == 'POST' 
-            ? await post(req.headers.authorization, req.body)
+            ? await post(req.headers.AUTH_KEY, req.body)
             : await get(params, map)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
@@ -23,7 +23,7 @@ async function serve(req, res, mapName = 'aurora') {
         default: {
             if (typeof out == 'string' && out.toLowerCase().includes('error')) res.status(500)
             else {
-                res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=15')   
+                res.setHeader('Cache-Control', 's-maxage=160, stale-while-revalidate=180')   
                 res.status(200)
             }
 
@@ -86,6 +86,9 @@ const get = async (params, map) => {
             if (single == 'players') return map.getNearbyPlayers(...inputs)
             if (single == 'towns') return map.getNearbyTowns(...inputs)
             if (single == 'nations') return map.getNearbyNations(...inputs)
+        }
+        case 'alliances': {
+            return
         }
         case 'allplayers': return single ? await map.getPlayer(single) : await map.getAllPlayers()
         case 'residents': return single ? await map.getResident(single) : await map.getResidents()
