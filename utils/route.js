@@ -17,9 +17,8 @@ async function serve(req, res, mapName = 'aurora') {
             ? await post(req.headers['AUTH_KEY'], req.body)
             : await get(params, map)
 
+    if (!out) return res.status(404).json('Error: Unknown or invalid request!')
     switch(out) {
-        case null:
-        case undefined: return res.status(404).json('Error: Unknown or invalid request!')
         case 'no-auth': return res.status(403).json("Refused to send request, invalid auth key!")
         default: {
             if (out?.toLowerCase().includes('error')) res.status(500)
@@ -44,7 +43,7 @@ var args = [],
     arg = index => args[index] ? args[index].toLowerCase() : null
 
 const get = async (params, map) => {
-    args = params.splice(1)
+    args = params.slice(1)
 
     const { dataType } = params,
           single = arg(0), filter = arg(1)
