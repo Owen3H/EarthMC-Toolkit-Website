@@ -14,7 +14,7 @@ async function serve(req, res, mapName = 'aurora') {
         map = mapName == 'nova' ? emc.Nova : emc.Aurora
 
     let out = req.method == 'POST' 
-            ? await post(req.headers['AUTH_KEY'], req.body)
+            ? await post(req.headers.authorization, req.body)
             : await get(params, map)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
