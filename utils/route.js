@@ -23,7 +23,7 @@ async function serve(req, res, mapName = 'aurora') {
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
     switch(out) {
         case 'no-auth': return res.status(403).json("Refused to send request, invalid auth key!")
-        case 'cache-miss': return res.status(404).json('Data not cached yet, try again soon.')
+        case 'cache-miss': return res.status(503).json('Data not cached yet, try again soon.')
         case 'fetch-error': return res.status(500).json('Error fetching data, please try again.')
         default: {
             if (typeof out == 'string' && out.includes('does not exist')) res.status(404).json(out)
