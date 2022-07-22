@@ -1,5 +1,6 @@
 const emc = require("earthmc"), endpoint = emc.endpoint,
-      modify = require("earthmc-dynmap-plus/index")
+      modify = require("earthmc-dynmap-plus/index"),
+      cache = require("memory-cache")
     
 var { NextApiResponse, NextApiRequest } = require('next')
 
@@ -14,12 +15,13 @@ async function serve(req, res, mapName = 'aurora') {
         map = mapName == 'nova' ? emc.Nova : emc.Aurora
 
     let out = req.method == 'POST' 
-            ? await post(req.headers.AUTH_KEY, req.body)
+            ? await post(map, req.headers.AUTH_KEY, req.body)
             : await get(params, map)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
     switch(out) {
         case 'no-auth': return res.status(403).json("Refused to send request, invalid auth key!")
+        case 'cache-miss': return res.status(404).json('Data not cached yet, try again soon.')
         default: {
             if (typeof out == 'string' && out.toLowerCase().includes('error')) res.status(500)
             else {
@@ -32,10 +34,11 @@ async function serve(req, res, mapName = 'aurora') {
     }
 }
 
-const post = async (authKey, data) => {
+const post = async (map, authKey, data) => {
     if (authKey != process.env.AUTH_KEY) return 'no-auth'
     if (!data || Object.keys(data).length < 1) return null
 
+    cache.put(`${map}_alliances`, data)
     return data
 }
 
@@ -51,7 +54,7 @@ const get = async (params, map) => {
     switch(dataType.toLowerCase()) {
         case 'markers': {
             let aType = validParam(filter) ?? 'mega'
-            return await modify(mapName, aType) ?? "Error fetching modified map data, please try again."
+            return await modify(map, aType) ?? "Error fetching modified map data, please try again."
         }
         case 'update': {
             let raw = await endpoint.playerData('aurora')
@@ -88,7 +91,10 @@ const get = async (params, map) => {
             if (single == 'nations') return map.getNearbyNations(...inputs)
         }
         case 'alliances': {
-            return
+            let alliances = cache.get(`${map}_alliances`)
+            if (!alliances) return 'cache-miss'
+
+            return single ? alliances.find(a => a.allianceName == single) : alliances
         }
         case 'allplayers': return single ? await map.getPlayer(single) : await map.getAllPlayers()
         case 'residents': return single ? await map.getResident(single) : await map.getResidents()
