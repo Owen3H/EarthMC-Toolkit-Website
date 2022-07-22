@@ -22,7 +22,7 @@ async function serve(req, res, mapName = 'aurora') {
         case undefined: return res.status(404).json('Error: Unknown or invalid request!')
         case 'no-auth': return res.status(403).json("Refused to send request, invalid auth key!")
         default: {
-            if (out.toLowerCase().includes('error')) res.status(500)
+            if (out?.toLowerCase().includes('error')) res.status(500)
             else {
                 res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=15')   
                 res.status(200)
