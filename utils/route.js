@@ -1,11 +1,12 @@
 const emc = require("earthmc"), endpoint = emc.endpoint,
-      modify = require("earthmc-dynmap-plus/index"),
-      { NextApiResponse: NextRes, NextApiRequest: NextReq } = require('next')
+      modify = require("earthmc-dynmap-plus/index")
+    
+var { NextApiResponse, NextApiRequest } = require('next')
 
 /**
  * Handles how the response is served according to the map.
- * @param { NextReq } req - The request object from the client.
- * @param { NextRes } res - The response object to send, usually JSON.
+ * @param { NextApiRequest } req - The request object from the client.
+ * @param { NextApiResponse } res - The response object to send, usually JSON.
  * @param { 'aurora' | 'nova' } map - The EarthMC map name to use. Defaults to 'aurora'.
  */
 async function serve(req, res, mapName = 'aurora') {
