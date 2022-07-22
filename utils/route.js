@@ -46,7 +46,7 @@ const post = async (map, req, params) => {
     switch(dataType) {
         case 'alliances': cache.put(`${map}_alliances`, data)
         case 'allplayers': {
-            var allPlayers = await emc.Aurora.getAllPlayers().catch(() => {})
+            var allPlayers = await map.getAllPlayers().catch(() => {})
             if (!allPlayers) return 'fetch-error'
 
             const mergeByName = (a1, a2) => a1.map(itm => ({...a2.find(item => (item.name === itm.name) && item), ...itm}))
@@ -112,7 +112,7 @@ const get = async (params, map) => {
         }
         case 'allplayers': {
             var cachedPlayers = cache.get(`${map}_players`)
-            if (!cachedPlayers) return 'cache-miss'
+            if (!cachedPlayers) return await map.getAllPlayers().catch(() => {})
             if (!single) return cachedPlayers
 
             var player = cachedPlayers.find(p => p.name.toLowerCase() == single.toLowerCase())
