@@ -16,9 +16,9 @@ async function serve(req, res, mapName = 'aurora') {
     let { params } = req.query,
         map = mapName == 'nova' ? emc.Nova : emc.Aurora
         
-    let out = req.method == 'POST' 
-            ? await post(map, req, params)
-            : await get(params, map)
+    let out = req.method == 'GET' 
+            ? await get(params, map)
+            : await post(map, req, params)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
     switch(out) {
