@@ -95,17 +95,19 @@ const get = async (params, map) => {
 
             let inputs = [
                 args[1], args[2], 
-                args[3], args[4] ?? args[3] 
-            ]
+                args[3], args[4] ?? args[3]]
 
-            if (single == 'players') return map.getNearbyPlayers(...inputs)
-            if (single == 'towns') return map.getNearbyTowns(...inputs)
-            if (single == 'nations') return map.getNearbyNations(...inputs)
+            switch (single) {
+                case 'players': return map.getNearbyPlayers(...inputs) 
+                case 'towns': return map.getNearbyTowns(...inputs) 
+                case 'nations': return map.getNearbyNations(...inputs) 
+                default: return null
+            }
         }
         case 'news': {
             var news = cache.get(`${map}_news`)
             if (!news) return 'cache-miss'
-            
+
             return !single ? news : news.all.find(n => n.toLowerCase() == single.toLowerCase())
         }
         case 'alliances': {
