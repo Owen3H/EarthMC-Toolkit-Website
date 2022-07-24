@@ -54,7 +54,6 @@ const post = async (map, req, params) => {
     }
 
     cache.put(`${map}_${dataType}`, data)
-    res.status(200).json(data)
 }
 
 const get = async (params, map) => {
