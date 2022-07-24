@@ -44,18 +44,16 @@ const post = async (map, req, params) => {
     if (!data || Object.keys(data).length < 1) return null
 
     switch(dataType) {
-        case 'alliances': cache.put(`${map}_alliances`, data)
         case 'allplayers': {
             var allPlayers = await map.getAllPlayers().catch(() => {})
             if (!allPlayers) return 'fetch-error'
 
             const mergeByName = (a1, a2) => a1.map(itm => ({...a2.find(item => (item.name === itm.name) && item), ...itm}))
             data = mergeByName(allPlayers, req.body)
-
-            cache.put(`${map}_players`, data)
         }
     }
-    
+
+    cache.put(`${map}_${dataType}`, data)
     res.status(200).json(data)
 }
 
@@ -103,6 +101,12 @@ const get = async (params, map) => {
             if (single == 'players') return map.getNearbyPlayers(...inputs)
             if (single == 'towns') return map.getNearbyTowns(...inputs)
             if (single == 'nations') return map.getNearbyNations(...inputs)
+        }
+        case 'news': {
+            var news = cache.get(`${map}_news`)
+            if (!news) return 'cache-miss'
+            
+            return !single ? news : news.all.find(n => n.toLowerCase() == single.toLowerCase())
         }
         case 'alliances': {
             let alliances = cache.get(`${map}_alliances`)
