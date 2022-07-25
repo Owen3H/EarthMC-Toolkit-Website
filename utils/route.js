@@ -115,11 +115,11 @@ const get = async (params, map) => {
 
             switch (single) {
                 case "submeganations":
-                case "sub": return cachedAlliances.filter(a => a.type == 'sub')
+                case "sub": return alliances.filter(a => a.type == 'sub')
                 case "meganations": 
-                case "mega": return cachedAlliances.filter(a => a.type == 'mega')
+                case "mega": return alliances.filter(a => a.type == 'mega')
                 case "normal":
-                case "pact": return cachedAlliances.filter(a => a.type == 'normal')
+                case "pact": return alliances.filter(a => a.type == 'normal')
                 default: return !single ? alliances : alliances.find(a => a.allianceName.toLowerCase() == single)
             }
         }
