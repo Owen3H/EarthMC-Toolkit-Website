@@ -124,7 +124,7 @@ const get = async (params, map) => {
             }
         }
         case 'allplayers': {
-            var cachedPlayers = cache.get(`${map}_players`)
+            var cachedPlayers = cache.get(`${map}_allplayers`)
             if (!cachedPlayers) return await map.getAllPlayers().catch(() => {})
             if (!single) return cachedPlayers
 
