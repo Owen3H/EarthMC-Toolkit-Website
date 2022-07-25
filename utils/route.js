@@ -28,7 +28,9 @@ async function serve(req, res, mapName = 'aurora') {
         default: {
             if (typeof out == 'string' && out.includes('does not exist')) res.status(404).json(out)
             else {
-                res.setHeader('Cache-Control', 's-maxage=2, stale-while-revalidate=180')   
+                let [maxage, stale] = out.sets || out.currentcount ? [2, 30] : [30, 180]
+
+                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
                 res.status(200).json(out)
             }
         }
