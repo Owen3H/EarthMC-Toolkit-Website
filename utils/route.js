@@ -107,20 +107,28 @@ const get = async (params, map) => {
             var news = cache.get(`${map}_news`)
             if (!news) return 'cache-miss'
 
-            return !single ? news : news.all.find(n => n.toLowerCase() == single.toLowerCase())
+            return !single ? news : news.all.filter(n => n.message.toLowerCase().includes(single))
         }
         case 'alliances': {
             let alliances = cache.get(`${map}_alliances`)
             if (!alliances) return 'cache-miss'
 
-            return !single ? alliances : alliances.find(a => a.allianceName.toLowerCase() == single.toLowerCase())
+            switch (single) {
+                case "submeganations":
+                case "sub": return cachedAlliances.filter(a => a.type == 'sub')
+                case "meganations": 
+                case "mega": return cachedAlliances.filter(a => a.type == 'mega')
+                case "normal":
+                case "pact": return cachedAlliances.filter(a => a.type == 'normal')
+                default: return !single ? alliances : alliances.find(a => a.allianceName.toLowerCase() == single)
+            }
         }
         case 'allplayers': {
             var cachedPlayers = cache.get(`${map}_players`)
             if (!cachedPlayers) return await map.getAllPlayers().catch(() => {})
             if (!single) return cachedPlayers
 
-            var player = cachedPlayers.find(p => p.name.toLowerCase() == single.toLowerCase())
+            var player = cachedPlayers.find(p => p.name.toLowerCase() == single)
             return player ?? "That player does not exist!"
         }
         case 'residents': return single ? await map.getResident(single) : await map.getResidents()
