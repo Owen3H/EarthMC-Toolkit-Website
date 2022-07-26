@@ -1,4 +1,5 @@
-const emc = require('earthmc')
+const emc = require('earthmc'),
+      applyRateLimit = require('./rate-limit').default
 
 async function getData(param) {
     switch(param) {
@@ -8,6 +9,9 @@ async function getData(param) {
 }
 
 async function serve(req, res) {
+    try { await applyRateLimit(req, res) }
+    catch { return res.status(429).send('Too many requests') }
+
     let { param } = req.query, out = await getData(param)   
     if (!out) return res.status(400).send(`Parameter ${param} not recognized.`)
     

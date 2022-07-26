@@ -1,18 +1,22 @@
 const emc = require("earthmc"), endpoint = emc.endpoint,
       modify = require("earthmc-dynmap-plus/index"),
-      cache = require("memory-cache")
+      cache = require("memory-cache"),
+      applyRateLimit = require('./rate-limit').default
     
-var { NextApiResponse, NextApiRequest } = require('next'),
+var next = require('next'),
     arg = index => args[index]?.toLowerCase() ?? null,
     args = []
 
 /**
  * Handles how the response is served according to the map.
- * @param { NextApiRequest } req - The request object from the client.
- * @param { NextApiResponse } res - The response object to send, usually JSON.
+ * @param { next.NextApiRequest } req - The request object from the client.
+ * @param { next.NextApiResponse } res - The response object to send, usually JSON.
  * @param { 'aurora' | 'nova' } map - The EarthMC map name to use. Defaults to 'aurora'.
  */
 async function serve(req, res, mapName = 'aurora') {
+    try { await applyRateLimit(req, res) }
+    catch { return res.status(429).send('Too many requests') }
+    
     let { params } = req.query,
         map = mapName == 'nova' ? emc.Nova : emc.Aurora
         
@@ -30,6 +34,7 @@ async function serve(req, res, mapName = 'aurora') {
             else {
                 let [maxage, stale] = out.sets || out.currentcount ? [2, 30] : [30, 180]
 
+                res.setHeader('Accept-Encoding', 'gzip')
                 res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
                 res.status(200).json(out)
             }
