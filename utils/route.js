@@ -34,7 +34,7 @@ async function serve(req, res, mapName = 'aurora') {
             else {
                 let [maxage, stale] = out.sets || out.currentcount ? [2, 30] : [30, 180]
 
-                res.setHeader('Accept-Encoding', 'gzip')
+                res.setHeader('Accept-Encoding', 'br')
                 res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
                 res.status(200).json(out)
             }
