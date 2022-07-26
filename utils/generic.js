@@ -14,6 +14,10 @@ async function serve(req, res) {
 
     let { param } = req.query, out = await getData(param)   
     if (!out) return res.status(400).send(`Parameter ${param} not recognized.`)
+
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Accept-Encoding', 'br')
+    res.setHeader('Cache-Control', `s-maxage=5, stale-while-revalidate=15`)   
     
     res.status(200).json(out)
 }
