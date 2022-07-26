@@ -16,6 +16,7 @@ async function serve(req, res) {
     if (!out) return res.status(400).send(`Parameter ${param} not recognized.`)
 
     res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Content-Type', 'application/json')
     res.setHeader('Accept-Encoding', 'br')
     res.setHeader('Cache-Control', `s-maxage=5, stale-while-revalidate=15`)   
     
