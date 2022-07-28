@@ -7,7 +7,7 @@ var next = require('next'),
     args = []
 
 const rateLimit = require('./rate-limit.ts').default,
-      limiter = rateLimit({ interval: 8 * 1000 })
+      limiter = rateLimit({ interval: 12 * 1000 })
 
 /**
  * Handles how the response is served according to the map.
@@ -31,7 +31,7 @@ async function serve(req, res, mapName = 'aurora') {
         default: {
             if (typeof out == 'string' && out.includes('does not exist')) res.status(404).json(out)
             else {
-                let stale = out.sets || out.currentcount ? 2 : 8
+                let stale = out.sets || out.currentcount ? 2 : 5
 
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('Content-Type', 'application/json')
