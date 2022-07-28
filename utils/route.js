@@ -20,11 +20,8 @@ async function serve(req, res, mapName = 'aurora') {
     catch { res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let { params } = req.query,
-        map = mapName == 'nova' ? emc.Nova : emc.Aurora
-        
-    let out = req.method == 'GET' 
-            ? await get(params, map)
-            : await post(map, req, params)
+        map = mapName == 'nova' ? emc.Nova : emc.Aurora,
+        out = req.method == 'GET' ? await get(params, map) : await post(map, req, params)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
     switch(out) {
@@ -34,12 +31,12 @@ async function serve(req, res, mapName = 'aurora') {
         default: {
             if (typeof out == 'string' && out.includes('does not exist')) res.status(404).json(out)
             else {
-                let [maxage, stale] = out.sets || out.currentcount ? [2, 30] : [30, 180]
+                let stale = out.sets || out.currentcount ? 5 : 120
 
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br')
-                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
+                res.setHeader('Cache-Control', `s-maxage=1, stale-while-revalidate=${stale}`)   
 
                 res.status(200).json(out)
             }
