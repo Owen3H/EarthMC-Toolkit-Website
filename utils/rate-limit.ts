@@ -27,6 +27,8 @@ export default function rateLimit(options?: Options) {
         res.setHeader('X-RateLimit-Limit', limit)
         res.setHeader('X-RateLimit-Remaining', remaining)
 
+        console.log("Token count: " + tokenCount)
+        console.log("Rate limited: " + isRateLimited)
         return isRateLimited ? reject() : resolve()
       }),
   }
