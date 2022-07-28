@@ -16,7 +16,7 @@ const rateLimit = require('./rate-limit.ts').default,
  * @param { 'aurora' | 'nova' } map - The EarthMC map name to use. Defaults to 'aurora'.
  */
 async function serve(req, res, mapName = 'aurora') {
-    try { await limiter.check(res, 24, 'CACHE_TOKEN') } 
+    try { await limiter.check(res, 28, 'CACHE_TOKEN') } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let { params } = req.query,

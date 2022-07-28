@@ -1,6 +1,6 @@
 const emc = require('earthmc'),
       rateLimit = require('./rate-limit.ts').default,
-      limiter = rateLimit({ interval: 18 * 1000 })
+      limiter = rateLimit({ interval: 16 * 1000 })
 
 async function getData(param) {
     switch(param) {
@@ -10,7 +10,7 @@ async function getData(param) {
 }
 
 async function serve(req, res) {
-    try { await limiter.check(res, 22, 'CACHE_TOKEN') } 
+    try { await limiter.check(res, 28, 'CACHE_TOKEN') } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let { param } = req.query, out = await getData(param)   
