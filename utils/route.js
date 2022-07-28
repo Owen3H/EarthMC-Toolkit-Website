@@ -1,11 +1,13 @@
 const emc = require("earthmc"), endpoint = emc.endpoint,
       modify = require("earthmc-dynmap-plus/index"),
-      cache = require("memory-cache"),
-      applyRateLimit = require('./rate-limit').default
+      cache = require("memory-cache")
     
 var next = require('next'),
     arg = index => args[index]?.toLowerCase() ?? null,
     args = []
+
+const rateLimit = require('./rate-limit'),
+      limiter = rateLimit({ interval: 6 * 1000 })
 
 /**
  * Handles how the response is served according to the map.
@@ -14,9 +16,9 @@ var next = require('next'),
  * @param { 'aurora' | 'nova' } map - The EarthMC map name to use. Defaults to 'aurora'.
  */
 async function serve(req, res, mapName = 'aurora') {
-    try { await applyRateLimit(req, res) }
-    catch { return res.status(429).send('Too many requests') }
-    
+    try { await limiter.check(res, 14, 'CACHE_TOKEN') } 
+    catch { res.status(429).json({ error: 'Rate limit exceeded' }) }
+
     let { params } = req.query,
         map = mapName == 'nova' ? emc.Nova : emc.Aurora
         
@@ -47,8 +49,7 @@ async function serve(req, res, mapName = 'aurora') {
 
 const post = async (map, req, params) => {
     let authKey = req.headers['authorization'],
-        data = req.body,
-        [dataType] = params
+        data = req.body, [dataType] = params
 
     if (authKey != process.env.AUTH_KEY) return 'no-auth'
     if (!data || Object.keys(data).length < 1) return null
