@@ -6,7 +6,7 @@ var next = require('next'),
     arg = index => args[index]?.toLowerCase() ?? null,
     args = []
 
-const rateLimit = require('./rate-limit.ts'),
+const rateLimit = require('./rate-limit.ts').default,
       limiter = rateLimit({ interval: 6 * 1000 })
 
 /**
