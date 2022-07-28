@@ -7,7 +7,7 @@ var next = require('next'),
     args = []
 
 const rateLimit = require('./rate-limit.ts').default,
-      limiter = rateLimit({ interval: 6 * 1000 })
+      limiter = rateLimit({ interval: 8 * 1000 })
 
 /**
  * Handles how the response is served according to the map.
@@ -16,7 +16,7 @@ const rateLimit = require('./rate-limit.ts').default,
  * @param { 'aurora' | 'nova' } map - The EarthMC map name to use. Defaults to 'aurora'.
  */
 async function serve(req, res, mapName = 'aurora') {
-    try { await limiter.check(res, 14, 'CACHE_TOKEN') } 
+    try { await limiter.check(res, 20, 'CACHE_TOKEN') } 
     catch { res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let { params } = req.query,
@@ -31,7 +31,7 @@ async function serve(req, res, mapName = 'aurora') {
         default: {
             if (typeof out == 'string' && out.includes('does not exist')) res.status(404).json(out)
             else {
-                let stale = out.sets || out.currentcount ? 5 : 120
+                let stale = out.sets || out.currentcount ? 2 : 8
 
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('Content-Type', 'application/json')
