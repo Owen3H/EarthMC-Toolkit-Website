@@ -7,7 +7,7 @@ var next = require('next'),
     args = []
 
 const rateLimit = require('./rate-limit.ts').default,
-      limiter = rateLimit({ interval: 16 * 1000 })
+      limiter = rateLimit({ interval: 18 * 1000 })
 
 /**
  * Handles how the response is served according to the map.
@@ -16,12 +16,15 @@ const rateLimit = require('./rate-limit.ts').default,
  * @param { 'aurora' | 'nova' } map - The EarthMC map name to use. Defaults to 'aurora'.
  */
 async function serve(req, res, mapName = 'aurora') {
-    try { await limiter.check(res, 24, 'CACHE_TOKEN') } 
+    try { await limiter.check(res, 22, 'CACHE_TOKEN') } 
     catch { res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let { params } = req.query,
-        map = mapName == 'nova' ? emc.Nova : emc.Aurora,
-        out = req.method == 'GET' ? await get(params, map) : await post(map, req, params)
+        map = mapName == 'nova' ? emc.Nova : emc.Aurora
+        
+    let out = req.method == 'GET' 
+            ? await get(params, map)
+            : await post(map, req, params)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
     switch(out) {
@@ -31,12 +34,12 @@ async function serve(req, res, mapName = 'aurora') {
         default: {
             if (typeof out == 'string' && out.includes('does not exist')) res.status(404).json(out)
             else {
-                let stale = out.sets || out.currentcount ? 2 : 5
+                let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
 
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br')
-                res.setHeader('Cache-Control', `s-maxage=1, stale-while-revalidate=${stale}`)   
+                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
 
                 res.status(200).json(out)
             }
