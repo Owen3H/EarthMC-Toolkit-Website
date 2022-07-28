@@ -17,7 +17,7 @@ const rateLimit = require('./rate-limit.ts').default,
  */
 async function serve(req, res, mapName = 'aurora') {
     try { await limiter.check(res, 22, 'CACHE_TOKEN') } 
-    catch { res.status(429).json({ error: 'Rate limit exceeded' }) }
+    catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let { params } = req.query,
         map = mapName == 'nova' ? emc.Nova : emc.Aurora
