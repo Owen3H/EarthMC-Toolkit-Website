@@ -1,5 +1,5 @@
 const emc = require('earthmc'),
-      rateLimit = require('./rate-limit'),
+      rateLimit = require('./rate-limit.ts'),
       limiter = rateLimit({ interval: 6 * 1000 })
 
 async function getData(param) {
