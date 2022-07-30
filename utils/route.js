@@ -1,7 +1,7 @@
 const emc = require("earthmc"), endpoint = emc.endpoint,
       modify = require("earthmc-dynmap-plus/index"),
       cache = require("memory-cache")
-    
+
 var next = require('next'),
     arg = index => args[index]?.toLowerCase() ?? null,
     args = []
@@ -147,6 +147,8 @@ const get = async (params, map) => {
             var player = cachedPlayers.find(p => p.name.toLowerCase() == single)
             return player ?? "That player does not exist!"
         }
+        case 'townless':
+        case 'townlessplayers': return await map.getTownless() ?? 'fetch-error'
         case 'residents': return single ? await map.getResident(single) : await map.getResidents()
         case 'onlineplayers': return single ? await map.getOnlinePlayer(single) : await map.getOnlinePlayers(true)
         default: return `Parameter ${dataType} not recognized.`
