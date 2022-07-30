@@ -9,6 +9,11 @@ var next = require('next'),
 const rateLimit = require('./rate-limit.ts').default,
       limiter = rateLimit({ interval: 16 * 1000 })
 
+const getIP = req =>
+    req.ip || req.headers['x-real-ip'] ||
+    req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress
+
 /**
  * Handles how the response is served according to the map.
  * @param { next.NextApiRequest } req - The request object from the client.
@@ -16,7 +21,7 @@ const rateLimit = require('./rate-limit.ts').default,
  * @param { 'aurora' | 'nova' } map - The EarthMC map name to use. Defaults to 'aurora'.
  */
 async function serve(req, res, mapName = 'aurora') {
-    try { await limiter.check(res, 28, 'CACHE_TOKEN') } 
+    try { await limiter.check(res, 28, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let { params } = req.query,
