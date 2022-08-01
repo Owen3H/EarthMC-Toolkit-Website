@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Owen3H/earthmc-toolkit-webpage.git"
+    "url": "git+https://github.com/EarthMC-Toolkit/Toolkit-Website.git"
   },
   "author": "Owen3H",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Owen3H/earthmc-toolkit-webpage/issues"
+    "url": "https://github.com/EarthMC-Toolkit/Toolkit-Website/issues"
   },
-  "homepage": "https://github.com/Owen3H/earthmc-toolkit-webpage#readme",
+  "homepage": "https://github.com/EarthMC-Toolkit/Toolkit-Website#readme",
   "dependencies": {
     "earthmc": "^4.0.0",
     "earthmc-dynmap-plus": "^1.2.1",
