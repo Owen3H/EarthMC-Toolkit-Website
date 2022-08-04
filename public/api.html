@@ -1,9 +1,4 @@
 <!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 	<head>
 		<link rel="shortcut icon" href="images/favicon.ico"/>
@@ -48,11 +43,13 @@
 										<br><br>2. Require/import the package.</p>
 										<code>const fetch = require('node-fetch')</code>
 										<br><br>3. Send a get request to the specified route, and wait for the result.<br>
-										<pre><code>var towns = await fetch('v1/aurora/towns').catch(() => {})
-if (!towns) // Handle error
+										<pre><code>var towns = await fetch('https://emctoolkit.vercel.app/api/aurora/towns').catch(() => {})
+if (!towns) {
+	// Handle error
+}
 
 // Example code
-towns = towns.map(t => t.area > 50) 
+towns = towns.map(t => t.area > 50) // Only get towns with more than 50 chunks claimed.
 console.log(towns)
 </code></pre>
 								</section>
