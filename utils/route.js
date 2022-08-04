@@ -81,7 +81,7 @@ const get = async (params, map) => {
     switch(dataType.toLowerCase()) {
         case 'markers': {
             let aType = validParam(filter) ?? 'mega'
-            return await modify(map == emc.Nova ? 'nova' : 'aurora', aType) ?? 'fetch-error'
+            return await modify(endpoint, map == emc.Nova ? 'nova' : 'aurora', aType) ?? 'fetch-error'
         }
         case 'update': {
             let raw = await endpoint.playerData('aurora')
