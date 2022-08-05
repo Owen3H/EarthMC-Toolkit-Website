@@ -128,10 +128,10 @@ const get = async (cache, params, map) => {
                 args[3], args[4] ?? args[3]]
 
             switch (single) {
-                case 'players': return map.getNearbyPlayers(...inputs) 
-                case 'towns': return map.getNearbyTowns(...inputs) 
-                case 'nations': return map.getNearbyNations(...inputs) 
-                default: return null
+                case 'towns': return await map.getNearbyTowns(...inputs) 
+                case 'nations': return await map.getNearbyNations(...inputs)
+                case 'players': 
+                default: return await map.getNearbyPlayers(...inputs)
             }
         }
         case 'news': {
