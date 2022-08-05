@@ -73,9 +73,16 @@ const post = async (cache, map, req, params) => {
             const merged = mergeByName(allPlayers, body)
 
             cache.put(`allplayers`, merged)
+            return merged
         }
-        case 'alliances': cache.put(`alliances`, body)
-        case 'news': cache.put(`news`, body)
+        case 'alliances': {
+            cache.put(`alliances`, body)
+            return body
+        }
+        case 'news': {
+            cache.put(`news`, body)
+            return body
+        }
         default: return null
     }
 }
