@@ -20,7 +20,7 @@ const getIP = req =>
  * Handles how the response is served according to the map.
  * @param { next.NextApiRequest } req - The request object from the client.
  * @param { next.NextApiResponse } res - The response object to send, usually JSON.
- * @param { 'aurora' | 'nova' } map - The EarthMC map name to use. Defaults to 'aurora'.
+ * @param { 'aurora' | 'nova' } mapName - The EarthMC map name to use. Defaults to 'aurora'.
  */
 async function serve(req, res, mapName = 'aurora') {
     try { await limiter.check(res, 28, getIP(req)) } 
@@ -31,7 +31,7 @@ async function serve(req, res, mapName = 'aurora') {
         cache = mapName == 'nova' ? novaCache : auroraCache
         
     let out = req.method == 'POST' || req.method == 'PUT'
-            ? await post(cache, map, req, params)
+            ? await set(cache, map, req, params)
             : await get(cache, params, map)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
@@ -42,14 +42,13 @@ async function serve(req, res, mapName = 'aurora') {
         default: {
             if (typeof out == 'string' && out.includes('does not exist')) res.status(404).json(out)
             else {
-                let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
-
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('Accept-Encoding', 'br, gzip')
                 res.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version")
-
                 res.setHeader('Content-Type', 'application/json')
-                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
+
+                // let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
+                //res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
 
                 res.status(200).json(out)
             }
@@ -57,7 +56,7 @@ async function serve(req, res, mapName = 'aurora') {
     }
 }
 
-const post = async (cache, map, req, params) => {
+const set = async (cache, map, req, params) => {
     let authKey = req.headers['authorization'],
         body = req.body, [dataType] = params
 
@@ -130,7 +129,7 @@ const get = async (cache, params, map) => {
             switch (single) {
                 case 'towns': return await map.getNearbyTowns(...inputs) 
                 case 'nations': return await map.getNearbyNations(...inputs)
-                case 'players': 
+                case 'players':
                 default: return await map.getNearbyPlayers(...inputs)
             }
         }
