@@ -1,5 +1,5 @@
 const emc = require("earthmc"), endpoint = emc.endpoint,
-      modify = require("earthmc-dynmap-plus/index"),
+      modify = require("earthmc-dynmap-plus"),
       cache = require("memory-cache")
 
 var next = require('next'),
@@ -27,9 +27,9 @@ async function serve(req, res, mapName = 'aurora') {
     let { params } = req.query,
         map = mapName == 'nova' ? emc.Nova : emc.Aurora
         
-    let out = req.method == 'GET' 
-            ? await get(params, map)
-            : await post(map, req, params)
+    let out = req.method == 'POST' 
+            ? await post(map, req, params)
+            : await get(params, map)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
     switch(out) {
