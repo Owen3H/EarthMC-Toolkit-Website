@@ -42,8 +42,10 @@ async function serve(req, res, mapName = 'aurora') {
                 let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
 
                 res.setHeader('Access-Control-Allow-Origin', '*')
+                res.setHeader('Accept-Encoding', 'br, gzip')
+                res.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version")
+
                 res.setHeader('Content-Type', 'application/json')
-                res.setHeader('Accept-Encoding', 'br')
                 res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
 
                 res.status(200).json(out)
@@ -156,7 +158,7 @@ const get = async (params, map) => {
 }
 
 const validParam = param => {
-    let arr = ['invitable', 'joinable', 'towns', 'nations', 'players']
+    let arr = ['invitable', 'joinable', 'towns', 'nations', 'players', 'pact', 'sub', 'normal']
     return arr.includes(param) ? null : `Parameter ${param} not recognized.`
 }
 
