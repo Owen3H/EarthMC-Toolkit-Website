@@ -59,7 +59,7 @@ const post = async (map, req, params) => {
         body = req.body, [dataType] = params
 
     if (authKey != process.env.AUTH_KEY) return 'no-auth'
-    if (!data || Object.keys(data).length < 1) return null
+    if (!body || Object.keys(body).length < 1) return null
 
     switch(dataType) {
         case 'allplayers': {
