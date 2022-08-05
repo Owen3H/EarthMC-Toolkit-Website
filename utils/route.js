@@ -56,7 +56,7 @@ async function serve(req, res, mapName = 'aurora') {
 
 const post = async (map, req, params) => {
     let authKey = req.headers['authorization'],
-        data = req.body, [dataType] = params
+        body = req.body, [dataType] = params
 
     if (authKey != process.env.AUTH_KEY) return 'no-auth'
     if (!data || Object.keys(data).length < 1) return null
@@ -67,11 +67,15 @@ const post = async (map, req, params) => {
             if (!allPlayers) return 'fetch-error'
 
             const mergeByName = (a1, a2) => a1.map(itm => ({...a2.find(item => (item.name === itm.name) && item), ...itm}))
-            data = mergeByName(allPlayers, req.body)
-        }
-    }
+            const merged = mergeByName(allPlayers, body)
 
-    cache.put(`${map}_${dataType}`, data)
+            cache.put(`${map}_allplayers`, merged)
+        }
+        case 'alliances': {
+            cache.put(`${map}_alliances`, body)
+        }
+        default: return null
+    }
 }
 
 const get = async (params, map) => {
@@ -143,7 +147,7 @@ const get = async (params, map) => {
         }
         case 'allplayers': {
             var cachedPlayers = cache.get(`${map}_allplayers`)
-            if (!cachedPlayers) return await map.getAllPlayers().catch(() => {})
+            if (!cachedPlayers) return 'cache-miss'
             if (!single) return cachedPlayers
 
             var player = cachedPlayers.find(p => p.name.toLowerCase() == single)
