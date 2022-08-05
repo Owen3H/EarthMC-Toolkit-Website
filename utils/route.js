@@ -30,6 +30,9 @@ async function serve(req, res, mapName = 'aurora') {
         map = mapName == 'nova' ? emc.Nova : emc.Aurora,
         cache = mapName == 'nova' ? novaCache : auroraCache
         
+    console.log(`Receiving ${req.method} request for ${mapName}`)
+    console.log(`Cache size: ${cache.size()}`)
+
     let out = req.method == 'POST' || req.method == 'PUT'
             ? await set(cache, map, req, params)
             : await get(cache, params, map)
