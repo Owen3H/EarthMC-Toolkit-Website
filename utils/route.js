@@ -27,7 +27,7 @@ async function serve(req, res, mapName = 'aurora') {
     let { params } = req.query,
         map = mapName == 'nova' ? emc.Nova : emc.Aurora
         
-    let out = req.method == 'POST' 
+    let out = req.method == 'POST' || req.method == 'PUT'
             ? await post(map, req, params)
             : await get(params, map)
 
