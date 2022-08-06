@@ -28,7 +28,7 @@ async function serve(req, res, mapName = 'aurora') {
         map = mapName == 'nova' ? emc.Nova : emc.Aurora
         
     console.log(`Receiving ${req.method} request for ${mapName}`)
-    console.log(`Cache size: ${cache.keys()}`)
+    console.log(`Keys: ${cache.keys().join(', ')}`)
 
     let out = req.method == 'POST' || req.method == 'PUT'
             ? await set(cache, map, req, params)
@@ -63,6 +63,7 @@ const set = async (cache, map, req, params) => {
     if (authKey != process.env.AUTH_KEY) return 'no-auth'
     if (!body || Object.keys(body).length < 1) return null
 
+    let mapName = map == emc.Nova ? 'nova' : 'aurora'
     switch(dataType) {
         case 'allplayers': {
             var allPlayers = await map.getAllPlayers().catch(() => {})
@@ -71,15 +72,15 @@ const set = async (cache, map, req, params) => {
             const mergeByName = (a1, a2) => a1.map(itm => ({...a2.find(item => (item.name === itm.name) && item), ...itm}))
             const merged = mergeByName(allPlayers, body)
 
-            cache.put(`${map}_allplayers`, merged)
+            cache.put(`${mapName}_allplayers`, merged)
             return merged
         }
         case 'alliances': {
-            cache.put(`${map}_alliances`, body)
+            cache.put(`${mapName}_alliances`, body)
             return body
         }
         case 'news': {
-            cache.put(`${map}_news`, body)
+            cache.put(`${mapName}_news`, body)
             return body
         }
         default: return null
@@ -92,6 +93,7 @@ const get = async (cache, params, map) => {
     const [dataType] = params,
           single = arg(0), filter = arg(1)
 
+    let mapName = map == emc.Nova ? 'nova' : 'aurora' 
     switch(dataType.toLowerCase()) {
         case 'markers': {
             let aType = validParam(filter) ?? 'mega'
@@ -134,13 +136,13 @@ const get = async (cache, params, map) => {
             }
         }
         case 'news': {
-            var news = cache.get(`${map}_news`)
+            var news = cache.get(`${mapName}_news`)
             if (!news) return 'cache-miss'
 
             return !single ? news : news.all.filter(n => n.message.toLowerCase().includes(single))
         }
         case 'alliances': {
-            let alliances = cache.get(`${map}_alliances`)
+            let alliances = cache.get(`${mapName}_alliances`)
             if (!alliances) return 'cache-miss'
 
             switch (single) {
@@ -154,7 +156,7 @@ const get = async (cache, params, map) => {
             }
         }
         case 'allplayers': {
-            var cachedPlayers = cache.get(`${map}_allplayers`)
+            var cachedPlayers = cache.get(`${mapName}_allplayers`)
             if (!cachedPlayers) return 'cache-miss'
             if (!single) return cachedPlayers
 
