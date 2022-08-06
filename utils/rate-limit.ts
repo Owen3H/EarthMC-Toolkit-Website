@@ -24,8 +24,8 @@ export default function rateLimit(options?: Options) {
               isRateLimited = currentUsage >= limit,
               remaining = isRateLimited ? 0 : limit - currentUsage
 
-        res.setHeader('X-RateLimit-Limit', limit)
-        res.setHeader('X-RateLimit-Remaining', remaining)
+        //res.setHeader('X-RateLimit-Limit', limit)
+        //res.setHeader('X-RateLimit-Remaining', remaining)
 
         console.log("Token count: " + tokenCount)
         console.log("Rate limited: " + isRateLimited)

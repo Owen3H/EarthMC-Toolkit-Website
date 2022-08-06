@@ -9,7 +9,7 @@ var next = require('next'),
     args = []
 
 const rateLimit = require('./rate-limit.ts').default,
-      limiter = rateLimit({ interval: 16 * 1000 })
+      limiter = rateLimit({ interval: 14 * 1000 })
 
 const getIP = req =>
     req.ip || req.headers['x-real-ip'] ||
@@ -23,15 +23,15 @@ const getIP = req =>
  * @param { 'aurora' | 'nova' } mapName - The EarthMC map name to use. Defaults to 'aurora'.
  */
 async function serve(req, res, mapName = 'aurora') {
-    try { await limiter.check(res, 28, getIP(req)) } 
+    try { await limiter.check(res, 26, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let { params } = req.query,
         map = mapName == 'nova' ? emc.Nova : emc.Aurora,
-        cache = mapName == 'nova' ? novaCache : auroraCache
+        _cache = mapName == 'nova' ? novaCache : auroraCache
         
     console.log(`Receiving ${req.method} request for ${mapName}`)
-    console.log(`Cache size: ${cache.size()}`)
+    console.log(`Cache size: ${_cache.size()}`)
 
     let out = req.method == 'POST' || req.method == 'PUT'
             ? await set(cache, map, req, params)
@@ -59,7 +59,7 @@ async function serve(req, res, mapName = 'aurora') {
     }
 }
 
-const set = async (cache, map, req, params) => {
+const set = async (_cache, map, req, params) => {
     let authKey = req.headers['authorization'],
         body = req.body, [dataType] = params
 
@@ -74,22 +74,22 @@ const set = async (cache, map, req, params) => {
             const mergeByName = (a1, a2) => a1.map(itm => ({...a2.find(item => (item.name === itm.name) && item), ...itm}))
             const merged = mergeByName(allPlayers, body)
 
-            cache.put(`allplayers`, merged)
+            _cache.put(`allplayers`, merged)
             return merged
         }
         case 'alliances': {
-            cache.put(`alliances`, body)
+            _cache.put(`alliances`, body)
             return body
         }
         case 'news': {
-            cache.put(`news`, body)
+            _cache.put(`news`, body)
             return body
         }
         default: return null
     }
 }
 
-const get = async (cache, params, map) => {
+const get = async (_cache, params, map) => {
     args = params.slice(1)
 
     const [dataType] = params,
@@ -137,13 +137,13 @@ const get = async (cache, params, map) => {
             }
         }
         case 'news': {
-            var news = cache.get(`news`)
+            var news = _cache.get(`news`)
             if (!news) return 'cache-miss'
 
             return !single ? news : news.all.filter(n => n.message.toLowerCase().includes(single))
         }
         case 'alliances': {
-            let alliances = cache.get(`alliances`)
+            let alliances = _cache.get(`alliances`)
             if (!alliances) return 'cache-miss'
 
             switch (single) {
@@ -157,7 +157,7 @@ const get = async (cache, params, map) => {
             }
         }
         case 'allplayers': {
-            var cachedPlayers = cache.get(`allplayers`)
+            var cachedPlayers = _cache.get(`allplayers`)
             if (!cachedPlayers) return 'cache-miss'
             if (!single) return cachedPlayers
 
