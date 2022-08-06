@@ -1,2 +1,2 @@
 const serve = require('../../../utils/route').default
-export default (req, res) => await serve(req, res, 'nova')
+export default (req, res) => serve(req, res, 'nova')
