@@ -21,11 +21,6 @@ const getIP = req =>
  * @param { 'aurora' | 'nova' } mapName - The EarthMC map name to use. Defaults to 'aurora'.
  */
 async function serve(req, res, mapName = 'aurora') {
-    if (req.method == 'OPTIONS') {
-        res.status(200).end()
-        return
-    }
-
     try { await limiter.check(res, 26, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
@@ -186,4 +181,20 @@ const validParam = param => {
     return arr.includes(param) ? null : `Parameter ${param} not recognized.`
 }
 
-export default serve
+function runMiddleware(req, res, fn) {
+    return new Promise((resolve, reject) => {
+        fn(req, res, (result) => {
+        if (result instanceof Error) {
+            return reject(result)
+        }
+
+        return resolve(result)
+        })
+    })
+}
+
+export {
+    serve as default,
+    serve,
+    runMiddleware
+}
