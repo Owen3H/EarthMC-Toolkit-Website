@@ -64,11 +64,9 @@ const set = async (map, req, params) => {
     switch(dataType) {
         case 'allplayers': {
             var allPlayers = await map.getAllPlayers().catch(() => {})
-            console.log(allPlayers)
-
             if (!allPlayers) return 'fetch-error'
 
-            const mergeByName = (a1, a2) => a1.map(itm => ({...a2.find(item => (item.name === itm.name) && item), ...itm}))
+            const mergeByName = (pArr, req) => pArr.map(p => ({ ...req.find(e => (e.name === p.name) && e), ...p }))
             const merged = mergeByName(allPlayers, body)
 
             cache.put(`${mapName}_allplayers`, merged)
