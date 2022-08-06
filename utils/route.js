@@ -28,11 +28,10 @@ async function serve(req, res, mapName = 'aurora') {
         map = mapName == 'nova' ? emc.Nova : emc.Aurora
         
     console.log(`Receiving ${req.method} request for ${mapName}`)
-    console.log(`Keys: ${cache.keys().join(', ')}`)
 
     let out = req.method == 'POST' || req.method == 'PUT'
-            ? await set(cache, map, req, params)
-            : await get(cache, params, map)
+            ? await set(map, req, params)
+            : await get(params, map)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
     switch(out) {
@@ -47,8 +46,8 @@ async function serve(req, res, mapName = 'aurora') {
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br, gzip')
 
-                let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
-                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
+                //let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
+                //res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
 
                 res.status(200).json(out)
             }
@@ -56,7 +55,7 @@ async function serve(req, res, mapName = 'aurora') {
     }
 }
 
-const set = async (cache, map, req, params) => {
+const set = async (map, req, params) => {
     let authKey = req.headers['authorization'],
         body = req.body, [dataType] = params
 
@@ -87,7 +86,7 @@ const set = async (cache, map, req, params) => {
     }
 }
 
-const get = async (cache, params, map) => {
+const get = async (params, map) => {
     args = params.slice(1)
 
     const [dataType] = params,
@@ -136,12 +135,16 @@ const get = async (cache, params, map) => {
             }
         }
         case 'news': {
+            console.log(`Keys: ${cache.keys().join(', ')}`)
+
             var news = cache.get(`${mapName}_news`)
             if (!news) return 'cache-miss'
 
             return !single ? news : news.all.filter(n => n.message.toLowerCase().includes(single))
         }
         case 'alliances': {
+            console.log(`Keys: ${cache.keys().join(', ')}`)
+
             let alliances = cache.get(`${mapName}_alliances`)
             if (!alliances) return 'cache-miss'
 
@@ -156,6 +159,8 @@ const get = async (cache, params, map) => {
             }
         }
         case 'allplayers': {
+            console.log(`Keys: ${cache.keys().join(', ')}`)
+
             var cachedPlayers = cache.get(`${mapName}_allplayers`)
             if (!cachedPlayers) return 'cache-miss'
             if (!single) return cachedPlayers
