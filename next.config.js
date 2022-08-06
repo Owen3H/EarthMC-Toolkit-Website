@@ -15,7 +15,7 @@ const cors = methods => ({
     { key: "Access-Control-Allow-Credentials", value: "true" },
     { key: "Access-Control-Allow-Origin", value: "*" },
     { key: "Access-Control-Allow-Methods", value: methods },
-    { key: "Access-Control-Allow-Headers", value: "authorization, X-Requested-With, Accept, Content-Length, Content-MD5, Content-Type"
+    { key: "Access-Control-Allow-Headers", value: "authorization, 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
   }]
 })
 
