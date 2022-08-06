@@ -6,7 +6,9 @@ const cors = Cors({
     methods: ['GET', 'POST', 'PUT', 'OPTIONS']
 })
 
-export default (req, res) => {
+async function handler(req, res) {
     await route.runMiddleware(req, res, cors)
-    route.serve(req, res, 'nova') 
+    route.serve(req, res, 'nova')
 }
+
+export default handler
