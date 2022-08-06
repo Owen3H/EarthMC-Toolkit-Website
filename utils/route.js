@@ -34,8 +34,8 @@ async function serve(req, res, mapName = 'aurora') {
     console.log(`Cache size: ${_cache.size()}`)
 
     let out = req.method == 'POST' || req.method == 'PUT'
-            ? await set(cache, map, req, params)
-            : await get(cache, params, map)
+            ? await set(_cache, map, req, params)
+            : await get(_cache, params, map)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
     switch(out) {
@@ -46,12 +46,12 @@ async function serve(req, res, mapName = 'aurora') {
             if (typeof out == 'string' && out.includes('does not exist')) res.status(404).json(out)
             else {
                 res.setHeader('Access-Control-Allow-Origin', '*')
-                res.setHeader('Accept-Encoding', 'br, gzip')
-                res.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version")
+                res.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-Type")
                 res.setHeader('Content-Type', 'application/json')
+                res.setHeader('Accept-Encoding', 'br, gzip')
 
-                // let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
-                //res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
+                let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
+                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
 
                 res.status(200).json(out)
             }
