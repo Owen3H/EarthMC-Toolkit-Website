@@ -41,10 +41,8 @@ async function serve(req, res, mapName = 'aurora') {
         default: {
             if (typeof out == 'string' && out.includes('does not exist')) res.status(404).json(out)
             else {
-                // res.setHeader('Access-Control-Allow-Origin', '*')
-                // res.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-Type")
-                // res.setHeader('Content-Type', 'application/json')
-                // res.setHeader('Accept-Encoding', 'br, gzip')
+                res.setHeader('Content-Type', 'application/json')
+                res.setHeader('Accept-Encoding', 'br, gzip')
 
                 //let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
                 //res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
