@@ -37,8 +37,8 @@ async function serve(req, res, mapName = 'aurora') {
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br, gzip')
 
-                let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
-                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
+                //let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
+                //res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
 
                 res.status(200).json(out)
             }
