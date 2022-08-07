@@ -37,8 +37,8 @@ async function serve(req, res, mapName = 'aurora') {
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br, gzip')
 
-                //let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
-                //res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
+                let [maxage, stale] = out.currentcount ? [1, 5] : [5, 120]
+                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}, stale-if-error=${stale}`)   
 
                 res.status(200).json(out)
             }
@@ -86,14 +86,11 @@ const get = async (params, map) => {
     let mapName = map == emc.Nova ? 'nova' : 'aurora' 
     switch(dataType.toLowerCase()) {
         case 'markers': {
-            let aType = validParam(filter) ?? 'mega',
-                alliances = cache.get(`${mapName}_alliances`)
+            //let alliances = cache.get(`${mapName}_alliances`)
+            //if (!alliances) return 'cache-miss'
 
-            if (!alliances) return 'cache-miss'
-            return await modify(...[
-                endpoint, mapName, 
-                aType, alliances
-            ]) ?? 'fetch-error'
+            let aType = validParam(filter) ?? 'mega'   
+            return await modify(...[endpoint, mapName, aType]) ?? 'fetch-error'
         }
         case 'update': {
             let raw = await endpoint.playerData('aurora')
@@ -132,8 +129,6 @@ const get = async (params, map) => {
             }
         }
         case 'news': {
-            console.log(`Keys: ${cache.keys().join(', ')}`)
-
             var news = cache.get(`${mapName}_news`)
             if (!news) return 'cache-miss'
 
@@ -181,11 +176,8 @@ const validParam = param => {
 function runMiddleware(req, res, fn) {
     return new Promise((resolve, reject) => {
         fn(req, res, (result) => {
-        if (result instanceof Error) {
-            return reject(result)
-        }
-
-        return resolve(result)
+            if (result instanceof Error) return reject(result)
+            return resolve(result)
         })
     })
 }
