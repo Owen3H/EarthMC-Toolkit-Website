@@ -2,8 +2,7 @@ const emc = require("earthmc"), endpoint = emc.endpoint,
       modify = require("earthmc-dynmap-plus"),
       cache = require("memory-cache")
 
-var next = require('next'),
-    arg = index => args[index]?.toLowerCase() ?? null,
+var arg = index => args[index]?.toLowerCase() ?? null,
     args = []
 
 const rateLimit = require('./rate-limit.ts').default,
@@ -14,12 +13,6 @@ const getIP = req =>
     req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress
 
-/**
- * Handles how the response is served according to the map.
- * @param { next.NextApiRequest } req - The request object from the client.
- * @param { next.NextApiResponse } res - The response object to send, usually JSON.
- * @param { 'aurora' | 'nova' } mapName - The EarthMC map name to use. Defaults to 'aurora'.
- */
 async function serve(req, res, mapName = 'aurora') {
     try { await limiter.check(res, 26, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
@@ -44,8 +37,8 @@ async function serve(req, res, mapName = 'aurora') {
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br, gzip')
 
-                //let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
-                //res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
+                let [maxage, stale] = out.currentcount ? [0, 1] : [1, 5]
+                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)   
 
                 res.status(200).json(out)
             }
