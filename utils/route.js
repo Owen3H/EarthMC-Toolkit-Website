@@ -86,8 +86,14 @@ const get = async (params, map) => {
     let mapName = map == emc.Nova ? 'nova' : 'aurora' 
     switch(dataType.toLowerCase()) {
         case 'markers': {
-            let aType = validParam(filter) ?? 'mega'
-            return await modify(endpoint, map == emc.Nova ? 'nova' : 'aurora', aType) ?? 'fetch-error'
+            let aType = validParam(filter) ?? 'mega',
+                alliances = cache.get(`${mapName}_alliances`)
+
+            if (!alliances) return 'cache-miss'
+            return await modify(...[
+                endpoint, mapName, 
+                aType, alliances
+            ]) ?? 'fetch-error'
         }
         case 'update': {
             let raw = await endpoint.playerData('aurora')
