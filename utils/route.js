@@ -13,13 +13,29 @@ const getIP = req =>
     req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress
 
+var cacheControl = CacheType.Update
+const CacheType = {
+    Alliances: [120, 120],
+    Towns: [60, 120],
+    Nations: [60, 120],
+    Residents: [30, 60],
+    News: [20, 60],
+    Markers: [5, 120],
+    Update: [1, 5],
+    Nearby: {
+        Towns: [300, 1200],
+        Nations: [600, 1800],
+        Players: [2, 15]   
+    }
+}
+
 async function serve(req, res, mapName = 'aurora') {
     try { await limiter.check(res, 26, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let { params } = req.query,
         map = mapName == 'nova' ? emc.Nova : emc.Aurora
-        
+    
     console.log(`Receiving ${req.method} request for ${mapName}`)
 
     let out = req.method == 'POST' || req.method == 'PUT'
@@ -37,8 +53,8 @@ async function serve(req, res, mapName = 'aurora') {
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br, gzip')
 
-                let [maxage, stale] = out.currentcount ? [1, 5] : [5, 120]
-                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}, stale-if-error=${stale}`)   
+                let [maxage, stale] = cacheControl ?? [1, 2]
+                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}, stale-if-error=${stale}`)
 
                 res.status(200).json(out)
             }
@@ -46,49 +62,22 @@ async function serve(req, res, mapName = 'aurora') {
     }
 }
 
-const set = async (map, req, params) => {
-    let authKey = req.headers['authorization'],
-        body = req.body, [dataType] = params
-
-    if (authKey != process.env.AUTH_KEY) return 'no-auth'
-    if (!body || Object.keys(body).length < 1) return null
-
-    let mapName = map == emc.Nova ? 'nova' : 'aurora'
-    switch(dataType) {
-        case 'allplayers': {
-            var allPlayers = await map.getAllPlayers().catch(() => {})
-            if (!allPlayers) return 'fetch-error'
-
-            const mergeByName = (pArr, req) => pArr.map(p => ({ ...req.find(e => (e.name === p.name) && e), ...p }))
-            const merged = mergeByName(allPlayers, body)
-
-            cache.put(`${mapName}_allplayers`, merged)
-            return merged
-        }
-        case 'alliances': {
-            cache.put(`${mapName}_alliances`, body)
-            return body
-        }
-        case 'news': {
-            cache.put(`${mapName}_news`, body)
-            return body
-        }
-        default: return null
-    }
-}
-
 const get = async (params, map) => {
+    // Make sure cache control is not set until data type is known.
+    cacheControl = null
+
     args = params.slice(1)
-
     const [dataType] = params,
-          single = arg(0), filter = arg(1)
+          single = arg(0), filter = arg(1),
+          mapName = map == emc.Nova ? 'nova' : 'aurora' 
 
-    let mapName = map == emc.Nova ? 'nova' : 'aurora' 
     switch(dataType.toLowerCase()) {
         case 'markers': {
-            //let alliances = cache.get(`${mapName}_alliances`)
-            //if (!alliances) return 'cache-miss'
+            let alliances = cache.get(`${mapName}_alliances`)
+            if (!alliances) return 'cache-miss'
 
+            cacheControl = CacheType.Markers
+            
             let aType = validParam(filter) ?? 'mega'   
             return await modify(...[endpoint, mapName, aType]) ?? 'fetch-error'
         }
@@ -97,15 +86,21 @@ const get = async (params, map) => {
             if (raw?.updates) raw.updates = raw.updates.filter(e => e.msg != "areaupdated" && e.msg != "markerupdated") 
             else raw = 'fetch-error'
 
+            cacheControl = CacheType.Update
+
             return raw
         }
         case 'towns': {
+            cacheControl = CacheType.Towns
+
             if (!single) return await map.getTowns()
             if (!filter) return await map.getTown(single)
 
             return validParam(filter) ?? await map.getJoinableNations(single)
         }
         case 'nations': {
+            cacheControl = CacheType.Nations
+
             if (!single) return await map.getNations()
             if (!filter) return await map.getNation(single)
 
@@ -122,23 +117,34 @@ const get = async (params, map) => {
                 args[3], args[4] ?? args[3]]
 
             switch (single) {
-                case 'towns': return await map.getNearbyTowns(...inputs) 
-                case 'nations': return await map.getNearbyNations(...inputs)
+                case 'towns': {
+                    cacheControl = CacheType.Nearby.Towns
+                    return await map.getNearbyTowns(...inputs) 
+                }
+                case 'nations': {
+                    cacheControl = CacheType.Nearby.Nations
+                    return await map.getNearbyNations(...inputs)
+                }
                 case 'players':
-                default: return await map.getNearbyPlayers(...inputs)
+                default: {
+                    cacheControl = CacheType.Nearby.Players
+                    return await map.getNearbyPlayers(...inputs)
+                }
             }
         }
         case 'news': {
             var news = cache.get(`${mapName}_news`)
             if (!news) return 'cache-miss'
 
+            cacheControl = CacheType.News
+
             return !single ? news : news.all.filter(n => n.message.toLowerCase().includes(single))
         }
         case 'alliances': {
-            console.log(`Keys: ${cache.keys().join(', ')}`)
-
             let alliances = cache.get(`${mapName}_alliances`)
             if (!alliances) return 'cache-miss'
+
+            cacheControl = CacheType.Alliances
 
             switch (single) {
                 case "submeganations":
@@ -151,8 +157,6 @@ const get = async (params, map) => {
             }
         }
         case 'allplayers': {
-            console.log(`Keys: ${cache.keys().join(', ')}`)
-
             var cachedPlayers = cache.get(`${mapName}_allplayers`)
             if (!cachedPlayers) return 'cache-miss'
             if (!single) return cachedPlayers
@@ -162,9 +166,43 @@ const get = async (params, map) => {
         }
         case 'townless':
         case 'townlessplayers': return await map.getTownless() ?? 'fetch-error'
-        case 'residents': return single ? await map.getResident(single) : await map.getResidents()
+        case 'residents': {
+            cacheControl = CacheType.Residents
+            return single ? await map.getResident(single) : await map.getResidents()
+        }
         case 'onlineplayers': return single ? await map.getOnlinePlayer(single) : await map.getOnlinePlayers(true)
         default: return `Parameter ${dataType} not recognized.`
+    }
+}
+
+const set = async (map, req, params) => {
+    let authKey = req.headers['authorization'],
+        body = req.body, [dataType] = params
+
+    if (authKey != process.env.AUTH_KEY) return 'no-auth'
+    if (!body || Object.keys(body).length < 1) return null
+
+    let mapName = map == emc.Nova ? 'nova' : 'aurora'
+    switch(dataType) {
+        case 'allplayers': {
+            var allPlayers = await map.getAllPlayers().catch(() => {})
+            if (!allPlayers) return 'fetch-error'
+
+            const mergeByName = (pArr, req) => pArr.map(p => ({ ...req.find(e => (e.name === p.name) && e), ...p })),
+                  merged = mergeByName(allPlayers, body)
+
+            cache.put(`${mapName}_allplayers`, merged)
+            return merged
+        }
+        case 'alliances': {
+            cache.put(`${mapName}_alliances`, body)
+            return body
+        }
+        case 'news': {
+            cache.put(`${mapName}_news`, body)
+            return body
+        }
+        default: return null
     }
 }
 
