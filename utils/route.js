@@ -78,8 +78,8 @@ const get = async (params, map) => {
 
             cacheControl = CacheType.Markers
             
-            let aType = validParam(filter) ?? 'mega'   
-            return await modify(...[endpoint, mapName, aType]) ?? 'fetch-error'
+            let aType = validParam(filter) ? 'mega' : filter 
+            return await modify(endpoint, mapName, aType, alliances) ?? 'fetch-error'
         }
         case 'update': {
             let raw = await endpoint.playerData('aurora')

@@ -21,7 +21,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "earthmc": "^4.0.0",
-    "earthmc-dynmap-plus": "^1.2.3",
+    "earthmc-dynmap-plus": "^1.2.4",
     "lru-cache": "^7.13.1",
     "memory-cache": "^0.2.0",
     "next": "^12.2.0",
