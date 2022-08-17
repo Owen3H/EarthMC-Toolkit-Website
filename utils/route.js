@@ -13,7 +13,6 @@ const getIP = req =>
     req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress
 
-var cacheControl = CacheType.Update
 const CacheType = {
     Alliances: [120, 120],
     Towns: [60, 120],
@@ -28,6 +27,8 @@ const CacheType = {
         Players: [2, 15]   
     }
 }
+
+var cacheControl = CacheType.Update
 
 async function serve(req, res, mapName = 'aurora') {
     try { await limiter.check(res, 26, getIP(req)) } 
