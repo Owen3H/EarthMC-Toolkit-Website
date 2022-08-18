@@ -83,12 +83,11 @@ const get = async (params, map) => {
             return await modify(endpoint, mapName, aType, alliances) ?? 'fetch-error'
         }
         case 'update': {
-            let raw = await endpoint.playerData('aurora')
+            let raw = await endpoint.playerData(mapName)
             if (raw?.updates) raw.updates = raw.updates.filter(e => e.msg != "areaupdated" && e.msg != "markerupdated") 
             else raw = 'fetch-error'
 
             cacheControl = CacheType.Update
-
             return raw
         }
         case 'towns': {
