@@ -56,7 +56,7 @@ async function serve(req, res, mapName = 'aurora') {
 
                 let [maxage, stale] = cacheControl ?? [1, 2]
                 res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}, stale-if-error=${stale}`)
-
+                
                 res.status(200).json(out)
             }
         }
@@ -79,7 +79,7 @@ const get = async (params, map) => {
 
             cacheControl = CacheType.Markers
             
-            let aType = validParam(filter) ? 'mega' : filter 
+            let aType = validParam(single) ? single : 'mega'
             return await modify(endpoint, mapName, aType, alliances) ?? 'fetch-error'
         }
         case 'update': {
