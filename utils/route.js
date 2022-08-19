@@ -67,7 +67,7 @@ const get = async (params, map) => {
     // Make sure cache control is not set until data type is known.
     cacheControl = null
 
-    args = params.slice(1)
+    args = params.slice(1) // Start from param after data type.
     const [dataType] = params,
           single = arg(0), filter = arg(1),
           mapName = map == emc.Nova ? 'nova' : 'aurora' 
@@ -79,7 +79,7 @@ const get = async (params, map) => {
 
             cacheControl = CacheType.Markers
             
-            let aType = validParam(single) ? single : 'mega'
+            let aType = validParam(single) ? 'mega' : single
             return await modify(endpoint, mapName, aType, alliances) ?? 'fetch-error'
         }
         case 'update': {
