@@ -1,0 +1,291 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<link rel="shortcut icon" href="images/favicon.ico"/>
+		<title>EarthMC Toolkit</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body-alt class="is-preload">
+
+		<!-- Header -->
+		<header id="header">
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li><a href="/api">API Docs</a></li>
+					<li><a href="/commands">Commands</a></li>
+					<li><a href="/npm" class="active">NPM Docs</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1>NPM Documentation <p class="major fas fa-book"></p></h1>
+							<p>The EarthMC NPM Package. 
+							   It provides plenty of data such as players, towns, nations, alliances and more, without having to use the API!
+							   The repository is open source and can be found <a href="https://github.com/EarthMC-Toolkit/EarthMC-NPM">here.</a>
+							
+							<!-- Text -->
+								<section>
+									<h2>Quick Start <p class="major fas fa-bolt"></p></h2>
+									<p>To install the package, we will use the
+										<a href="https://npmjs.com">Node Package Manager</a>.<br><br>
+										 1. Install the package.</p>
+										<code>$ npm install earthmc</code>
+										<br><br>2. Require/import the package.</p>
+										<code>const emc = require('earthmc')</code>
+										<br><br>3. Send a request using the package, and wait for the result.<br>
+										<pre><code>var towns = await emc.Aurora.getTowns().catch(() => {});
+if (!towns) {
+	// Handle error
+}
+
+// Example code
+towns = towns.map(t => t.area > 50); // Only get towns with more than 50 chunks claimed.
+console.log(towns);
+</code></pre>
+								</section>
+
+							<!-- Lists -->
+								<section>
+									<h2>Function Info</h2>
+									<body>
+										<section>
+											<p>This section provides all of the functions available for use, 
+											   note that for generic ones you will not need to provide a map.
+											</p>
+											<p>To begin, your request must start with the package name, in our case:<code>emc</code><br>
+											   Then, one of the functions from the list below can be appended to create a request.</p>
+											<h3>Function List</h3>
+											<article>
+												<details>
+													<summary>Generic</summary>											  
+													<details>
+														<summary>Server Info</summary>
+														<p><b>Function:</b><code>getServerInfo()</code>
+														<br><b>Response:</b> JSON object with basic info on the server.
+														<br><pre class="prettyprint"><b>
+	  {
+            "serverOnline": bool,
+            "online": int,
+            "max": int,
+            "nova": int,
+            "aurora": int,
+            "queue": int
+            }
+														</b></pre></p>	
+													</details>
+												</details>
+												<details>
+													<summary>Map Specific</summary>
+													<p>Replace the 'map' parameter with the map name (Nova / Aurora).</p>
+													<details>
+														<summary>All Players</summary>
+														<p><b>Function:</b><code>map.getAllPlayers()</code>
+														<br><b>Response:</b> Array of players.</p>
+														<details>
+															<summary>Player</summary>
+															<p><b>Function:</b><code>map.getPlayer(name)</code>
+															<br><b>Response:</b> JSON object with player info.
+															<br><pre class="prettyprint"><b>
+            {
+            "name": str,
+            "town": str,
+            "nation": str,
+            "rank": str
+            }
+															</b></pre></p>
+														</details>
+													</details>
+													<details>
+														<summary>Online Players</summary>
+														<p><b>Function:</b><code>map.getOnlinePlayers()</code>
+														<br><b>Response:</b> Array of online players.</p>
+														<details>
+															<summary>Online Player</summary>
+															<p><b>Function:</b><code>map.getOnlinePlayer(name)</code>
+															<br><b>Response:</b> JSON object with online player info.
+															<br><pre class="prettyprint"><b>
+            {
+            "name": str,
+            "nickname": str,
+            "x": int,
+            "y": int,
+            "z": int,
+            "underground": bool,
+            "town": str,
+            "nation": str,
+            "rank": str
+            }
+															</b></pre></p>
+														</details>
+													</details>
+													<details>
+														<summary>Townless Players</summary>
+														<p><b>Function:</b><code>map.getTownless()</code>
+														<br><b>Response:</b> Array of townless players.</p>
+													</details>
+													<details>
+														<summary>Residents</summary>
+														<p><b>Function:</b><code>map.getResidents()</code>
+														<br><b>Response:</b> Array of residents from all towns.</p>
+														<details>
+															<summary>Resident</summary>
+															<p><b>Function:</b><code>map.getResident(name)</code>
+															<br><b>Response:</b> JSON object with resident info.
+															<br><pre class="prettyprint"><b>
+            {
+            "name": str,
+            "town": str,
+            "nation": str,
+            "rank": str
+            }
+															</b></pre></p>
+														</details>
+													</details>
+													<details>
+														<summary>Towns</summary>
+														<p><b>Function:</b><code>map.getTowns()</code>
+														<br><b>Response:</b> Array of towns.</p>
+														<details>
+															<summary>Town</summary>
+															<p><b>Function:</b><code>map.getTown(name)</code>
+															<br><b>Response:</b> JSON object with town info.
+															<br><pre class="prettyprint"><b>
+            {
+            "name": str,
+            "nation": str,
+            "residents": [str, str...],
+            "nationResidents": [str, str...],
+            "area": int,
+            "mayor": str,
+            "pvp": bool,
+            "mobs": bool,
+            "public": bool,
+            "explosion": bool,
+            "fire": bool,
+            "capital": bool,
+            "x": int,
+            "z": int,
+            "colourCodes": { "fill": hex, "outline": hex }
+            }
+															</b></pre></p>
+															<details>
+																<summary>Joinable Nations</summary>
+																<p><b>Function:</b><code>map.getJoinableNations(town)</code>
+																<br><b>Response:</b> Array of nations the specified town can join.</p>
+															</details>
+														</details>
+													</details>
+													<details>
+														<summary>Nations</summary>
+														<p><b>Function:</b><code>map.getNations()</code>
+														<br><b>Response:</b> Array of nations.</p>
+														<details>
+															<summary>Nation</summary>
+															<p><b>Function:</b><code>map.getNation(name)</code>
+															<br><b>Response:</b> JSON object with nation info.
+															<br><pre class="prettyprint"><b>
+            {
+            "name": str,
+            "residents": [str, str...],
+            "towns": [str, str...],
+            "king": str,
+            "capitalName": str,
+            "capitalX": int,
+            "capitalZ": int,
+            "area": int
+            }
+															</b></pre></p>
+															<details>
+																<summary>Invitable Towns</summary>
+																<p>Function:<code>map.getInvitableTowns(nation)</code>
+																<br>Response: Array of towns within the nation's invite range.</p>
+															</details>
+														</details>
+													</details>
+													<details>
+														<summary>Nearby</summary>											
+														<details>
+															<summary>Players</summary>
+															<p>Function:<code>map.getNearbyPlayers(xPos, zPos, xBlocks, zBlocks)</code>
+															<br>Response: Array of nearby players within at the specified position and radius.</p>
+														</details>
+														<details>
+															<summary>Towns</summary>
+															<p>Function:<code>map.getNearbyTowns(xPos, zPos, xBlocks, zBlocks)</code>
+															<br>Response: Array of nearby towns within at the specified position and radius.</p>
+														</details>
+														<details>
+															<summary>Nations</summary>
+															<p>Function:<code>map.getNearbyNations(xPos, zPos, xBlocks, zBlocks)</code>
+															<br>Response: Array of nearby nations within at the specified position and radius.</p>
+														</details>
+													</details>
+												</details>
+											</article>
+									  
+					
+										<h2>A few examples</h2>
+										<h3>Get single object</h3>
+										<p>Get info on a specific nation. Will return the object if valid, otherwise "That nation does not exist." string.</p>
+										<pre><code>
+  var nation = await emc.Aurora.getNation(nationName)
+      .then(res => console.log(res));
+										</code></pre>
+										<br><p>If valid, will return something like this:</p>
+										<pre class="prettyprint"><b>
+		      	{
+		  	    "name": "Australia",
+		  	    "residents": ["Bob", "Jane", "Jack", ...],
+		  	    "towns": ["Sydney", "Canberra", ...],
+		  	    "king": "Jack",
+		  	    "capitalName": "Canberra",
+		  	    "capitalX": 12345,
+		  	    "capitalZ": 54321,
+		  	    "area": 1000
+		  	  }
+										</b></pre>
+										<h3>Get array of objects</h3>
+										<p>Get a list of every player registered on EarthMC Terra Nova.</p>
+										<pre><code>
+  var players = await emc.Nova.getAllPlayers()
+      .then(res => console.log(res));
+										</code></pre>
+										<br><p>Will return an array like <a href='https://emc-toolkit.vercel.app/api/aurora/allplayers'>this</a>.</p><br>
+									</body>
+								</section>
+
+								<section>
+									<div class="col-6 col-12-medium" style="font-size: 22px;">
+										<h3>Links</h3>
+										<ul class="icons">
+											<li><a href="" class="icon brands fa-discord"><span class="label">Discord Support</span></a>
+											<li><a href="" class="icon brands fa-github"><span class="label">Github</span></a></li>
+										</ul>
+									</div>
+								</section>
+
+						</div>
+					</section>
+		</div>
+
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=sons-of-obsidian"></script>
+	</body>
+</html>
