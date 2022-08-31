@@ -10,12 +10,12 @@ const getIP = req =>
 async function getData(query) {
     console.log(query)
     let type = query.params[0], 
-        url = query.params[1],
-        timestamp = query.ts
+        ts = query.params[1],
+        url = query.url
 
     switch(type.toLowerCase()) {
         case 'serverinfo': return await emc.getServerInfo()
-        case 'archive': return await emc.endpoint.getArchive(url, timestamp)
+        case 'archive': return await emc.endpoint.getArchive(url, ts)
         default: return null
     }
 }
