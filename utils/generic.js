@@ -8,7 +8,7 @@ const getIP = req =>
     req.connection.remoteAddress
 
 async function getData(query) {
-    console.log(req.query)
+    console.log(query)
     let { params, ts, url } = query
 
     switch(params[0].toLowerCase()) {
