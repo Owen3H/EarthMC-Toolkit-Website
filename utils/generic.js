@@ -10,7 +10,9 @@ const getIP = req =>
 async function getData(params) {
     let [dataType, url, ts] = params
 
-    switch(dataType) {
+    console.log(params)
+
+    switch(dataType.toLowerCase()) {
         case 'serverinfo': return await emc.getServerInfo()
         case 'archive': return await emc.endpoint.getArchive(url, ts)
         default: return null
