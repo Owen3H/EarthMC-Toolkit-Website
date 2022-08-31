@@ -23,6 +23,7 @@ async function serve(req, res) {
     try { await limiter.check(res, 6, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
+    console.log(req.query)
     let { params } = req.query
     
     let out = await getData(params)   
