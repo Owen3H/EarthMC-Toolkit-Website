@@ -1,22 +1,18 @@
 const emc = require('earthmc'),
       rateLimit = require('./rate-limit.ts').default,
-      limiter = rateLimit({ interval: 4 * 1000 }),
-      { useRouter } = require('next/router')
+      limiter = rateLimit({ interval: 4 * 1000 })
 
 const getIP = req =>
     req.ip || req.headers['x-real-ip'] ||
     req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress
 
-async function getData(param) {
-    switch(param) {
-        case 'serverinfo': return await emc.getServerInfo()
-        case 'archive': {
-            const router = useRouter()
-            const { url, ts } = router.query
+async function getData(params) {
+    let [dataType, url, ts] = params
 
-            return await emc.endpoint.getArchive(url, ts)
-        }
+    switch(dataType) {
+        case 'serverinfo': return await emc.getServerInfo()
+        case 'archive': return await emc.endpoint.getArchive(url, ts)
         default: return null
     }
 }
@@ -25,8 +21,10 @@ async function serve(req, res) {
     try { await limiter.check(res, 6, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
-    let { param } = req.query, out = await getData(param)   
-    if (!out) return res.status(400).send(`Parameter ${param} not recognized.`)
+    let { params } = req.query
+    
+    let out = await getData(params)   
+    if (!out) return res.status(400).send(`Parameter ${params[0]} not recognized.`)
 
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Content-Type', 'application/json')
