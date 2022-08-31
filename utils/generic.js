@@ -7,12 +7,10 @@ const getIP = req =>
     req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress
 
-async function getData(params) {
-    let [dataType, url, ts] = params
+async function getData(query) {
+    let { params, url, ts } = query
 
-    console.log(params)
-
-    switch(dataType.toLowerCase()) {
+    switch(params[0].toLowerCase()) {
         case 'serverinfo': return await emc.getServerInfo()
         case 'archive': return await emc.endpoint.getArchive(url, ts)
         default: return null
@@ -23,11 +21,8 @@ async function serve(req, res) {
     try { await limiter.check(res, 6, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
-    console.log(req.query)
-    let { params } = req.query
-    
-    let out = await getData(params)   
-    if (!out) return res.status(400).send(`Parameter ${params[0]} not recognized.`)
+    let out = await getData(req.query)   
+    if (!out) return res.status(400).send(`Parameter ${req.query.params[0]} not recognized.`)
 
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Content-Type', 'application/json')
