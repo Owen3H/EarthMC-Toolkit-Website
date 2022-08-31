@@ -8,7 +8,7 @@ const getIP = req =>
     req.connection.remoteAddress
 
 async function getData(query) {
-    let { params, url, ts } = query
+    let { params, ts, url } = query
 
     switch(params[0].toLowerCase()) {
         case 'serverinfo': return await emc.getServerInfo()
