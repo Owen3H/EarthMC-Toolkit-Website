@@ -5,6 +5,6 @@
     },
     "players": {
       "nova": "https://earthmc.net/map/nova/up/world/earth/",
-      "aurora": "https://earthmc.net/map/aurora/up/world/earth/"
+      "aurora": "https://earthmc.net/map/aurora/standalone/dynmap_earth.json"
     }
 }
