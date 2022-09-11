@@ -50,7 +50,7 @@ async function serve(req, res, mapName = 'aurora') {
 }
 
 const get = async (params, map) => {
-    cc.set(false) // Reset cache control to default
+    cc.set(null) // Reset cache control to default
 
     args = params.slice(1) // Start from param after data type.
     const [dataType] = params,
