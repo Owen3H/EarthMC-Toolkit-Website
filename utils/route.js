@@ -55,7 +55,7 @@ const get = async (params, map) => {
     args = params.slice(1) // Start from param after data type.
     const [dataType] = params,
           single = arg(0), filter = arg(1),
-          mapName = map == emc.Nova ? 'nova' : 'aurora' 
+          mapName = map == Nova ? 'nova' : 'aurora' 
 
     switch(dataType.toLowerCase()) {
         case 'towns': {
@@ -150,7 +150,7 @@ const set = async (map, req, params) => {
     if (authKey != process.env.AUTH_KEY) return 'no-auth'
     if (!body || Object.keys(body).length < 1) return null
 
-    let mapName = map == emc.Nova ? 'nova' : 'aurora'
+    let mapName = map == Nova ? 'nova' : 'aurora'
     switch(dataType) {
         case 'allplayers': {
             var allPlayers = await map.getAllPlayers().catch(() => {})
