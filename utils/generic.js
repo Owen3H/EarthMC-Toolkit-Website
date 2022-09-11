@@ -15,7 +15,7 @@ async function getData(query) {
         case 'serverinfo': return await getServerInfo()
         case 'archive': {
             endpoint.useArchive(ts)
-            return await endpoint.mapData(map)
+            return await endpoint.mapData(map).then(data => { endpoint.useArchive(false); return data })
         }
         default: return null
     }
