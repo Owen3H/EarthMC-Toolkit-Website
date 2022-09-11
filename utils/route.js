@@ -14,7 +14,7 @@ const getIP = req =>
     req.connection.remoteAddress
 
 // Create new cache control instance with default age & stale.
-const cc = new CacheControl()
+var cc = new CacheControl()
 
 async function serve(req, res, mapName = 'aurora') {
     try { await limiter.check(res, 22, getIP(req)) } 
@@ -50,7 +50,7 @@ async function serve(req, res, mapName = 'aurora') {
 }
 
 const get = async (params, map) => {
-    cc(null)
+    cc.set(false) // Reset cache control to default
 
     args = params.slice(1) // Start from param after data type.
     const [dataType] = params,
@@ -59,7 +59,7 @@ const get = async (params, map) => {
 
     switch(dataType.toLowerCase()) {
         case 'towns': {
-            cc(CacheType.Towns)
+            cc.set(CacheType.Towns)
 
             if (!single) return await map.getTowns()
             if (!filter) return await map.getTown(single)
@@ -67,7 +67,7 @@ const get = async (params, map) => {
             return validParam(filter) ?? await map.getJoinableNations(single)
         }
         case 'nations': {
-            cc(CacheType.Nations)
+            cc.set(CacheType.Nations)
 
             if (!single) return await map.getNations()
             if (!filter) return await map.getNation(single)
@@ -86,16 +86,16 @@ const get = async (params, map) => {
 
             switch (single) {
                 case 'towns': {
-                    cc(CacheType.Nearby.Towns)
+                    cc.set(CacheType.Nearby.Towns)
                     return await map.getNearbyTowns(...inputs) 
                 }
                 case 'nations': {
-                    cc(CacheType.Nearby.Nations)
+                    cc.set(CacheType.Nearby.Nations)
                     return await map.getNearbyNations(...inputs)
                 }
                 case 'players':
                 default: {
-                    cc(CacheType.Nearby.Players)
+                    cc.set(CacheType.Nearby.Players)
                     return await map.getNearbyPlayers(...inputs)
                 }
             }
@@ -104,7 +104,7 @@ const get = async (params, map) => {
             var news = cache.get(`${mapName}_news`)
             if (!news) return 'cache-miss'
 
-            cc(CacheType.News)
+            cc.set(CacheType.News)
 
             return !single ? news : news.all.filter(n => n.message.toLowerCase().includes(single))
         }
@@ -112,7 +112,7 @@ const get = async (params, map) => {
             let alliances = cache.get(`${mapName}_alliances`)
             if (!alliances) return 'cache-miss'
 
-            cc(CacheType.Alliances)
+            cc.set(CacheType.Alliances)
 
             switch (single) {
                 case "submeganations":
@@ -135,7 +135,7 @@ const get = async (params, map) => {
         case 'townless':
         case 'townlessplayers': return await map.getTownless() ?? 'fetch-error'
         case 'residents': {
-            cc(CacheType.Residents)
+            cc.set(CacheType.Residents)
             return single ? await map.getResident(single) : await map.getResidents()
         }
         case 'onlineplayers': return single ? await map.getOnlinePlayer(single) : await map.getOnlinePlayers(true)

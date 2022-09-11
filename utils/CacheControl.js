@@ -16,10 +16,10 @@ class CacheControl {
     default = [30, 60]
 
     constructor(type) {
-        this.header = type ?? this.default
-        return this
+        this.set(type)
     }
 
+    set = type => this.header = type ?? this.default
     get = () => this.header
 }
 
