@@ -12,14 +12,13 @@ const Type = {
 }
 
 class CacheControl {
-    header = null
-    default = [30, 60]
+    header = [30, 60]
 
     constructor(type) {
         this.set(type)
     }
 
-    set = type => this.header = type ?? this.default
+    set = type => this.header = type ?? [30, 60]
     get = () => this.header
 }
 
