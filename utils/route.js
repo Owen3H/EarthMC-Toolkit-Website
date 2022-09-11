@@ -1,6 +1,6 @@
-const emc = require("earthmc"), endpoint = emc.endpoint,
-      modify = require("earthmc-dynmap-plus"),
-      cache = require("memory-cache")
+const { Aurora, Nova } = require("earthmc"),
+      cache = require("memory-cache"),
+      { CacheControl, CacheType } = require("./CacheControl")
 
 var arg = index => args[index]?.toLowerCase() ?? null,
     args = []
@@ -13,29 +13,15 @@ const getIP = req =>
     req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress
 
-const CacheType = {
-    Alliances: [120, 120],
-    Towns: [60, 120],
-    Nations: [60, 120],
-    Residents: [30, 60],
-    News: [20, 60],
-    Markers: [5, 120],
-    Update: [1, 5],
-    Nearby: {
-        Towns: [300, 1200],
-        Nations: [600, 1800],
-        Players: [2, 15]   
-    }
-}
-
-var cacheControl = CacheType.Update
+// Create new cache control instance with default age & stale.
+const cc = new CacheControl()
 
 async function serve(req, res, mapName = 'aurora') {
-    try { await limiter.check(res, 26, getIP(req)) } 
+    try { await limiter.check(res, 22, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let { params } = req.query,
-        map = mapName == 'nova' ? emc.Nova : emc.Aurora
+        map = mapName == 'nova' ? Nova : Aurora
     
     console.log(`Receiving ${req.method} request for ${mapName}`)
 
@@ -54,9 +40,9 @@ async function serve(req, res, mapName = 'aurora') {
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br, gzip')
 
-                let [maxage, stale] = cacheControl ?? [1, 2]
+                let [maxage, stale] = cc.get()
                 res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}, stale-if-error=${stale}`)
-                
+
                 res.status(200).json(out)
             }
         }
@@ -64,8 +50,7 @@ async function serve(req, res, mapName = 'aurora') {
 }
 
 const get = async (params, map) => {
-    // Make sure cache control is not set until data type is known.
-    cacheControl = null
+    cc(null)
 
     args = params.slice(1) // Start from param after data type.
     const [dataType] = params,
@@ -73,25 +58,8 @@ const get = async (params, map) => {
           mapName = map == emc.Nova ? 'nova' : 'aurora' 
 
     switch(dataType.toLowerCase()) {
-        case 'markers': {
-            let alliances = cache.get(`${mapName}_alliances`)
-            if (!alliances) return 'cache-miss'
-
-            cacheControl = CacheType.Markers
-            
-            let aType = validParam(single) ? 'mega' : single
-            return await modify(endpoint, mapName, aType, alliances) ?? 'fetch-error'
-        }
-        case 'update': {
-            let raw = await endpoint.playerData(mapName)
-            if (raw?.updates) raw.updates = raw.updates.filter(e => e.msg != "areaupdated" && e.msg != "markerupdated") 
-            else raw = 'fetch-error'
-
-            cacheControl = CacheType.Update
-            return raw
-        }
         case 'towns': {
-            cacheControl = CacheType.Towns
+            cc(CacheType.Towns)
 
             if (!single) return await map.getTowns()
             if (!filter) return await map.getTown(single)
@@ -99,7 +67,7 @@ const get = async (params, map) => {
             return validParam(filter) ?? await map.getJoinableNations(single)
         }
         case 'nations': {
-            cacheControl = CacheType.Nations
+            cc(CacheType.Nations)
 
             if (!single) return await map.getNations()
             if (!filter) return await map.getNation(single)
@@ -118,16 +86,16 @@ const get = async (params, map) => {
 
             switch (single) {
                 case 'towns': {
-                    cacheControl = CacheType.Nearby.Towns
+                    cc(CacheType.Nearby.Towns)
                     return await map.getNearbyTowns(...inputs) 
                 }
                 case 'nations': {
-                    cacheControl = CacheType.Nearby.Nations
+                    cc(CacheType.Nearby.Nations)
                     return await map.getNearbyNations(...inputs)
                 }
                 case 'players':
                 default: {
-                    cacheControl = CacheType.Nearby.Players
+                    cc(CacheType.Nearby.Players)
                     return await map.getNearbyPlayers(...inputs)
                 }
             }
@@ -136,7 +104,7 @@ const get = async (params, map) => {
             var news = cache.get(`${mapName}_news`)
             if (!news) return 'cache-miss'
 
-            cacheControl = CacheType.News
+            cc(CacheType.News)
 
             return !single ? news : news.all.filter(n => n.message.toLowerCase().includes(single))
         }
@@ -144,7 +112,7 @@ const get = async (params, map) => {
             let alliances = cache.get(`${mapName}_alliances`)
             if (!alliances) return 'cache-miss'
 
-            cacheControl = CacheType.Alliances
+            cc(CacheType.Alliances)
 
             switch (single) {
                 case "submeganations":
@@ -167,7 +135,7 @@ const get = async (params, map) => {
         case 'townless':
         case 'townlessplayers': return await map.getTownless() ?? 'fetch-error'
         case 'residents': {
-            cacheControl = CacheType.Residents
+            cc(CacheType.Residents)
             return single ? await map.getResident(single) : await map.getResidents()
         }
         case 'onlineplayers': return single ? await map.getOnlinePlayer(single) : await map.getOnlinePlayers(true)

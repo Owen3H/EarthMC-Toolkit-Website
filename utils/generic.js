@@ -1,4 +1,4 @@
-const emc = require('earthmc'),
+const { getServerInfo, endpoint } = require('earthmc'),
       rateLimit = require('./rate-limit.ts').default,
       limiter = rateLimit({ interval: 4 * 1000 })
 
@@ -8,14 +8,15 @@ const getIP = req =>
     req.connection.remoteAddress
 
 async function getData(query) {
-    console.log(query)
-    let type = query.params[0], 
-        ts = query.params[1],
-        url = query.url
+    let [type, ts] = query.params,
+        map = query.map
 
     switch(type.toLowerCase()) {
-        case 'serverinfo': return await emc.getServerInfo()
-        case 'archive': return await emc.endpoint.getArchive(url, ts)
+        case 'serverinfo': return await getServerInfo()
+        case 'archive': {
+            endpoint.useArchive(ts)
+            return await endpoint.mapData(map)
+        }
         default: return null
     }
 }

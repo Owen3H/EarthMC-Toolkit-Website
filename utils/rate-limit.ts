@@ -13,8 +13,7 @@ export default function rateLimit(options?: Options) {
   })
 
   return {
-    check: (res: NextApiResponse, limit: number, token: string) =>
-      new Promise<void>((resolve, reject) => {
+    check: (res: NextApiResponse, limit: number, token: string) => new Promise<void>((resolve, reject) => {
         const tokenCount = (tokenCache.get(token) as number[]) || [0]
         if (tokenCount[0] === 0) tokenCache.set(token, tokenCount)
         
@@ -28,6 +27,6 @@ export default function rateLimit(options?: Options) {
         res.setHeader('X-RateLimit-Remaining', remaining)
         
         return isRateLimited ? reject() : resolve()
-      }),
+    })
   }
 }
