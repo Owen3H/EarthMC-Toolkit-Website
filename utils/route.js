@@ -163,6 +163,8 @@ const set = async (map, req, params) => {
             return merged
         }
         case 'alliances': {
+            console.log('setting alliances - ' + body)
+
             cache.put(`${mapName}_alliances`, body)
             return body
         }
