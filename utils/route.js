@@ -6,7 +6,7 @@ var arg = index => args[index]?.toLowerCase() ?? null,
     args = []
 
 const rateLimit = require('./rate-limit.ts').default,
-      limiter = rateLimit({ interval: 14 * 1000 })
+      limiter = rateLimit({ interval: 6 * 1000 })
 
 const getIP = req =>
     req.ip || req.headers['x-real-ip'] ||
@@ -17,7 +17,7 @@ const getIP = req =>
 var cc = new CacheControl()
 
 async function serve(req, res, mapName = 'aurora') {
-    try { await limiter.check(res, 22, getIP(req)) } 
+    try { await limiter.check(res, 8, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let { params } = req.query,
