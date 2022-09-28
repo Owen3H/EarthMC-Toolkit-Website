@@ -12,14 +12,19 @@ const Type = {
 }
 
 class CacheControl {
-    header = [30, 60]
+    #headers = []
+    #enabled = false
 
     constructor(type) {
         this.set(type)
     }
 
-    set = type => this.header = type ?? [30, 60]
-    get = () => this.header
+    reset = () => this.#enabled = false
+    get = () => this.#enabled ? this.#headers : [1, 5]
+    set = type => {
+        this.#headers = type ?? [30, 60]
+        this.#enabled = true
+    }
 }
 
 export {

@@ -50,7 +50,7 @@ async function serve(req, res, mapName = 'aurora') {
 }
 
 const get = async (params, map) => {
-    cc.set(null) // Reset cache control to default
+    cc.reset() // Reset headers to default -> [1, 5]
 
     args = params.slice(1) // Start from param after data type.
     const [dataType] = params,
@@ -101,11 +101,10 @@ const get = async (params, map) => {
             }
         }
         case 'news': {
-            var news = cache.get(`${mapName}_news`)
+            let news = cache.get(`${mapName}_news`)
             if (!news) return 'cache-miss'
 
             cc.set(CacheType.News)
-
             return !single ? news : news.all.filter(n => n.message.toLowerCase().includes(single))
         }
         case 'alliances': {
@@ -125,11 +124,11 @@ const get = async (params, map) => {
             }
         }
         case 'allplayers': {
-            var cachedPlayers = cache.get(`${mapName}_allplayers`)
+            let cachedPlayers = cache.get(`${mapName}_allplayers`)
             if (!cachedPlayers) return 'cache-miss'
             if (!single) return cachedPlayers
 
-            var player = cachedPlayers.find(p => p.name.toLowerCase() == single)
+            const player = cachedPlayers.find(p => p.name.toLowerCase() == single)
             return player ?? "That player does not exist!"
         }
         case 'townless':
