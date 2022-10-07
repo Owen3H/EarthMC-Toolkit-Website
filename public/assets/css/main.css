@@ -32,6 +32,15 @@ p.error-centered {
 	color: rgba(230, 57, 57, 0.987);
 }
 
+p {
+	padding-bottom: 0.35em;
+	padding-top: 0.15em;
+}
+
+li {
+	padding-top: 0.1em;
+}
+
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
@@ -70,14 +79,14 @@ details[open] {
 }
 
 details[open] summary {
-	margin: 0.2em -0.6em;
-	padding: .4em 0.7em;
+	margin: 0.2em 0em;
+	padding: .4em 0.5em;
 }
 
 details[open] p {
-	margin-left: 1.22em;
+	margin-left: 0.1em;
 	margin-top: 0.2em;
-	margin-bottom: 0.7em;
+	margin-bottom: 0.6em;
 }
 
 ol, ul {
@@ -326,10 +335,12 @@ input, select, textarea {
 	}
 
 	blockquote {
-		border-left: groove 9px rgba(255, 142, 12, 0.96);
+		border-left: groove 7.25px rgba(221, 127, 5, 0.775);
+		border-radius: 0.38em;
+		margin-left: 0.8em;
+		margin-bottom: 0.4em;
+		padding-left: 0.85em;
 		font-style: italic;
-		margin: 0 0 1.8em 0;
-		padding: 0.6em 0 0.6em 1em;
 	}
 
 	code {
