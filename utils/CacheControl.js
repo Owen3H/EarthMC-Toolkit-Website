@@ -13,7 +13,7 @@ const Type = {
 
 class CacheControl {
     #headers = [30, 60]
-    #enabled = true
+    #enabled = false
 
     constructor(type=null) {
         this.set(type)
