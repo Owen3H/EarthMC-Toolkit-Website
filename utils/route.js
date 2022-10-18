@@ -39,9 +39,12 @@ async function serve(req, res, mapName = 'aurora') {
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br, gzip')
 
-                let [maxage, stale] = cc.get()
-                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)
-                console.log('Max age: ' + maxage)
+                let [maxAge, stale] = cc.get()
+                res.setHeader('Cache-Control', `s-maxage=${maxAge}, stale-while-revalidate=${stale}`)
+                console.log('Cache-Control: ' + {
+                    maxAge: maxAge,
+                    stale: stale
+                })
 
                 res.status(200).json(out)
             }
