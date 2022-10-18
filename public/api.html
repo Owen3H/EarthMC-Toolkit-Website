@@ -38,7 +38,7 @@
 									<h2>Quick Start <p class="major fas fa-bolt"></p></h2>
 									<p>For this example, we will use JavaScript combined with the
 										<a href="https://npmjs.com">Node Package Manager</a> to install a fetch package that will allow us to send <b>GET</b> requests.<br>
-										<br><blockquote>Note: To stop abuse, there is a rate limit of <b>28</b> requests per <b>16</b> seconds.</blockquote>
+										<blockquote>Note: To stop abuse, there is a rate limit of <b>10</b> requests per <b>8</b> seconds.</blockquote>
 										 1. Install a fetch package in your chosen language.</p>
 										<code>$ npm install node-fetch</code>
 										<br><br>2. Require/import the package.</p>
@@ -57,23 +57,29 @@ console.log(towns)
 
 							<!-- Lists -->
 								<section>
-									<h2>Endpoint Info</h2>
+									<h2>Usage</h2>
 									<body>
 										<section>
 											<p>This section provides all of the endpoints available for use, 
-											   note that for generic routes you will not need to pass in a map to the URL.
+											   note that for generic routes you don't need to specify a map.
 											</p>
 											<p>To begin, your URL to fetch must begin with the following:<code>https://emc-toolkit.vercel.app/api/</code><br>
 											   Then, one of the routes from the list below can be appended to create a full endpoint.</p>
-											<h3>Route List</h3>
+											<h3>List of Endpoints</h3>
 										  <article>
 											<details>
 											  <summary>Generic</summary>											  
 											  <details>
 												<summary>Server Info</summary>
-												<p>Route Name:<code>serverinfo</code>
+												<p>Endpoint:<code>serverinfo</code>
 													<br>Response: Object | Error string + 404
 													<br>Timeout (ms):<code>5000</code></p>	
+											  </details>
+											  <details>
+												<summary>Archive (Map Data)</summary>
+												<p>Endpoint:<code>archive/timestamp?map=mapName</code>
+													<br>Response: Object | Error 500
+													<br>Timeout (ms):<code>10000</code></p>	
 											  </details>
 											</details>
 											<details>
@@ -81,61 +87,61 @@ console.log(towns)
 											  <p>Replace the 'map' parameter with the map name.</p>
 											  <details>
 												<summary>All Players</summary>
-												<p>Route Name:<code>map/allplayers</code>
+												<p>Endpoint:<code>map/allplayers</code>
 												<br>Response: Array of players. (with custom data)
 												<br>Timeout (ms):<code>15000</code></p>
 											  </details>
 											  <details>
 												<summary>Online Players</summary>
-												<p>Route Name:<code>map/onlineplayers</code>
+												<p>Endpoint:<code>map/onlineplayers</code>
 												<br>Response: Array of online players.
 												<br>Timeout (ms):<code>5000</code></p>
 											  </details>
 											  <details>
 												<summary>Townless Players</summary>
-												<p>Route Name:<code>map/townlessplayers</code>
+												<p>Endpoint:<code>map/townlessplayers</code>
 												<br>Response: Array of townless players.
 												<br>Timeout (ms):<code>5000</code></p>
 											  </details>
 											  <details>
 												<summary>Residents</summary>
-												<p>Route Name:<code>map/residents</code>
+												<p>Endpoint:<code>map/residents</code>
 												<br>Response: Array of residents from all towns.
 												<br>Timeout (ms):<code>5000</code></p>
 											  </details>
 											  <details>
 												<summary>Towns</summary>
-												<p>Route Name:<code>map/towns</code>
+												<p>Endpoint:<code>map/towns</code>
 												<br>Response: Array of towns.
 												<br>Timeout (ms):<code>10000</code></p>
 												<details>
 													<summary>Joinable Nations</summary>
-													<p>Route Name:<code>map/towns/townName/joinable</code>
+													<p>Endpoint:<code>map/towns/townName/joinable</code>
 													<br>Response: Array of nations the specified town can join.
 													<br>Timeout (ms):<code>10000</code></p>
 												  </details>
 											  </details>
 											  <details>
 												<summary>Nations</summary>
-												<p>Route Name:<code>map/nations</code>
+												<p>Endpoint:<code>map/nations</code>
 												<br>Response: Array of nations.
 												<br>Timeout (ms):<code>30000</code></p>
 												<details>
 													<summary>Invitable Towns</summary>
-													<p>Route Name:<code>map/nations/nationName/invitable</code>
+													<p>Endpoint:<code>map/nations/nationName/invitable</code>
 													<br>Response: Array of towns within the nation's invite range.
 													<br>Timeout (ms):<code>10000</code></p>
 												</details>
 											  </details>
 											  <details>
 												<summary>Alliances</summary>
-												<p>Route Name:<code>map/alliances</code>
+												<p>Endpoint:<code>map/alliances</code>
 												<br>Response: Array of alliances. (Registered by our editors)
 												<br>Timeout (ms):<code>10000</code></p>
 											  </details>
 											  <details>
 												<summary>News</summary>
-												<p>Route Name:<code>map/news</code>
+												<p>Endpoint:<code>map/news</code>
 												<br>Response: Object with the latest news. (Reported in EMCL)
 												<br>Timeout (ms):<code>5000</code></p>
 											  </details>
@@ -143,19 +149,19 @@ console.log(towns)
 												<summary>Nearby</summary>											
 												<details>
 													<summary>Players</summary>
-													<p>Route Name:<code>map/nearbyplayers/xPos/zPos/xBlocks/zBlocks</code>
+													<p>Endpoint:<code>map/nearby/players/xPos/zPos/xBlocks/zBlocks</code>
 													<br>Response: Array of nearby players within at the specified position and radius.
 													<br>Timeout (ms):<code>5000</code></p>
 												  </details>
 												<details>
 													<summary>Towns</summary>
-													<p>Route Name:<code>map/nearbytowns/xPos/zPos/xBlocks/zBlocks/</code>
+													<p>Endpoint:<code>map/nearby/towns/xPos/zPos/xBlocks/zBlocks/</code>
 													<br>Response: Array of nearby towns within at the specified position and radius.
 													<br>Timeout (ms):<code>5000</code></p>
 												  </details>
 												<details>
 													<summary>Nations</summary>
-													<p>Route Name:<code>map/nearbynations/xPos/zPos/xBlocks/zBlocks</code>
+													<p>Endpoint:<code>map/nearby/nations/xPos/zPos/xBlocks/zBlocks</code>
 													<br>Response: Array of nearby nations within at the specified position and radius.
 													<br>Timeout (ms):<code>5000</code></p>
 												</details>
@@ -165,34 +171,6 @@ console.log(towns)
 									  
 										</section>
 									  </body>
-
-									<h2>Getting Data</h2>
-									<div class="row">
-										<div class="col-6 col-12-medium">
-											<h3>Get single object</h3>
-											<ul class="alt">
-												<li>Supported: <code>Town</code><code>Nation</code><code>Resident</code><code>Player</code><code>Alliance </code></li>
-												<li>Example code. Will return the object if valid, otherwise "Does not exist" string with status 404.</li>
-<pre><code>var player = await fetch('https://emc-toolkit.vercel.app/api/aurora/allplayers/playerName')
-		  	  .then(p => console.log(p)).catch(() => {})
-</code></pre>
-											<h3>Get array of objects</h3>
-												<li>Supported: <code>Town</code><code>Nation</code><code>Resident</code><code>Player</code><code>Alliance </code></li>
-											</ul>
-										</div>
-									</div>
-								</section>
-
-								<section>
-									<div class="col-6 col-12-medium" style="font-size: 22px;">
-										<h3>Links</h3>
-										<ul class="icons">
-											<li><a href="" class="icon brands fa-discord"><span class="label">Discord Support</span></a>
-											<li><a href="" class="icon brands fa-github"><span class="label">Github</span></a></li>
-										</ul>
-									</div>
-								</section>
-
 						</div>
 					</section>
 

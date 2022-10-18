@@ -33,8 +33,8 @@ p.error-centered {
 }
 
 p {
-	padding-bottom: 0.35em;
-	padding-top: 0.15em;
+	padding-bottom: 0.5em;
+	padding-top: 0.35em;
 }
 
 li {
@@ -231,7 +231,7 @@ input, select, textarea {
 	}
 
 	p {
-		margin: 0.4em 0 0 0;
+		margin: -0.35em 0em 0em 0em;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
@@ -338,7 +338,7 @@ input, select, textarea {
 		border-left: groove 7.25px rgba(221, 127, 5, 0.775);
 		border-radius: 0.38em;
 		margin-left: 0.8em;
-		margin-bottom: 0.4em;
+		margin: 0.2em 0em 1em 0em;
 		padding-left: 0.85em;
 		font-style: italic;
 	}

@@ -15,14 +15,17 @@ async function getData(query) {
         case 'serverinfo': return await getServerInfo()
         case 'archive': {
             endpoint.useArchive(ts)
-            return await endpoint.mapData(map).then(data => { endpoint.useArchive(false); return data })
+            return await endpoint.mapData(map).then(data => { 
+                endpoint.useArchive(false)
+                return data
+            })
         }
         default: return null
     }
 }
 
 async function serve(req, res) {
-    try { await limiter.check(res, 6, getIP(req)) } 
+    try { await limiter.check(res, 5, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let out = await getData(req.query)   

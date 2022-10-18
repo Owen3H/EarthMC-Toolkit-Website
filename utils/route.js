@@ -5,8 +5,8 @@ const { Aurora, Nova } = require("earthmc"),
 var arg = index => args[index]?.toLowerCase() ?? null,
     args = []
 
-const rateLimit = require('./rate-limit.ts').default,
-      limiter = rateLimit({ interval: 6 * 1000 })
+const rateLimit = require('./rate-limit').default,
+      limiter = rateLimit({ interval: 8*1000 })
 
 const getIP = req =>
     req.ip || req.headers['x-real-ip'] ||
@@ -17,7 +17,7 @@ const getIP = req =>
 var cc = new CacheControl()
 
 async function serve(req, res, mapName = 'aurora') {
-    try { await limiter.check(res, 8, getIP(req)) } 
+    try { await limiter.check(res, 10, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let { params } = req.query,
@@ -149,35 +149,31 @@ const set = async (map, req, params) => {
     if (authKey != process.env.AUTH_KEY) return 'no-auth'
     if (!body || Object.keys(body).length < 1) return null
 
-    let mapName = map == Nova ? 'nova' : 'aurora'
+    let out = {}
     switch(dataType) {
         case 'allplayers': {
-            var allPlayers = await map.getAllPlayers().catch(() => {})
+            let allPlayers = await map.getAllPlayers().catch(() => {})
             if (!allPlayers) return 'fetch-error'
 
-            const mergeByName = (pArr, req) => pArr.map(p => ({ ...req.find(e => (e.name === p.name) && e), ...p })),
-                  merged = mergeByName(allPlayers, body)
-
-            cache.put(`${mapName}_allplayers`, merged)
-            return merged
+            out = mergeByName(allPlayers, body)
         }
-        case 'alliances': {
-            console.log('setting alliances - ' + body)
-
-            cache.put(`${mapName}_alliances`, body)
-            return body
-        }
-        case 'news': {
-            cache.put(`${mapName}_news`, body)
-            return body
-        }
-        default: return null
+        case 'alliances':
+        case 'news': out = body
+        default: out = null
     }
+
+    if (out) {
+        let mapName = map == Nova ? 'nova' : 'aurora'
+        cache.put(`${mapName}_${dataType}`, out)
+    }
+    
+    return out
 }
 
+const mergeByName = (pArr, req) => pArr.map(p => ({ ...req.find(e => (e.name === p.name) && e), ...p })) 
 const validParam = param => {
     let arr = ['invitable', 'joinable', 'towns', 'nations', 'players', 'pact', 'sub', 'normal']
-    return arr.includes(param) ? null : `Parameter ${param} not recognized.`
+    return arr.includes(param) ? null : `Parameter '${param}' not recognized.`
 }
 
 function runMiddleware(req, res, fn) {

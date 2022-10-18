@@ -6,7 +6,7 @@ type Options = {
   interval?: number
 }
 
-export default function rateLimit(options?: Options) {
+function rateLimit(options?: Options) {
   const tokenCache = new LRU({
     max: options?.uniqueTokenPerInterval || 500,
     ttl: options?.interval || 60000,
@@ -30,3 +30,5 @@ export default function rateLimit(options?: Options) {
     })
   }
 }
+
+export default rateLimit
