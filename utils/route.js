@@ -13,7 +13,6 @@ const getIP = req =>
     req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress
 
-// Create new cache control instance with default age & stale.
 var cc = new CacheControl()
 
 async function serve(req, res, mapName = 'aurora') {
@@ -42,6 +41,7 @@ async function serve(req, res, mapName = 'aurora') {
 
                 let [maxage, stale] = cc.get()
                 res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)
+                console.log('Max age: ' + maxage)
 
                 res.status(200).json(out)
             }

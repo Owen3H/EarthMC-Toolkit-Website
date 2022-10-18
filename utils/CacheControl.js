@@ -1,7 +1,7 @@
 const Type = {
     Alliances: [140, 170],
-    Towns: [60, 120],
-    Nations: [60, 120],
+    Towns: [120, 180],
+    Nations: [120, 180],
     Residents: [30, 60],
     News: [20, 60],
     Nearby: {
@@ -12,18 +12,18 @@ const Type = {
 }
 
 class CacheControl {
-    #headers = []
-    #enabled = false
+    #headers = [30, 60]
+    #enabled = true
 
-    constructor(type) {
+    constructor(type=null) {
         this.set(type)
     }
 
     reset = () => this.#enabled = false
     get = () => this.#enabled ? this.#headers : [1, 5]
     set = type => {
-        this.#headers = type ?? [30, 60]
         this.#enabled = true
+        this.#headers = type ?? [30, 60]
     }
 }
 
