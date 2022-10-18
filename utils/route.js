@@ -44,7 +44,7 @@ async function serve(req, res, mapName = 'aurora') {
                 console.log('Cache-Control: ' + {
                     maxAge: maxAge,
                     stale: stale
-                })
+                }.toString())
 
                 res.status(200).json(out)
             }
