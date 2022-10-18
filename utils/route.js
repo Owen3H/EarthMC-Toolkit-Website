@@ -41,10 +41,10 @@ async function serve(req, res, mapName = 'aurora') {
 
                 let [maxAge, stale] = cc.get()
                 res.setHeader('Cache-Control', `s-maxage=${maxAge}, stale-while-revalidate=${stale}`)
-                console.log('Cache-Control: ' + {
+                console.log('Cache-Control: ' + JSON.stringify({
                     maxAge: maxAge,
                     stale: stale
-                }.toString())
+                }))
 
                 res.status(200).json(out)
             }
