@@ -41,7 +41,7 @@ async function serve(req, res, mapName = 'aurora') {
                 res.setHeader('Accept-Encoding', 'br, gzip')
 
                 let [maxage, stale] = cc.get()
-                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}, stale-if-error=${stale}`)
+                res.setHeader('Cache-Control', `s-maxage=${maxage}, stale-while-revalidate=${stale}`)
 
                 res.status(200).json(out)
             }
@@ -149,17 +149,21 @@ const set = async (map, req, params) => {
     if (authKey != process.env.AUTH_KEY) return 'no-auth'
     if (!body || Object.keys(body).length < 1) return null
 
-    let out = {}
+    let out = null
     switch(dataType) {
         case 'allplayers': {
             let allPlayers = await map.getAllPlayers().catch(() => {})
             if (!allPlayers) return 'fetch-error'
 
             out = mergeByName(allPlayers, body)
+            break
         }
         case 'alliances':
-        case 'news': out = body
-        default: out = null
+        case 'news': {
+            out = body
+            break
+        }
+        default: return out
     }
 
     if (out) {
