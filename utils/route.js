@@ -152,29 +152,23 @@ const set = async (map, req, params) => {
     if (authKey != process.env.AUTH_KEY) return 'no-auth'
     if (!body || Object.keys(body).length < 1) return null
 
-    let out = null
+    let mapName = map == Nova ? 'nova' : 'aurora',
+        out = null
+
     switch(dataType) {
         case 'allplayers': {
             let allPlayers = await map.getAllPlayers().catch(() => {})
             if (!allPlayers) return 'fetch-error'
 
             out = mergeByName(allPlayers, body)
-            break
+            cache.put(`${mapName}_${dataType}`, out)
+
+            return out
         }
         case 'alliances':
-        case 'news': {
-            out = body
-            break
-        }
+        case 'news': out = body
         default: return out
     }
-
-    if (out) {
-        let mapName = map == Nova ? 'nova' : 'aurora'
-        cache.put(`${mapName}_${dataType}`, out)
-    }
-    
-    return out
 }
 
 const mergeByName = (pArr, req) => pArr.map(p => ({ ...req.find(e => (e.name === p.name) && e), ...p })) 
