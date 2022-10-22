@@ -161,14 +161,13 @@ const set = async (map, req, params) => {
             if (!allPlayers) return 'fetch-error'
 
             out = mergeByName(allPlayers, body)
-            cache.put(`${mapName}_${dataType}`, out)
-
-            return out
         }
         case 'alliances':
         case 'news': out = body
-        default: return out
     }
+
+    if (out) cache.put(`${mapName}_${dataType}`, out)
+    return out
 }
 
 const mergeByName = (pArr, req) => pArr.map(p => ({ ...req.find(e => (e.name === p.name) && e), ...p })) 
