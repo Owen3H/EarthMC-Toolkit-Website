@@ -12,10 +12,10 @@ async function handler(req, res) {
 }
 
 export default handler
-// export const config = {
-//     api: {
-//         bodyParser: {
-//             sizeLimit: '4mb'
-//         }
-//     }
-// }
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '4mb'
+        }
+    }
+}
