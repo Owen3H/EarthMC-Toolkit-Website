@@ -41,10 +41,6 @@ async function serve(req, res, mapName = 'aurora') {
 
                 let [maxAge, stale] = cc.get()
                 res.setHeader('Cache-Control', `s-maxage=${maxAge}, stale-while-revalidate=${stale}`)
-                console.log('Cache-Control: ' + JSON.stringify({
-                    maxAge: maxAge,
-                    stale: stale
-                }))
 
                 res.status(200).json(out)
             }
@@ -53,7 +49,7 @@ async function serve(req, res, mapName = 'aurora') {
 }
 
 const get = async (params, map) => {
-    cc.reset() // Reset headers to default -> [1, 5]
+    cc.reset() // Reset headers to default -> [30, 60]
 
     args = params.slice(1) // Start from param after data type.
     const [dataType] = params,
@@ -135,12 +131,18 @@ const get = async (params, map) => {
             return player ?? "That player does not exist!"
         }
         case 'townless':
-        case 'townlessplayers': return await map.getTownless() ?? 'fetch-error'
+        case 'townlessplayers': {
+            cc.disable()
+            return await map.getTownless() ?? 'fetch-error'
+        }
+        case 'onlineplayers': {
+            cc.disable()
+            return single ? await map.getOnlinePlayer(single) : await map.getOnlinePlayers(true)
+        }
         case 'residents': {
-            cc.set(CacheType.Residents)
+            cc.set(CacheType.Towns)
             return single ? await map.getResident(single) : await map.getResidents()
         }
-        case 'onlineplayers': return single ? await map.getOnlinePlayer(single) : await map.getOnlinePlayers(true)
         default: return `Parameter ${dataType} not recognized.`
     }
 }
