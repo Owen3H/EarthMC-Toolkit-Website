@@ -42,6 +42,8 @@ async function serve(req, res, mapName = 'aurora') {
                 let [maxAge, stale] = cc.get()
                 res.setHeader('Cache-Control', `s-maxage=${maxAge}, stale-while-revalidate=${stale}`)
 
+                console.log(`Max age: ${maxAge}\nStale: ${stale}`)
+
                 res.status(200).json(out)
             }
         }
@@ -126,6 +128,8 @@ const get = async (params, map) => {
             let cachedPlayers = cache.get(`${mapName}_allplayers`)
             if (!cachedPlayers) return 'cache-miss'
             if (!single) return cachedPlayers
+
+            cc.set([60, 120])
 
             const player = cachedPlayers.find(p => p.name.toLowerCase() == single)
             return player ?? "That player does not exist!"
