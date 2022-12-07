@@ -44,6 +44,8 @@ async function serve(req, res, mapName = 'aurora') {
                 res.setHeader('Cache-Control', `s-maxage=${maxAge}, stale-while-revalidate=${stale}`)
 
                 console.log(`Max age: ${maxAge}\nStale: ${stale}`)
+                console.log(`Actual: ${res.getHeader('Cache-Control')}`)
+
                 res.status(200).json(out)
             }
         }
