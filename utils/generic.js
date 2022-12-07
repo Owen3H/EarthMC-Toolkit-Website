@@ -34,7 +34,7 @@ async function serve(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Content-Type', 'application/json')
     res.setHeader('Accept-Encoding', 'br, gzip')
-    //res.setHeader('Cache-Control', `s-maxage=1, stale-while-revalidate=4`)   
+    res.setHeader('Cache-Control', `s-maxage=1, stale-while-revalidate=5`)   
     
     res.status(200).json(out)
 }

@@ -36,6 +36,7 @@ async function serve(req, res, mapName = 'aurora') {
         default: {
             if (typeof out == 'string' && out.includes('does not exist')) res.status(404).json(out)
             else {
+                res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br, gzip')
 
@@ -43,7 +44,6 @@ async function serve(req, res, mapName = 'aurora') {
                 res.setHeader('Cache-Control', `s-maxage=${maxAge}, stale-while-revalidate=${stale}`)
 
                 console.log(`Max age: ${maxAge}\nStale: ${stale}`)
-
                 res.status(200).json(out)
             }
         }
