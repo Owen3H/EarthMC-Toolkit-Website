@@ -18,7 +18,7 @@ class CacheControl {
         this.set(type)
     }
 
-    get = () => this.#enabled ? this.#headers : [1, 5]
+    get = () => this.#enabled ? this.#headers : [1, 3]
     set = type => {
         this.#enabled = true
         this.#headers = type ?? [30, 60]
