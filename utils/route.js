@@ -46,7 +46,7 @@ async function serve(req, res, mapName = 'aurora') {
                 console.log(`Max age: ${maxAge}\nStale: ${stale}`)
                 console.log(`Actual: ${res.getHeader('Cache-Control')}`)
 
-                res.status(200).json(out)
+                res.json(out)
             }
         }
     }
