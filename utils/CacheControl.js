@@ -24,6 +24,7 @@ class CacheControl {
         this.#headers = type ?? [30, 60]
     }
 
+    enabled = () => this.#enabled
     disable = () => this.#enabled = false
     reset = () => this.set(null)
 }

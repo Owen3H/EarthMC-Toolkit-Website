@@ -25,8 +25,7 @@ async function serve(req, res, mapName = 'aurora') {
     console.log(`Receiving ${req.method} request for ${mapName}`)
 
     let out = req.method == 'POST' || req.method == 'PUT'
-            ? await set(map, req, params)
-            : await get(params, map)
+            ? await set(map, req, params) : await get(params, map)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
     switch(out) {
@@ -40,13 +39,15 @@ async function serve(req, res, mapName = 'aurora') {
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br, gzip')
 
-                let [maxAge, stale] = cc.get()
-                res.setHeader('Cache-Control', `s-maxage=${maxAge}, stale-while-revalidate=${stale}`)
+                //let [maxAge, stale] = cc.get()
 
-                console.log(`Max age: ${maxAge}\nStale: ${stale}`)
-                console.log(`Actual: ${res.getHeader('Cache-Control')}`)
+                if (cc.enabled()) 
+                    res.setHeader('Cache-Control', `s-maxage=30, stale-while-revalidate=60`)
 
-                res.json(out)
+                //console.log(`Max age: ${maxAge}\nStale: ${stale}`)
+                console.log(`Real CC: ${res.getHeader('Cache-Control')}`)
+
+                res.status(200).json(out)
             }
         }
     }
