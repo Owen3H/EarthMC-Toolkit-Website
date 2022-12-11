@@ -13,7 +13,7 @@ const getIP = req =>
     req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress
 
-var cc = new CacheControl()
+//var cc = new CacheControl()
 
 async function serve(req, res, mapName = 'aurora') {
     try { await limiter.check(res, 10, getIP(req)) } 
@@ -39,11 +39,11 @@ async function serve(req, res, mapName = 'aurora') {
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br, gzip')
 
-                let [maxAge, stale] = cc.get()
-                res.setHeader('Cache-Control', `s-maxage=${maxAge}, stale-while-revalidate=${stale}`)
+                //let [maxAge, stale] = cc.get()
+                //res.setHeader('Cache-Control', `s-maxage=${maxAge}, stale-while-revalidate=${stale}`)
 
                 //console.log(`Max age: ${maxAge}\nStale: ${stale}`)
-                console.log(`CC: ${res.getHeader('Cache-Control')}`)
+                //console.log(`CC: ${res.getHeader('Cache-Control')}`)
 
                 res.status(200).json(out)
             }
@@ -52,7 +52,7 @@ async function serve(req, res, mapName = 'aurora') {
 }
 
 const get = async (params, map) => {
-    cc.reset() // Reset headers to default -> [30, 60]
+    //cc.reset() // Reset headers to default -> [30, 60]
 
     args = params.slice(1) // Start from param after data type.
     const [dataType] = params,
@@ -61,7 +61,7 @@ const get = async (params, map) => {
 
     switch(dataType.toLowerCase()) {
         case 'towns': {
-            cc.set(CacheType.Towns)
+            //cc.set(CacheType.Towns)
 
             if (!single) return await map.getTowns()
             if (!filter) return await map.getTown(single)
@@ -69,7 +69,7 @@ const get = async (params, map) => {
             return validParam(filter) ?? await map.getJoinableNations(single)
         }
         case 'nations': {
-            cc.set(CacheType.Nations)
+            //cc.set(CacheType.Nations)
 
             if (!single) return await map.getNations()
             if (!filter) return await map.getNation(single)
@@ -88,16 +88,16 @@ const get = async (params, map) => {
 
             switch (single) {
                 case 'towns': {
-                    cc.set(CacheType.Nearby.Towns)
+                    //cc.set(CacheType.Nearby.Towns)
                     return await map.getNearbyTowns(...inputs) 
                 }
                 case 'nations': {
-                    cc.set(CacheType.Nearby.Nations)
+                    //cc.set(CacheType.Nearby.Nations)
                     return await map.getNearbyNations(...inputs)
                 }
                 case 'players':
                 default: {
-                    cc.set(CacheType.Nearby.Players)
+                    //cc.set(CacheType.Nearby.Players)
                     return await map.getNearbyPlayers(...inputs)
                 }
             }
@@ -106,14 +106,14 @@ const get = async (params, map) => {
             let news = cache.get(`${mapName}_news`)
             if (!news) return 'cache-miss'
 
-            cc.set(CacheType.News)
+            //cc.set(CacheType.News)
             return !single ? news : news.all.filter(n => n.message.toLowerCase().includes(single))
         }
         case 'alliances': {
             let alliances = cache.get(`${mapName}_alliances`)
             if (!alliances) return 'cache-miss'
 
-            cc.set(CacheType.Alliances)
+            //cc.set(CacheType.Alliances)
 
             switch (single) {
                 case "submeganations":
@@ -130,22 +130,22 @@ const get = async (params, map) => {
             if (!cachedPlayers) return 'cache-miss'
             if (!single) return cachedPlayers
 
-            cc.set([60, 120])
+            //cc.set([60, 120])
 
             const player = cachedPlayers.find(p => p.name.toLowerCase() == single)
             return player ?? "That player does not exist!"
         }
         case 'townless':
         case 'townlessplayers': {
-            cc.disable()
+            //cc.disable()
             return await map.getTownless() ?? 'fetch-error'
         }
         case 'onlineplayers': {
-            cc.disable()
+            //cc.disable()
             return single ? await map.getOnlinePlayer(single) : await map.getOnlinePlayers(true)
         }
         case 'residents': {
-            cc.set(CacheType.Towns)
+            //cc.set(CacheType.Towns)
             return single ? await map.getResident(single) : await map.getResidents()
         }
         default: return `Parameter ${dataType} not recognized.`
