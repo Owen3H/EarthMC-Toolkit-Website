@@ -1,6 +1,6 @@
 const { Aurora, Nova } = require("earthmc"),
-      cache = require("memory-cache"),
-      { CacheControl, CacheType } = require("./CacheControl")
+      cache = require("memory-cache")//,
+      //{ CacheControl, CacheType } = require("./CacheControl")
 
 var arg = index => args[index]?.toLowerCase() ?? null,
     args = []
