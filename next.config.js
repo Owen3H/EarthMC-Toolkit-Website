@@ -44,13 +44,13 @@ const auroraHeaders = [{
     source: "/api/aurora/allplayers",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=60, stale-while-revalidate=120"}]
+      value: "s-maxage=90, stale-while-revalidate=150"}]
   },
   {
     source: "/api/aurora/allplayers/:playerName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=60, stale-while-revalidate=120"}]
+      value: "s-maxage=90, stale-while-revalidate=150"}]
   },
   {
     source: "/api/aurora/nearby/towns/:inputs*",
@@ -74,25 +74,25 @@ const auroraHeaders = [{
     source: "/api/aurora/onlineplayers",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=2, stale-while-revalidate=5"}]
+      value: "s-maxage=3, stale-while-revalidate=6"}]
   },
   {
     source: "/api/aurora/onlineplayers/:playerName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=2, stale-while-revalidate=5"}]
+      value: "s-maxage=3, stale-while-revalidate=6"}]
   },
   {
     source: "/api/aurora/townless",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=2, stale-while-revalidate=5"}]
+      value: "s-maxage=10, stale-while-revalidate=60"}]
   },  
   {
     source: "/api/aurora/townlessplayers",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=2, stale-while-revalidate=5"}]
+      value: "s-maxage=10, stale-while-revalidate=60"}]
   },
   {
     source: "/api/aurora/residents",

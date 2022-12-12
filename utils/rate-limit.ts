@@ -9,7 +9,7 @@ type Options = {
 function rateLimit(options?: Options) {
   const tokenCache = new LRU({
     max: options?.uniqueTokenPerInterval || 500,
-    ttl: options?.interval || 60000,
+    ttl: options?.interval || 20000
   })
 
   return {
