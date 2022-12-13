@@ -1,8 +1,8 @@
 const auroraHeaders = [{
-  source: "/api/aurora/towns",
-  headers: [{
-    key: "Cache-Control",
-    value: "s-maxage=120, stale-while-revalidate=180"}]
+    source: "/api/aurora/towns",
+    headers: [{
+      key: "Cache-Control",
+      value: "s-maxage=120, stale-while-revalidate=180"}]
   },
   {
     source: "/api/aurora/towns/:townName",
@@ -105,7 +105,7 @@ const auroraHeaders = [{
     headers: [{
       key: "Cache-Control",
       value: "s-maxage=120, stale-while-revalidate=180"}]
-  },
+  }
 ]
 
 /** @type {import('next').NextConfig} */
