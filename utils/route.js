@@ -1,14 +1,13 @@
+
 const { Aurora, Nova } = require("earthmc"),
+      Map = require("earthmc/src/Map"),
       cache = require("memory-cache")
 
 var arg = index => args[index]?.toLowerCase() ?? null,
     args = []
 
 const rateLimit = require('./rate-limit.ts').default
-const limiter = rateLimit({ 
-    interval: 7*1000, 
-    uniqueTokenPerInterval: 200
-})
+const limiter = rateLimit({ interval: 7*1000 })
 
 const getIP = req =>
     req.ip || req.headers['x-real-ip'] ||
@@ -22,7 +21,7 @@ async function serve(req, res, mapName = 'aurora') {
     let { params } = req.query,
         map = mapName == 'nova' ? Nova : Aurora
     
-    console.log(`Receiving ${req.method} request for ${mapName}`)
+    console.log(`${req.method} request invoked on map: ${mapName}`)
 
     let out = req.method == 'POST' || req.method == 'PUT'
             ? await set(map, req, params) : await get(params, map)
@@ -45,6 +44,10 @@ async function serve(req, res, mapName = 'aurora') {
     }
 }
 
+/**
+* @param {String[]} params 
+* @param {Map} map 
+*/
 const get = async (params, map) => {
     args = params.slice(1) // Start from param after data type.
     const [dataType] = params,
@@ -53,16 +56,16 @@ const get = async (params, map) => {
 
     switch(dataType.toLowerCase()) {
         case 'towns': {
-            if (!single) return await map.getTowns()
-            if (!filter) return await map.getTown(single)
+            if (!single) return await map.Towns.all()
+            if (!filter) return await map.Towns.get(single)
 
-            return validParam(filter) ?? await map.getJoinableNations(single)
+            return validParam(filter) ?? await map.Nations.joinable(single)
         }
         case 'nations': {
-            if (!single) return await map.getNations()
-            if (!filter) return await map.getNation(single)
+            if (!single) return await map.Nations.all()
+            if (!filter) return await map.Nations.get(single)
 
-            return validParam(filter) ?? await map.getInvitableTowns(single, false)
+            return validParam(filter) ?? await map.Towns.invitable(single, false)
         }
         case 'nearby': {
             if (args.length < 4) return 'Not enough arguments specified! Refer to the documentation.'
@@ -70,15 +73,14 @@ const get = async (params, map) => {
             let type = validParam(single)
             if (type) return type
 
-            let inputs = [
-                args[1], args[2], 
-                args[3], args[4] ?? args[3]]
+            let optional = args[4] ?? args[3],
+                inputs = [args[1], args[2], args[3], optional]
 
             switch (single) {
-                case 'towns': return await map.getNearbyTowns(...inputs)
-                case 'nations': return await map.getNearbyNations(...inputs)
+                case 'towns': return await map.Towns.nearby(...inputs)
+                case 'nations': return await map.Nations.nearby(...inputs)
                 case 'players':
-                default: return await map.getNearbyPlayers(...inputs)
+                default: return await map.Players.nearby(...inputs)
             }
         }
         case 'news': {
@@ -110,13 +112,17 @@ const get = async (params, map) => {
             return player ?? "That player does not exist!"
         }
         case 'townless':
-        case 'townlessplayers': return await map.getTownless() ?? 'fetch-error'
-        case 'onlineplayers': return single ? await map.getOnlinePlayer(single) : await map.getOnlinePlayers(true)
-        case 'residents': return single ? await map.getResident(single) : await map.getResidents()
+        case 'townlessplayers': return await map.Players.townless() ?? 'fetch-error'
+        case 'onlineplayers': return single ? await map.Players.get(single) : await map.Players.online(true)
+        case 'residents': return single ? await map.Residents.get(single) : await map.Residents.all()
         default: return `Parameter ${dataType} not recognized.`
     }
 }
 
+/**
+* @param {String[]} params 
+* @param {Map} map 
+*/
 const set = async (map, req, params) => {
     let authKey = req.headers['authorization'],
         body = req.body, [dataType] = params
@@ -129,7 +135,7 @@ const set = async (map, req, params) => {
 
     switch(dataType) {
         case 'allplayers': {
-            let allPlayers = await map.getAllPlayers().catch(() => {})
+            let allPlayers = await map.Players.all().catch(() => {})
             if (!allPlayers) return 'fetch-error'
 
             out = mergeByName(allPlayers, body)
