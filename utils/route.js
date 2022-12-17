@@ -136,16 +136,13 @@ const set = async (map, req, params) => {
     switch(dataType) {
         case 'allplayers': {
             let allPlayers = await map.Players.all().catch(e => console.log(e))
-            if (!allPlayers) return 'fetch-error'
+            if (!allPlayers || allPlayers.length < 1) return 'fetch-error'
 
             console.log(allPlayers.length)
-            console.log(body)
+            //console.log(body)
 
-            console.time('merge')
             out = mergeByName(allPlayers, body)
-            console.timeEnd('merge')
-
-            console.log(`Amount: ${out.length}`)
+            console.log(`Merged length: ${out.length}`)
 
             break
         }
