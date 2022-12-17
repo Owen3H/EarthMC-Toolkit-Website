@@ -153,7 +153,16 @@ const set = async (map, req, params) => {
 
 const mergeCustomInfo = (arr, body) => {
     console.log('Arr length: ' + arr.length + '\nBody length: ' + body.length)
-    return arr.map(p => ({ ...p, ...body.find(cp => cp.name == p.name) }))
+
+    return arr.map(p => {
+        // Cant find custom info, just return them.
+        let found = body.find(cp => cp.name == p.name)
+        
+        if (found?.discord) p.discord = found.discord
+        if (found?.lastOnline) p.lastOnline = found.lastOnline
+
+        return p
+    })
 }
 
 const validParam = param => {
