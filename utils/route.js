@@ -154,7 +154,7 @@ const set = async (map, req, params) => {
 const mergeCustomInfo = (arr, body) => {
     console.log('Arr length: ' + arr.length + '\nBody length: ' + body.length)
 
-    return arr.map(p => {
+    arr.forEach(p => {
         // Cant find custom info, just return them.
         let found = body.find(cp => cp.name == p.name)
         
@@ -163,6 +163,8 @@ const mergeCustomInfo = (arr, body) => {
 
         return p
     })
+
+    return arr
 }
 
 const validParam = param => {
