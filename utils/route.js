@@ -143,6 +143,10 @@ const set = async (map, req, params) => {
             console.time('merge')
             out = mergeByName(allPlayers, body)
             console.timeEnd('merge')
+
+            console.log(`Amount: ${out.length}`)
+
+            break
         }
         case 'alliances':
         case 'news': out = body
