@@ -138,10 +138,7 @@ const set = async (map, req, params) => {
             let allPlayers = await map.Players.all().catch(e => console.log(e))
             if (!allPlayers || allPlayers.length < 1) return 'fetch-error'
 
-            console.log(allPlayers.length)
-            //console.log(body)
-
-            out = mergeByName(allPlayers, body)
+            out = mergeCustomInfo(allPlayers, body)
             console.log(`Merged length: ${out.length}`)
 
             break
@@ -154,7 +151,11 @@ const set = async (map, req, params) => {
     return out
 }
 
-const mergeByName = (pArr, req) => pArr.map(p => ({ ...req.find(e => (e.name === p.name) && e), ...p })) 
+const mergeCustomInfo = (arr, body) => {
+    console.log('Arr length: ' + arr.length + '\nBody length: ' + body.length)
+    return arr.map(p => ({ ...p, ...body.find(cp => cp.name == p.name) }))
+}
+
 const validParam = param => {
     let arr = ['invitable', 'joinable', 'towns', 'nations', 'players', 'pact', 'sub', 'normal']
     return arr.includes(param) ? null : `Parameter '${param}' not recognized.`
