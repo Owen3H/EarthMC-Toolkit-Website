@@ -160,8 +160,6 @@ const mergeCustomInfo = (arr, body) => {
         
         if (found?.discord) p.discord = found.discord
         if (found?.lastOnline) p.lastOnline = found.lastOnline
-
-        return p
     })
 
     return arr
