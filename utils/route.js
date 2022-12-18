@@ -151,20 +151,9 @@ const set = async (map, req, params) => {
     return out
 }
 
-const cleanObj = obj => Object.entries(obj).reduce((a,[k,v]) => (v == null ? a : (a[k]=v, a)), {})
-
+const cleanObj = obj => Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null))
 const mergeCustomInfo = (arr, body) => {
-    console.log('Arr length: ' + arr.length + '\nBody length: ' + body.length)
-
-    //let i = 0, len = body.length
-    //for (i; i < len; i++) {
-    //     // Cant find custom info, just return them.
-    //     let found = body.find(cp => cp.name == p.name)
-        
-    //     if (found?.discord) p.discord = found.discord
-    //     if (found?.lastOnline) p.lastOnline = found.lastOnline   
-    //}
-
+    //console.log('Arr length: ' + arr.length + '\nBody length: ' + body.length)
     console.time('mergeCustomInfo')
 
     // Merge both arrays based on 'name' key.
@@ -175,7 +164,7 @@ const mergeCustomInfo = (arr, body) => {
 
     // Remove all keys containing null/undefined values.
     let i = 0, len = merged.length
-    for (i; i < len; i++) cleanObj(merged[i])
+    for (i; i < len; i++) merged[i] = cleanObj(merged[i])
     
     console.timeEnd('mergeCustomInfo')
     return merged
