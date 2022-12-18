@@ -149,7 +149,7 @@ const set = async (map, req, params) => {
     return out
 }
 
-Object.prototype.clean = () => Object.entries(this).reduce((a,[k,v]) => (v == null ? a : (a[k]=v, a)), {})
+const cleanObj = obj => Object.entries(obj).reduce((a,[k,v]) => (v == null ? a : (a[k]=v, a)), {})
 
 const mergeCustomInfo = (arr, body) => {
     console.log('Arr length: ' + arr.length + '\nBody length: ' + body.length)
@@ -173,9 +173,9 @@ const mergeCustomInfo = (arr, body) => {
 
     // Remove all keys containing null/undefined values.
     let i = 0, len = merged.length
-    for (i; i < len; i++) merged[i].clean()
+    for (i; i < len; i++) cleanObj(merged[i])
+    
     console.timeEnd('mergeCustomInfo')
-
     return merged
 }
 
