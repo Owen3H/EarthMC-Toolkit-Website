@@ -6,12 +6,12 @@
             "maxDuration": 5
         },
         "pages/api/aurora/*.js": {
-            "memory": 600,
-            "maxDuration": 10
+            "memory": 1024,
+            "maxDuration": 8
         },
         "pages/api/nova/*.js": {
-            "memory": 400,
-            "maxDuration": 7
+            "memory": 512,
+            "maxDuration": 6
         }
     }
 }
