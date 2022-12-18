@@ -140,6 +140,8 @@ const set = async (map, req, params) => {
 
             out = mergeCustomInfo(allPlayers, body)
             console.log(`Merged length: ${out.length}`)
+
+            break
         }
         case 'alliances':
         case 'news': out = body
