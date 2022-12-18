@@ -1,6 +1,6 @@
 
 const { Aurora, Nova } = require("earthmc"),
-      Map = require("earthmc/src/Map"),
+      EMCMap = require("earthmc/src/Map"),
       cache = require("memory-cache")
 
 var arg = index => args[index]?.toLowerCase() ?? null,
@@ -46,7 +46,7 @@ async function serve(req, res, mapName = 'aurora') {
 
 /**
 * @param {String[]} params 
-* @param {Map} map 
+* @param {EMCMap} map 
 */
 const get = async (params, map) => {
     args = params.slice(1) // Start from param after data type.
@@ -121,7 +121,7 @@ const get = async (params, map) => {
 
 /**
 * @param {String[]} params 
-* @param {Map} map 
+* @param {EMCMap} map 
 */
 const set = async (map, req, params) => {
     let authKey = req.headers['authorization'],
@@ -140,8 +140,6 @@ const set = async (map, req, params) => {
 
             out = mergeCustomInfo(allPlayers, body)
             console.log(`Merged length: ${out.length}`)
-
-            break
         }
         case 'alliances':
         case 'news': out = body
@@ -151,18 +149,34 @@ const set = async (map, req, params) => {
     return out
 }
 
+Object.prototype.clean = () => Object.entries(this).reduce((a,[k,v]) => (v == null ? a : (a[k]=v, a)), {})
+
 const mergeCustomInfo = (arr, body) => {
     console.log('Arr length: ' + arr.length + '\nBody length: ' + body.length)
 
-    arr.forEach(p => {
-        // Cant find custom info, just return them.
-        let found = body.find(cp => cp.name == p.name)
+    //let i = 0, len = body.length
+    //for (i; i < len; i++) {
+    //     // Cant find custom info, just return them.
+    //     let found = body.find(cp => cp.name == p.name)
         
-        if (found?.discord) p.discord = found.discord
-        if (found?.lastOnline) p.lastOnline = found.lastOnline
-    })
+    //     if (found?.discord) p.discord = found.discord
+    //     if (found?.lastOnline) p.lastOnline = found.lastOnline   
+    //}
 
-    return arr
+    console.time('mergeCustomInfo')
+
+    // Merge both arrays based on 'name' key.
+    const map = new Map()
+    arr.forEach(p => map.set(p.name, p))
+    body.forEach(p => map.set(p.name, { ...map.get(p.name), ...p }))
+    let merged = Array.from(map.values())
+
+    // Remove all keys containing null/undefined values.
+    let i = 0, len = merged.length
+    for (i; i < len; i++) merged[i].clean()
+    console.timeEnd('mergeCustomInfo')
+
+    return merged
 }
 
 const validParam = param => {
