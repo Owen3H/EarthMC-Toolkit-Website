@@ -136,11 +136,10 @@ const set = async (map, req, params) => {
     switch(dataType) {
         case 'allplayers': {
             let allPlayers = await map.Players.all().catch(e => console.log(e))
-            if (!allPlayers || allPlayers.length < 1) return 'fetch-error'
+            if (!allPlayers || allPlayers.length < 1) 
+                return cache.get(`${mapName}_allplayers`) ?? 'fetch-error'
 
             out = mergeCustomInfo(allPlayers, body)
-            console.log(`Merged length: ${out.length}`)
-
             break
         }
         case 'alliances':
@@ -153,9 +152,8 @@ const set = async (map, req, params) => {
 
 const cleanObj = obj => Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null))
 const mergeCustomInfo = (arr, body) => {
-    //console.log('Arr length: ' + arr.length + '\nBody length: ' + body.length)
-    
     console.time('mergeCustomInfo')
+
     // Merge both arrays based on 'name' key.
     const map = new Map()
     arr.forEach(p => map.set(p.name, p))
@@ -165,7 +163,9 @@ const mergeCustomInfo = (arr, body) => {
     // Remove all keys containing null/undefined values.
     let i = 0, len = merged.length
     for (i; i < len; i++) merged[i] = cleanObj(merged[i])
+
     console.timeEnd('mergeCustomInfo')
+    console.log(`Merged length: ${out.length}`)
 
     return merged
 }
