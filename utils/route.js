@@ -165,7 +165,7 @@ const mergeCustomInfo = (arr, body) => {
     for (i; i < len; i++) merged[i] = cleanObj(merged[i])
 
     console.timeEnd('mergeCustomInfo')
-    console.log(`Merged length: ${out.length}`)
+    console.log(`Merged length: ${merged.length}`)
 
     return merged
 }
