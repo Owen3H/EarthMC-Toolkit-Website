@@ -135,7 +135,7 @@ const set = async (map, req, params) => {
 
     switch(dataType) {
         case 'allplayers': {
-            let allPlayers = await map.Players.all().catch(e => console.log(e))
+            let allPlayers = await map.Players.all().catch(() => {})
             if (!allPlayers || allPlayers.length < 1) 
                 return cache.get(`${mapName}_allplayers`) ?? 'fetch-error'
 

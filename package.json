@@ -20,7 +20,7 @@
   "homepage": "https://github.com/EarthMC-Toolkit/Toolkit-Website#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "earthmc": "^6.5.2",
+    "earthmc": "^6.5.3",
     "lru-cache": "^7.13.1",
     "memory-cache": "^0.2.0",
     "next": "^12.2.0",
