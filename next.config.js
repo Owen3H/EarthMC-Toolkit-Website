@@ -32,25 +32,23 @@ const auroraHeaders = [{
     source: "/api/aurora/alliances",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=170, stale-while-revalidate=250"}]
+      value: "s-maxage=150, stale-while-revalidate=190"}]
   },
   {
     source: "/api/aurora/alliances/:allianceName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=170, stale-while-revalidate=250"}]
+      value: "s-maxage=150, stale-while-revalidate=190"}]
   },
   {
     source: "/api/aurora/allplayers",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=60, stale-while-revalidate=140"}]
+      value: "s-maxage=20, stale-while-revalidate=60"}]
   },
   {
     source: "/api/aurora/allplayers/:playerName",
-    headers: [{
-      key: "Cache-Control",
-      value: "s-maxage=30"}]
+    headers: [{ key: "Cache-Control", value: "s-maxage=90" }]
   },
   {
     source: "/api/aurora/nearby/towns/:inputs*",
@@ -68,19 +66,19 @@ const auroraHeaders = [{
     source: "/api/aurora/nearby/players/:inputs*",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=2, stale-while-revalidate=15"}]
+      value: "s-maxage=2, stale-while-revalidate=30"}]
   },
   {
     source: "/api/aurora/onlineplayers",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=3, stale-while-revalidate=6"}]
+      value: "s-maxage=4, stale-while-revalidate=8"}]
   },
   {
     source: "/api/aurora/onlineplayers/:playerName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=3, stale-while-revalidate=6"}]
+      value: "s-maxage=4, stale-while-revalidate=8"}]
   },
   {
     source: "/api/aurora/townless",
@@ -130,13 +128,13 @@ const novaHeaders = [{
     source: "/api/nova/townless",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=10, stale-while-revalidate=60"}]
+      value: "s-maxage=30, stale-while-revalidate=90"}]
   },  
   {
     source: "/api/nova/townlessplayers",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=10, stale-while-revalidate=60"}]
+      value: "s-maxage=30, stale-while-revalidate=90"}]
   },
   {
     source: "/api/nova/nearby/players/:inputs*",
@@ -148,13 +146,13 @@ const novaHeaders = [{
     source: "/api/nova/onlineplayers",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=3, stale-while-revalidate=6"}]
+      value: "s-maxage=4, stale-while-revalidate=8"}]
   },
   {
     source: "/api/nova/onlineplayers/:playerName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=3, stale-while-revalidate=6"}]
+      value: "s-maxage=4, stale-while-revalidate=8"}]
   },
   {
     source: "/api/nova/nations",
@@ -178,19 +176,19 @@ const novaHeaders = [{
     source: "/api/nova/alliances",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=170, stale-while-revalidate=250"}]
+      value: "s-maxage=150, stale-while-revalidate=190"}]
   },
   {
     source: "/api/nova/alliances/:allianceName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=170, stale-while-revalidate=250"}]
+      value: "s-maxage=150, stale-while-revalidate=190"}]
   },
   {
     source: "/api/nova/allplayers",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=60, stale-while-revalidate=140"}]
+      value: "s-maxage=30, stale-while-revalidate=120"}]
   },
   {
     source: "/api/nova/allplayers/:playerName",
