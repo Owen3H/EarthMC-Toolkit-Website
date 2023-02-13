@@ -18,12 +18,13 @@ async function serve(req, res, mapName = 'aurora') {
     try { await limiter.check(res, 6, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
-    let { params } = req.query,
-        map = mapName == 'nova' ? Nova : Aurora
+    let map = mapName == 'nova' ? Nova : Aurora,
+        { method, query } = req,
+        { params } = query
     
-    console.log(`${req.method} request invoked on map: ${mapName}`)
+    console.log(`${method} request invoked on map: ${mapName}`)
 
-    let out = req.method == 'POST' || req.method == 'PUT'
+    let out = method == 'POST' || method == 'PUT'
             ? await set(map, req, params) : await get(params, map)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
