@@ -158,19 +158,19 @@ const novaHeaders = [{
     source: "/api/nova/nations",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=120, stale-while-revalidate=180"}]
+      value: "s-maxage=180"}]
   },
   {
     source: "/api/nova/nations/:nationName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=120, stale-while-revalidate=180"}]
+      value: "s-maxage=180"}]
   }, 
   {
     source: "/api/nova/news",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=20, stale-while-revalidate=60"}]
+      value: "s-maxage=60"}]
   },
   {
     source: "/api/nova/alliances",
