@@ -27,7 +27,7 @@ async function serve(req, res, mapName = 'aurora') {
     let out = method == 'POST' || method == 'PUT'
             ? await set(map, req, params) : await get(params, map)
 
-    if (!out) return res.status(404).json('Error: Unknown or invalid request!')
+    if (!out) return res.status(404).end()//.json('Error: Unknown or invalid request!')
     switch(out) {
         case 'no-auth': return res.status(403).json("Refused to send request, invalid auth key!")
         case 'cache-miss': return res.status(503).json('Data not cached yet, try again soon.')
