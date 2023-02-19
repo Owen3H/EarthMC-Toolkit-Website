@@ -184,8 +184,7 @@ function runMiddleware(req, res, fn) {
     })
 }
 
-export {
-    serve as default,
+module.exports = {
     serve,
     runMiddleware
 }

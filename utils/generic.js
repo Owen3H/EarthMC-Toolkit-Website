@@ -40,4 +40,6 @@ async function serve(req, res) {
     res.status(200).json(out)
 }
 
-export default serve
+module.exports = {
+    serve
+}
