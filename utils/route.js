@@ -5,8 +5,8 @@ const { Aurora, Nova } = require("earthmc"),
 var arg = index => args[index]?.toLowerCase() ?? null,
     args = []
 
-const rl = require('./rate-limit')
-const limiter = rl.rateLimit({ interval: 7*1000 })
+const rateLimit = require('./rate-limit.ts').default
+const limiter = rateLimit({ interval: 7*1000 })
 
 const getIP = req =>
     req.ip || req.headers['x-real-ip'] ||
