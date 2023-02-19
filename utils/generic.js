@@ -1,6 +1,7 @@
-const { getServerInfo, endpoint } = require('earthmc'),
-      rateLimit = require('./rate-limit.ts').default,
-      limiter = rateLimit({ interval: 4 * 1000 })
+const { getServerInfo, endpoint } = require('earthmc')
+
+const rl = require('./rate-limit')
+const limiter = rl.rateLimit({ interval: 7*1000 })
 
 const getIP = req =>
     req.ip || req.headers['x-real-ip'] ||

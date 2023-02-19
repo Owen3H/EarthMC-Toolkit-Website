@@ -32,3 +32,6 @@ function rateLimit(options?: Options) {
 }
 
 export default rateLimit
+export {
+  rateLimit
+}
