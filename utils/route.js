@@ -114,7 +114,7 @@ const get = async (params, map) => {
         }
         case 'townless':
         case 'townlessplayers': return await map.Players.townless() ?? 'fetch-error'
-        case 'onlineplayers': return single ? await map.Players.get(single) : await map.Players.online(true)
+        case 'onlineplayers': return single ? await map.Players.get(single) : await map.Players.online()
         case 'residents': return single ? await map.Residents.get(single) : await map.Residents.all()
         default: return `Parameter ${dataType} not recognized.`
     }

@@ -3,15 +3,15 @@
     "functions": {
         "pages/api/*.js": {
             "memory": 128,
-            "maxDuration": 7
+            "maxDuration": 6
         },
         "pages/api/aurora/*.js": {
             "memory": 512,
-            "maxDuration": 9
+            "maxDuration": 10
         },
         "pages/api/nova/*.js": {
             "memory": 256,
-            "maxDuration": 6
+            "maxDuration": 8
         }
     }
 }
