@@ -1,3 +1,4 @@
+
 const { Aurora, Nova } = require("earthmc"),
       EMCMap = require("earthmc/src/Map"),
       cache = require("memory-cache")
@@ -5,7 +6,7 @@ const { Aurora, Nova } = require("earthmc"),
 var arg = index => args[index]?.toLowerCase() ?? null,
     args = []
 
-const rateLimit = require('./rate-limit').default
+const rateLimit = require('./rate-limit.ts').default
 const limiter = rateLimit({ interval: 7*1000 })
 
 const getIP = req =>
