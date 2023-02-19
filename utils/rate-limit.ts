@@ -31,6 +31,4 @@ function rateLimit(options?: Options) {
   }
 }
 
-module.exports = {
-  rateLimit
-}
+export default rateLimit
