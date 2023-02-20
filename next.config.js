@@ -2,25 +2,25 @@ const auroraHeaders = [{
     source: "/api/aurora/towns",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3, stale-if-error=30"}]
+      value: "s-maxage=180, stale-while-revalidate=3"}]
   },
   {
     source: "/api/aurora/towns/:townName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3, stale-if-error=30"}]
+      value: "s-maxage=180, stale-while-revalidate=3"}]
   },
   {
     source: "/api/aurora/nations",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3, stale-if-error=30"}]
+      value: "s-maxage=180, stale-while-revalidate=3"}]
   },
   {
     source: "/api/aurora/nations/:nationName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3, stale-if-error=30"}]
+      value: "s-maxage=180, stale-while-revalidate=3"}]
   }, 
   {
     source: "/api/aurora/news",
@@ -32,7 +32,7 @@ const auroraHeaders = [{
     source: "/api/aurora/alliances",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=150, stale-while-revalidate=190, stale-if-error=30"}]
+      value: "s-maxage=150, stale-while-revalidate=190"}]
   },
   {
     source: "/api/aurora/alliances/:allianceName",
@@ -48,7 +48,7 @@ const auroraHeaders = [{
   },
   {
     source: "/api/aurora/allplayers/:playerName",
-    headers: [{ key: "Cache-Control", value: "s-maxage=60, stale-while-revalidate=5, stale-if-error=30" }]
+    headers: [{ key: "Cache-Control", value: "s-maxage=60, stale-while-revalidate=5" }]
   },
   {
     source: "/api/aurora/nearby/towns/:inputs*",
@@ -96,13 +96,13 @@ const auroraHeaders = [{
     source: "/api/aurora/residents",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3, stale-if-error=30"}]
+      value: "s-maxage=180, stale-while-revalidate=3"}]
   },
   {
     source: "/api/aurora/residents/:residentName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3, stale-if-error=30"}]
+      value: "s-maxage=180, stale-while-revalidate=3"}]
   }
 ]
 
@@ -110,13 +110,13 @@ const novaHeaders = [{
   source: "/api/nova/towns",
   headers: [{
     key: "Cache-Control",
-    value: "s-maxage=180, stale-while-revalidate=3, stale-if-error=30"}]
+    value: "s-maxage=180, stale-while-revalidate=3"}]
   },
   {
     source: "/api/nova/towns/:townName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3, stale-if-error=30"}]
+      value: "s-maxage=180, stale-while-revalidate=3"}]
   },
   {
     source: "/api/nova/residents",
