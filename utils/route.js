@@ -23,9 +23,9 @@ async function serve(req, res, mapName = 'aurora') {
     
     console.log(`${method} request invoked on map: ${mapName}`)
 
-    let out = (method != 'PUT' && method != 'POST')
-            ? await get(params, map)
-            : await set(map, req, params)
+    let out = (method == 'PUT' || method == 'POST')
+            ? await set(map, req, params)
+            : await get(params, map)
 
     if (!out) return res.status(404).json('Error: Unknown or invalid request!')
     switch(out) {
