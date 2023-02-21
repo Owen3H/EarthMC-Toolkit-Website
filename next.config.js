@@ -2,25 +2,25 @@ const auroraHeaders = [{
     source: "/api/aurora/towns",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3"}]
+      value: "s-maxage=180"}]
   },
   {
     source: "/api/aurora/towns/:townName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3"}]
+      value: "s-maxage=180"}]
   },
   {
     source: "/api/aurora/nations",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3"}]
+      value: "s-maxage=180"}]
   },
   {
     source: "/api/aurora/nations/:nationName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3"}]
+      value: "s-maxage=180"}]
   }, 
   {
     source: "/api/aurora/news",
@@ -110,13 +110,13 @@ const novaHeaders = [{
   source: "/api/nova/towns",
   headers: [{
     key: "Cache-Control",
-    value: "s-maxage=180, stale-while-revalidate=3"}]
+    value: "s-maxage=180"}]
   },
   {
     source: "/api/nova/towns/:townName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3"}]
+      value: "s-maxage=180"}]
   },
   {
     source: "/api/nova/residents",
