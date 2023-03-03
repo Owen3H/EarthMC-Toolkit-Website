@@ -28,7 +28,7 @@ async function serve(req, res, mapName = 'aurora') {
             : await get(params, map)
 
     if (!out) {
-        console.log(`Request failed! Response:\n${out.toString()}`)
+        console.log(`Request failed! Response:\n${out?.toString() ?? 'null'}`)
         return res.status(404).json('Error: Unknown or invalid request!')
     }
 
@@ -148,7 +148,10 @@ const set = async (map, req, params) => {
             break
         }
         case 'alliances':
-        case 'news': out = body
+        case 'news': {
+            out = body
+            break
+        }
     }
 
     if (out) cache.put(`${mapName}_${dataType}`, out)
@@ -157,7 +160,7 @@ const set = async (map, req, params) => {
 
 const cleanObj = obj => Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null))
 const mergeCustomInfo = (arr, body) => {
-    console.time('mergeCustomInfo')
+    //console.time('mergeCustomInfo')
 
     // Merge both arrays based on 'name' key.
     const map = new Map()
@@ -169,7 +172,7 @@ const mergeCustomInfo = (arr, body) => {
     let i = 0, len = merged.length
     for (i; i < len; i++) merged[i] = cleanObj(merged[i])
 
-    console.timeEnd('mergeCustomInfo')
+    //console.timeEnd('mergeCustomInfo')
     console.log(`Merged length: ${merged.length}`)
 
     return merged
