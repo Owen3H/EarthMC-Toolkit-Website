@@ -29,7 +29,8 @@ async function serve(req, res, mapName = 'aurora') {
 
     if (!out) {
         console.log(`Request failed! Response:\n${out?.toString() ?? 'null'}`)
-        return res.status(404).json('Error: Unknown or invalid request!')
+        return
+        //return res.status(404).json('Error: Unknown or invalid request!')
     }
 
     switch(out) {

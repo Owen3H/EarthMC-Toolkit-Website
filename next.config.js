@@ -2,25 +2,25 @@ const auroraHeaders = [{
     source: "/api/aurora/towns",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   },
   {
     source: "/api/aurora/towns/:townName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   },
   {
     source: "/api/aurora/nations",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   },
   {
     source: "/api/aurora/nations/:nationName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   }, 
   {
     source: "/api/aurora/news",
@@ -48,7 +48,9 @@ const auroraHeaders = [{
   },
   {
     source: "/api/aurora/allplayers/:playerName",
-    headers: [{ key: "Cache-Control", value: "s-maxage=60, stale-while-revalidate=5" }]
+    headers: [{
+      key: "Cache-Control",
+      value: "s-maxage=60, stale-while-revalidate=5"}]
   },
   {
     source: "/api/aurora/nearby/towns/:inputs*",
@@ -96,13 +98,13 @@ const auroraHeaders = [{
     source: "/api/aurora/residents",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   },
   {
     source: "/api/aurora/residents/:residentName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=3"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   }
 ]
 
@@ -110,19 +112,19 @@ const novaHeaders = [{
   source: "/api/nova/towns",
   headers: [{
     key: "Cache-Control",
-    value: "s-maxage=180"}]
+    value: "s-maxage=180, stale-while-revalidate=180"}]
   },
   {
     source: "/api/nova/towns/:townName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   },
   {
     source: "/api/nova/residents",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=120, stale-while-revalidate=180"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   },  
   {
     source: "/api/nova/townless",
@@ -158,13 +160,13 @@ const novaHeaders = [{
     source: "/api/nova/nations",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   },
   {
     source: "/api/nova/nations/:nationName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   }, 
   {
     source: "/api/nova/news",
@@ -194,7 +196,7 @@ const novaHeaders = [{
     source: "/api/nova/allplayers/:playerName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=30"}]
+      value: "s-maxage=30, stale-while-revalidate=120"}]
   }
 ]
 
