@@ -32,13 +32,13 @@ const auroraHeaders = [{
     source: "/api/aurora/alliances",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=150, stale-while-revalidate=190"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   },
   {
     source: "/api/aurora/alliances/:allianceName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=150, stale-while-revalidate=190"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   },
   {
     source: "/api/aurora/allplayers",
@@ -74,25 +74,25 @@ const auroraHeaders = [{
     source: "/api/aurora/onlineplayers",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=3, stale-while-revalidate=5"}]
+      value: "s-maxage=4, stale-while-revalidate=6"}]
   },
   {
     source: "/api/aurora/onlineplayers/:playerName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=4, stale-while-revalidate=8"}]
+      value: "s-maxage=3, stale-while-revalidate=10"}]
   },
   {
     source: "/api/aurora/townless",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=10, stale-while-revalidate=60"}]
+      value: "s-maxage=15, stale-while-revalidate=30"}]
   },  
   {
     source: "/api/aurora/townlessplayers",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=10, stale-while-revalidate=60"}]
+      value: "s-maxage=15, stale-while-revalidate=30"}]
   },
   {
     source: "/api/aurora/residents",
@@ -178,13 +178,13 @@ const novaHeaders = [{
     source: "/api/nova/alliances",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=150, stale-while-revalidate=190"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   },
   {
     source: "/api/nova/alliances/:allianceName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=150, stale-while-revalidate=190"}]
+      value: "s-maxage=180, stale-while-revalidate=180"}]
   },
   {
     source: "/api/nova/allplayers",

@@ -21,16 +21,15 @@ async function serve(req, res, mapName = 'aurora') {
         { method, query } = req,
         { params } = query
     
-    console.log(`${method} request invoked on map: ${mapName}`)
+    console.log(`${method} request invoked on ${mapName}`)
 
     let out = (method == 'PUT' || method == 'POST')
             ? await set(map, req, params)
             : await get(params, map)
 
-    if (!out) {
+    if (!out && method == 'GET') {
         console.log(`Request failed! Response:\n${out?.toString() ?? 'null'}`)
-        return
-        //return res.status(404).json('Error: Unknown or invalid request!')
+        return res.status(404)//.json('Error: Unknown or invalid request!')
     }
 
     switch(out) {
@@ -38,13 +37,13 @@ async function serve(req, res, mapName = 'aurora') {
         case 'cache-miss': return res.status(503).json('Data not cached yet, try again soon.')
         case 'fetch-error': return res.status(500).json('Error fetching data, please try again.')
         default: {
-            if (typeof out == 'string' && out.includes('does not exist')) res.status(404).json(out)
+            if (typeof out == 'string' && out.includes('does not exist')) return res.status(404).json(out)
             else {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br, gzip')
 
-                res.status(200).json(out)
+                return res.status(200).json(out)
             }
         }
     }
@@ -161,8 +160,6 @@ const set = async (map, req, params) => {
 
 const cleanObj = obj => Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null))
 const mergeCustomInfo = (arr, body) => {
-    //console.time('mergeCustomInfo')
-
     // Merge both arrays based on 'name' key.
     const map = new Map()
     arr.forEach(p => map.set(p.name, p))
@@ -172,9 +169,6 @@ const mergeCustomInfo = (arr, body) => {
     // Remove all keys containing null/undefined values.
     let i = 0, len = merged.length
     for (i; i < len; i++) merged[i] = cleanObj(merged[i])
-
-    //console.timeEnd('mergeCustomInfo')
-    console.log(`Merged length: ${merged.length}`)
 
     return merged
 }

@@ -37,7 +37,7 @@ async function serve(req, res) {
     res.setHeader('Accept-Encoding', 'br, gzip')
     res.setHeader('Cache-Control', `s-maxage=1, stale-while-revalidate=5`)   
     
-    res.status(200).json(out)
+    return res.status(200).json(out)
 }
 
 export default serve
