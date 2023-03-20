@@ -43,7 +43,7 @@ async function serve(req, res, mapName = 'aurora') {
                 res.setHeader('Content-Type', 'application/json')
                 res.setHeader('Accept-Encoding', 'br, gzip')
 
-                return res.status(200).json(out)
+                return res.json(out)
             }
         }
     }
@@ -131,6 +131,8 @@ const get = async (params, map) => {
 const set = async (map, req, params) => {
     let authKey = req.headers['authorization'],
         body = req.body, [dataType] = params
+
+    console.log(body)
 
     if (authKey != process.env.AUTH_KEY) return 'no-auth'
     if (!body || Object.keys(body).length < 1) return null
