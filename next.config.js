@@ -26,31 +26,31 @@ const auroraHeaders = [{
     source: "/api/aurora/news",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=20, stale-while-revalidate=60"}]
+      value: "s-maxage=300, stale-while-revalidate=300"}]
   },
   {
     source: "/api/aurora/alliances",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=180"}]
+      value: "s-maxage=170, stale-while-revalidate=170"}]
   },
   {
     source: "/api/aurora/alliances/:allianceName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=180"}]
+      value: "s-maxage=170, stale-while-revalidate=170"}]
   },
   {
     source: "/api/aurora/allplayers",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=30, stale-while-revalidate=35"}]
+      value: "s-maxage=170, stale-while-revalidate=170"}]
   },
   {
     source: "/api/aurora/allplayers/:playerName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=60, stale-while-revalidate=5"}]
+      value: "s-maxage=170, stale-while-revalidate=170"}]
   },
   {
     source: "/api/aurora/nearby/towns/:inputs*",
@@ -167,30 +167,30 @@ const novaHeaders = [{
     headers: [{
       key: "Cache-Control",
       value: "s-maxage=180, stale-while-revalidate=180"}]
-  }, 
+  },
   {
     source: "/api/nova/news",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=60"}]
+      value: "s-maxage=300, stale-while-revalidate=300"}]
   },
   {
     source: "/api/nova/alliances",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=180"}]
+      value: "s-maxage=170, stale-while-revalidate=170"}]
   },
   {
     source: "/api/nova/alliances/:allianceName",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=180, stale-while-revalidate=180"}]
+      value: "s-maxage=170, stale-while-revalidate=170"}]
   },
   {
     source: "/api/nova/allplayers",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=30, stale-while-revalidate=120"}]
+      value: "s-maxage=170, stale-while-revalidate=170"}]
   },
   {
     source: "/api/nova/allplayers/:playerName",
