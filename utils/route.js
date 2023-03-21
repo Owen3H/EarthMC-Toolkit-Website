@@ -31,7 +31,8 @@ async function serve(req, res, mapName = 'aurora') {
         let errMsg = `Request failed! Response:\n${out?.toString() ?? 'null'}`
         console.log(errMsg)
 
-        return res.status(404).json({ error: "BAD_REQUEST", message: errMsg })
+        res.status(404)//.json({ error: "BAD_REQUEST", message: errMsg })
+        return
     }
 
     switch(out) {
