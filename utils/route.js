@@ -31,8 +31,7 @@ async function serve(req, res, mapName = 'aurora') {
         let errMsg = `Request failed! Response:\n${out?.toString() ?? 'null'}`
         console.log(errMsg)
 
-        res.status(404)//.json({ error: "BAD_REQUEST", message: errMsg })
-        return
+        return res.status(404).json({ error: "BAD_REQUEST", message: errMsg })
     }
 
     switch(out) {
@@ -135,8 +134,6 @@ const set = async (map, req, params) => {
     let authKey = req.headers['authorization'],
         body = req.body, [dataType] = params
 
-    console.log(body)
-
     if (authKey != process.env.AUTH_KEY) return 'no-auth'
     if (!body || Object.keys(body).length < 1) return null
 
@@ -150,6 +147,8 @@ const set = async (map, req, params) => {
                 return cache.get(`${mapName}_allplayers`) ?? 'fetch-error'
 
             out = mergeCustomInfo(allPlayers, body)
+            console.log(out)
+
             break
         }
         case 'alliances':
@@ -163,18 +162,20 @@ const set = async (map, req, params) => {
     return out
 }
 
-const cleanObj = obj => Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null))
+const removeNulls = obj => Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null))
+
+//const mergeByName = (pArr, req) => pArr.map(p => ({ ...req.find(e => (e.name === p.name) && e), ...p }))
 const mergeCustomInfo = (arr, body) => {
     // Merge both arrays based on 'name' key.
     const map = new Map()
+
     arr.forEach(p => map.set(p.name, p))
     body.forEach(p => map.set(p.name, { ...map.get(p.name), ...p }))
-    let merged = Array.from(map.values())
 
-    // Remove all keys containing null/undefined values.
-    let i = 0, len = merged.length
-    for (i; i < len; i++) merged[i] = cleanObj(merged[i])
+    let merged = Array.from(map.values()),
+        i = 0, len = merged.length
 
+    for (i; i < len; i++) merged[i] = removeNulls(merged[i])
     return merged
 }
 
