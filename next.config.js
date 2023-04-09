@@ -86,13 +86,13 @@ const auroraHeaders = [{
     source: "/api/aurora/townless",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=15, stale-while-revalidate=30"}]
-  },  
+      value: "s-maxage=15, stale-while-revalidate=60"}]
+  },
   {
     source: "/api/aurora/townlessplayers",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=15, stale-while-revalidate=30"}]
+      value: "s-maxage=15, stale-while-revalidate=60"}]
   },
   {
     source: "/api/aurora/residents",
