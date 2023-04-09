@@ -28,10 +28,10 @@ async function serve(req, res, mapName = 'aurora') {
             : await get(params, map)
 
     if (!out && method == 'GET') {
-        let errMsg = `Request failed! Response:\n${out?.toString() ?? 'null'}`
+        let errMsg = `Request failed! Response: ${out?.toString() ?? 'null'}`
         console.log(errMsg)
 
-        return res.status(500).json({ error: "BAD_REQUEST", message: errMsg })
+        return res.status(500)//.json({ error: "BAD_REQUEST", message: errMsg })
     }
 
     switch(out) {
