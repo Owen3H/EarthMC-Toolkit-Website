@@ -1,18 +1,15 @@
-# dependencies
+# Dependencies
 /node_modules
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# local env files
+# Local environment
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# vercel
+# Production
 .vercel
+
+/.next/
+/out/
+/build
