@@ -1,12 +1,13 @@
 const { Aurora, Nova } = require("earthmc"),
       EMCMap = require("earthmc/src/Map"),
-      cache = require("memory-cache")
-
-var arg = index => args[index]?.toLowerCase() ?? null,
-    args = []
+      cache = require("memory-cache"),
+      { FetchError, NotFoundError } = require("earthmc/utils/Errors.js")
+      
+var args = []
+const arg = index => args[index]?.toLowerCase() ?? null
 
 const rateLimit = require('./rate-limit.ts')
-const limiter = rateLimit({ interval: 7*1000 })
+const limiter = rateLimit({ interval: 10*1000 })
 
 const getIP = req =>
     req.ip || req.headers['x-real-ip'] ||
@@ -14,7 +15,7 @@ const getIP = req =>
     req.connection.remoteAddress
 
 async function serve(req, res, mapName = 'aurora') {
-    try { await limiter.check(res, 6, getIP(req)) } 
+    try { await limiter.check(res, 15, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     let map = mapName == 'nova' ? Nova : Aurora,
@@ -31,7 +32,7 @@ async function serve(req, res, mapName = 'aurora') {
         let errMsg = `Request failed! Response: ${out?.toString() ?? 'null'}`
         console.log(errMsg)
 
-        return res.status(500)//.json({ error: "BAD_REQUEST", message: errMsg })
+        return res.status(500)
     }
 
     switch(out) {
@@ -39,7 +40,9 @@ async function serve(req, res, mapName = 'aurora') {
         case 'cache-miss': return res.status(503).json('Data not cached yet, try again soon.')
         case 'fetch-error': return res.status(500).json('Error fetching data, please try again.')
         default: {
-            if (typeof out == 'string' && out.includes('does not exist')) return res.status(404).json(out)
+            if (typeof out == 'string' && out.includes('does not exist')) {
+                return res.status(404).json(out)
+            }
             else {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('Content-Type', 'application/json')
@@ -70,7 +73,14 @@ const get = async (params, map) => {
         }
         case 'nations': {
             if (!single) return await map.Nations.all()
-            if (!filter) return await map.Nations.get(single)
+            if (!filter) {
+                let nation = await map.Nations.get(single)
+
+                if (nation instanceof FetchError) return 'fetch-error'
+                if (nation instanceof NotFoundError) return `${single} does not exist.`
+
+                return nation
+            }
 
             return validParam(filter) ?? await map.Towns.invitable(single, false)
         }
