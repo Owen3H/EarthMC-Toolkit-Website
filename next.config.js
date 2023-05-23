@@ -40,18 +40,18 @@ const auroraHeaders = [{
       key: "Cache-Control",
       value: "s-maxage=170, stale-while-revalidate=170"}]
   },
-  {
-    source: "/api/aurora/allplayers",
-    headers: [{
-      key: "Cache-Control",
-      value: "s-maxage=170, stale-while-revalidate=170"}]
-  },
-  {
-    source: "/api/aurora/allplayers/:playerName",
-    headers: [{
-      key: "Cache-Control",
-      value: "s-maxage=170, stale-while-revalidate=170"}]
-  },
+  // {
+  //   source: "/api/aurora/allplayers",
+  //   headers: [{
+  //     key: "Cache-Control",
+  //     value: "s-maxage=170, stale-while-revalidate=170"}]
+  // },
+  // {
+  //   source: "/api/aurora/allplayers/:playerName",
+  //   headers: [{
+  //     key: "Cache-Control",
+  //     value: "s-maxage=170, stale-while-revalidate=170"}]
+  // },
   {
     source: "/api/aurora/nearby/towns/:inputs*",
     headers: [{
@@ -185,19 +185,19 @@ const novaHeaders = [{
     headers: [{
       key: "Cache-Control",
       value: "s-maxage=170, stale-while-revalidate=170"}]
-  },
-  {
-    source: "/api/nova/allplayers",
-    headers: [{
-      key: "Cache-Control",
-      value: "s-maxage=170, stale-while-revalidate=170"}]
-  },
-  {
-    source: "/api/nova/allplayers/:playerName",
-    headers: [{
-      key: "Cache-Control",
-      value: "s-maxage=30, stale-while-revalidate=120"}]
   }
+  // {
+  //   source: "/api/nova/allplayers",
+  //   headers: [{
+  //     key: "Cache-Control",
+  //     value: "s-maxage=170, stale-while-revalidate=170"}]
+  // },
+  // {
+  //   source: "/api/nova/allplayers/:playerName",
+  //   headers: [{
+  //     key: "Cache-Control",
+  //     value: "s-maxage=30, stale-while-revalidate=120"}]
+  // }
 ]
 
 /** @type {import('next').NextConfig} */
