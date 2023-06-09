@@ -8,7 +8,9 @@
         "moduleResolution": "node",
         "skipDefaultLibCheck": true,
         "skipLibCheck": true,
-        "importHelpers": true
+        "importHelpers": true,
+        "allowImportingTsExtensions": true,
+        "noEmit": true
     },
     "exclude": ["node_modules"]
 }
