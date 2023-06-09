@@ -55,8 +55,8 @@ async function serve(req, res, mapName = 'aurora') {
 }
 
 /**
-* @param {String[]} params 
-* @param {EMCMap} map 
+* @param { String[] } params 
+* @param { EMCMap } map 
 */
 const get = async (params, map) => {
     args = params.slice(1) // Start from param after data type.
@@ -120,14 +120,7 @@ const get = async (params, map) => {
                 default: return !single ? alliances : alliances.find(a => a.allianceName.toLowerCase() == single)
             }
         }
-        // case 'allplayers': {
-        //     let cachedPlayers = cache.get(`${mapName}_allplayers`)
-        //     if (!cachedPlayers) return 'cache-miss'
-        //     if (!single) return cachedPlayers
 
-        //     const player = cachedPlayers.find(p => p.name.toLowerCase() == single)
-        //     return player ?? "That player does not exist!"
-        // }
         case 'townless':
         case 'townlessplayers': return await map.Players.townless() ?? 'fetch-error'
         case 'onlineplayers': return single ? await map.Players.get(single) : await map.Players.online()
@@ -137,8 +130,8 @@ const get = async (params, map) => {
 }
 
 /**
-* @param {String[]} params 
-* @param {EMCMap} map 
+* @param { String[] } params 
+* @param { EMCMap } map 
 */
 const set = async (map, req, params) => {
     let authKey = req.headers['authorization'],
@@ -151,16 +144,6 @@ const set = async (map, req, params) => {
         out = null
 
     switch(dataType) {
-        // case 'allplayers': {
-        //     let allPlayers = await map.Players.all().catch(() => {})
-        //     if (!allPlayers || allPlayers.length < 1) 
-        //         return cache.get(`${mapName}_allplayers`) ?? 'fetch-error'
-
-        //     out = mergeCustomInfo(allPlayers, body)
-        //     console.log(out)
-
-        //     break
-        // }
         case 'alliances':
         case 'news': {
             out = body
@@ -172,21 +155,7 @@ const set = async (map, req, params) => {
     return out
 }
 
-const removeNulls = obj => Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null))
-
-const mergeCustomInfo = (arr, body) => {
-    // Merge both arrays based on 'name' key.
-    const map = new Map()
-
-    arr.forEach(p => map.set(p.name, p))
-    body.forEach(p => map.set(p.name, { ...map.get(p.name), ...p }))
-
-    let merged = Array.from(map.values()),
-        i = 0, len = merged.length
-
-    for (i; i < len; i++) merged[i] = removeNulls(merged[i])
-    return merged
-}
+//const removeNulls = obj => Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null))
 
 const validParam = param => {
     let arr = ['invitable', 'joinable', 'towns', 'nations', 'players', 'pact', 'sub', 'normal']
