@@ -2,8 +2,8 @@
     "cleanUrls": true,
     "functions": {
         "pages/api/*.js": {
-            "memory": 128,
-            "maxDuration": 5
+            "memory": 256,
+            "maxDuration": 10
         },
         "pages/api/aurora/*.js": {
             "memory": 1024,
@@ -11,7 +11,7 @@
         },
         "pages/api/nova/*.js": {
             "memory": 512,
-            "maxDuration": 9
+            "maxDuration": 7
         }
     }
 }
