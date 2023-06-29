@@ -13,3 +13,5 @@
 /.next/
 /out/
 /build
+
+public/resources.html

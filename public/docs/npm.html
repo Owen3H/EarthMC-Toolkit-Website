@@ -14,7 +14,7 @@
 		<header id="header">
 			<nav>
 				<ul>
-					<li><a href="index.html">Home</a></li>
+					<li><a href="../index.html">Home</a></li>
 					<li><a href="api.html">API Docs</a></li>
 					<li><a href="commands.html">Commands</a></li>
 				</ul>
@@ -29,19 +29,20 @@
 					<div class="inner">
 						<h1>NPM Documentation <p class="major fas fa-book"></p></h1>
 						<p>The EarthMC NPM Package. 
-							It provides plenty of data such as players, towns, nations, alliances and more, without having to use the API!
+							It provides plenty of data such as players, towns, nations and more without having to use the API.
 							The repository is open source and can be found <a href="https://github.com/EarthMC-Toolkit/EarthMC-NPM">here.</a>
 						
 						<!-- Text -->
 							<section id="documentation">
 								<h1 id="quick-start"><strong>Quick Start</strong></h1>
 
+Install from the terminal.
 <pre><code class="language-js">$ npm i earthmc
 </code></pre>
-<pre><code class="language-js">const emc = require(&quot;earthmc&quot;)
-let towns = emc.Aurora.Towns.all().then(arr =&gt; { return arr.filter(t =&gt; t.area &gt; 50) })
+Example code - will output every Aurora town with over 50 chunks claimed.	
+<pre><code class="language-js">const emc = require('earthmc')
 
-// Outputs every Aurora town with over 50 chunks claimed.
+const towns = emc.Aurora.Towns.all().then(arr => arr.filter(t => t.area > 50))
 console.log(towns)
 </code></pre>
 
@@ -186,8 +187,8 @@ let townless  = await Aurora.Players.townless(),
 								</ul>
 								<h2 id="error-handling"><strong>Error Handling</strong></h2>
 								<ul>
-								<li>Error types</li>
-								<li>How to identify and handle errors</li>
+								<li>Custom Error types.</li>
+								<li>How to identify and handle errors silently.</li>
 								</ul>
 								
 							</section>

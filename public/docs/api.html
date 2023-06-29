@@ -14,10 +14,10 @@
 		<header id="header">
 			<nav>
 				<ul>
-					<li><a href="/">Home</a></li>
-					<li><a href="/api" class="active">API Docs</a></li>
-					<li><a href="/commands">Commands</a></li>	
-					<li><a href="/npm">NPM Docs</a></li>
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="api.html" class="active">API Docs</a></li>
+					<li><a href="commands.html">Commands</a></li>	
+					<li><a href="npm.html">NPM Docs</a></li>
 				</ul>
 			</nav>
 		</header>
@@ -40,20 +40,21 @@
 										<a href="https://npmjs.com">Node Package Manager</a> to install a fetch package that will allow us to send <b>GET</b> requests.<br>
 										<blockquote>Note: To stop abuse, there is a rate limit of <b>10</b> requests per <b>8</b> seconds.</blockquote>
 										 1. Install a fetch package in your chosen language.</p>
-										<code>$ npm install node-fetch</code>
+										<code>$ npm install undici</code>
 										<br><br>2. Require/import the package.</p>
-										<code>const fetch = require('node-fetch')</code>
+										<code>const { request } = require('undici')</code>
 										<br><br>3. Send a get request to the specified route, and wait for the result.<br>
-										<pre><code>var towns = await fetch('https://emctoolkit.vercel.app/api/aurora/towns').catch(() => {})
+										<pre><code>const towns = await request('https://emctoolkit.vercel.app/api/aurora/towns').catch(() => {})
 if (!towns) {
 	// Handle error
+	return console.error('An error occurred fetching towns!')
 }
 
-// Example code
-towns = towns.map(t => t.area > 50) // Only get towns with more than 50 chunks claimed.
-console.log(towns)
+// Example code - logs all towns with more than 100 chunks claimed.
+const bigTowns = towns.map(t => t.area > 100)
+console.log(bigTowns)
 </code></pre>
-								</section>
+							    </section>
 
 							<!-- Lists -->
 								<section>
