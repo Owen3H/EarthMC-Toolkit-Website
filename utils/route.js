@@ -90,12 +90,17 @@ const get = async (params, map) => {
             let type = validParam(single)
             if (type) return type
 
-            let optional = args[4] ?? args[3],
-                inputs = [args[1], args[2], args[3], optional]
+            const xCoord = args[1]
+            const zCoord = args[2]
+
+            const xRadius = args[3]
+            const zRadius = args[4] ?? xRadius
+
+            let inputs = [xCoord, zCoord, xRadius, zRadius]
 
             switch (single) {
                 case 'towns': return await map.Towns.nearby(...inputs)
-                case 'nations': return await map.Nations.nearby(...inputs)
+                case 'nations': return await map.Nations.nearby(xCoord, zCoord, xRadius, zRadius)
                 case 'players':
                 default: return await map.Players.nearby(...inputs)
             }
