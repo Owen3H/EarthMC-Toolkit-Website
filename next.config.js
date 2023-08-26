@@ -50,7 +50,7 @@ const auroraHeaders = [{
     source: "/api/aurora/nearby/nations/:inputs*",
     headers: [{
       key: "Cache-Control",
-      value: "s-maxage=600, stale-while-revalidate=1800"}]
+      value: "s-maxage=300, stale-while-revalidate=1200"}]
   },
   {
     source: "/api/aurora/nearby/players/:inputs*",
@@ -125,6 +125,18 @@ const novaHeaders = [{
     headers: [{
       key: "Cache-Control",
       value: "s-maxage=30, stale-while-revalidate=90"}]
+  },
+  {
+    source: "/api/nova/nearby/towns/:inputs*",
+    headers: [{
+      key: "Cache-Control",
+      value: "s-maxage=300, stale-while-revalidate=1200"}]
+  },
+  {
+    source: "/api/nova/nearby/nations/:inputs*",
+    headers: [{
+      key: "Cache-Control",
+      value: "s-maxage=300, stale-while-revalidate=1200"}]
   },
   {
     source: "/api/nova/nearby/players/:inputs*",

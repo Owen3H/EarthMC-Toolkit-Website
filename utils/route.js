@@ -100,7 +100,12 @@ const get = async (params, map) => {
 
             switch (single) {
                 case 'towns': return await map.Towns.nearby(...inputs)
-                case 'nations': return await map.Nations.nearby(...inputs)
+                case 'nations': {
+                    const nearbyNations = await map.Nations.nearby(...inputs)
+                    console.log(nearbyNations.map(n => `${n.name} - x: ${n.capital.x} z: ${n.capital.z}`))
+
+                    return nearbyNations
+                }
                 case 'players':
                 default: return await map.Players.nearby(...inputs)
             }
