@@ -97,6 +97,7 @@ const get = async (params, map) => {
             const zRadius = args[4] ?? xRadius
 
             let inputs = [xCoord, zCoord, xRadius, zRadius]
+            console.log(inputs)
 
             switch (single) {
                 case 'towns': return await map.Towns.nearby(...inputs)
