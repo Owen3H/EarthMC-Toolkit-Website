@@ -90,11 +90,11 @@ const get = async (params, map) => {
             let type = validParam(single)
             if (type) return type
 
-            const xCoord = args[1]
-            const zCoord = args[2]
+            const xCoord = parseInt(args[1])
+            const zCoord = parseInt(args[2])
 
-            const xRadius = args[3]
-            const zRadius = args[4] ?? xRadius
+            const xRadius = parseInt(args[3])
+            const zRadius = parseInt(args[4] ?? xRadius)
 
             let inputs = [xCoord, zCoord, xRadius, zRadius]
 
