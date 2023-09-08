@@ -129,7 +129,6 @@ const get = async (params, map) => {
                 default: return !single ? alliances : alliances.find(a => a.allianceName.toLowerCase() == single)
             }
         }
-
         case 'townless':
         case 'townlessplayers': return await map.Players.townless() ?? 'fetch-error'
         case 'onlineplayers': return single ? await map.Players.get(single) : await map.Players.online()
