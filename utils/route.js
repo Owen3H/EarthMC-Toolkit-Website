@@ -1,7 +1,6 @@
-const { Aurora, Nova } = require("earthmc"),
-      EMCMap = require("earthmc/src/Map"),
+const { Aurora, Nova, Map: EMCMap } = require("earthmc"),
       cache = require("memory-cache"),
-      { FetchError, NotFoundError } = require("earthmc/utils/Errors.js")
+      { Errors } = require("earthmc")
       
 var args = []
 const arg = index => args[index]?.toLowerCase() ?? null
@@ -76,8 +75,8 @@ const get = async (params, map) => {
             if (!filter) {
                 let nation = await map.Nations.get(single)
 
-                if (nation instanceof FetchError) return 'fetch-error'
-                if (nation instanceof NotFoundError) return `${single} does not exist.`
+                if (nation instanceof Errors.FetchError) return 'fetch-error'
+                if (nation instanceof Errors.NotFoundError) return `${single} does not exist.`
 
                 return nation
             }

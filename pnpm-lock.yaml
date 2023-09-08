@@ -9,8 +9,8 @@ dependencies:
     specifier: ^2.8.5
     version: 2.8.5
   earthmc:
-    specifier: ^7.4.7
-    version: 7.4.7
+    specifier: 8.0.0
+    version: 8.0.0
   lru-cache:
     specifier: ^7.13.1
     version: 7.18.3
@@ -193,21 +193,18 @@ packages:
       vary: 1.1.2
     dev: false
 
-  /diacritic@0.0.2:
-    resolution: {integrity: sha512-iQCeDkSPwkfwWPr+HZZ49WRrM2FSI9097Q9w7agyRCdLcF9Eh2Ek0sHKcmMWx2oZVBjRBE/sziGFjZu0uf1Jbg==}
-    dev: false
-
-  /earthmc@7.4.7:
-    resolution: {integrity: sha512-Z8BE64Oc77KHQeVJ5AdAPZXXWU2whGd+NBMGqsjuBsxDDwcnDvGe+cnhMpYed6qkvd65U9PzV0Lp2qfdgLtqFw==}
+  /earthmc@8.0.0:
+    resolution: {integrity: sha512-ya+nbSNKJ/5KsktT2O98RVVe45ZEyP7umXaNW/xFbRROv0yJsxFZTKyk31kHXF+sh5OLRgCMU0js89SKvTsbwA==}
     engines: {node: '>=16.8.0'}
     dependencies:
       async-mutex: 0.4.0
-      diacritic: 0.0.2
       mitt: 3.0.1
+      modern-diacritics: 2.3.1
       mojang-lib: 1.12.1
       striptags: 3.2.0
       timed-cache: 2.0.0
-      undici-shim: 1.5.1
+      tslib: 2.6.2
+      undici-shim: 1.5.2
     dev: false
 
   /js-tokens@4.0.0:
@@ -234,11 +231,16 @@ packages:
     resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
     dev: false
 
+  /modern-diacritics@2.3.1:
+    resolution: {integrity: sha512-jOI0qtelWfGZ4HTB/7pKTOzAA5miXgfbMl0RYirYA5CRuNY4JYTXER+BUiH9JCxqX1gIHs6GaVTwFhvUV8MPWg==}
+    engines: {node: ^14 || >=16}
+    dev: false
+
   /mojang-lib@1.12.1:
     resolution: {integrity: sha512-u5vEq3RS9rsXv8j29eI04OUyio6sT8UGv9JjypSA8yZnX3Fgbohr2MXJuIIv1ULFxHIQ26QolG9RJ+h3bY/zDA==}
     dependencies:
       tslib: 2.6.2
-      undici-shim: 1.5.1
+      undici-shim: 1.5.2
     dev: false
 
   /nanoid@3.3.6:
@@ -377,15 +379,15 @@ packages:
     hasBin: true
     dev: false
 
-  /undici-shim@1.5.1:
-    resolution: {integrity: sha512-BjGOgR1z59kog5zv8WQ/QqGP1MXOxrNT9apzp+fBw2TV5bWAVLiwAnhdmfGVzi+41sU9osi6gzlzINyS79v6Gw==}
+  /undici-shim@1.5.2:
+    resolution: {integrity: sha512-2rJh4ndI10SjR6v+0LGCRisewxmGH0/+rYcnmhNqlcqNGHBVH58l4p5gtyMV1PU1lC85RhGGRwqWi+DSsd+JoA==}
     dependencies:
       tslib: 2.6.2
-      undici: 5.23.0
+      undici: 5.24.0
     dev: false
 
-  /undici@5.23.0:
-    resolution: {integrity: sha512-1D7w+fvRsqlQ9GscLBwcAJinqcZGHUKjbOmXdlE/v8BvEGXjeWAax+341q44EuTcHXXnfyKNbKRq4Lg7OzhMmg==}
+  /undici@5.24.0:
+    resolution: {integrity: sha512-OKlckxBjFl0oXxcj9FU6oB8fDAaiRUq+D8jrFWGmOfI/gIyjk/IeS75LMzgYKUaeHzLUcYvf9bbJGSrUwTfwwQ==}
     engines: {node: '>=14.0'}
     dependencies:
       busboy: 1.6.0
