@@ -94,9 +94,9 @@ const get = async (params, query, map) => {
             if (!zCoord) return "Parameter `z` is invalid! A number is required."
 
             const loc = { x: xCoord, z: zCoord }
-            const type = query.type.toLowerCase()
+            const type = query.type || 'fastest'
 
-            switch(type) {
+            switch(type.toLowerCase()) {
                 case 'avoidpublic': return await map.GPS.findRoute(loc, { 
                     avoidPublic: true, 
                     avoidPvp: false 
