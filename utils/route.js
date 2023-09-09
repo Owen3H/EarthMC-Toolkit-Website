@@ -25,7 +25,7 @@ async function serve(req, res, mapName = 'aurora') {
 
     let out = (method == 'PUT' || method == 'POST')
             ? await set(map, req, params)
-            : await get(params, map)
+            : await get(params, query, map)
 
     if (!out && method == 'GET') {
         let errMsg = `Request failed! Response: ${out?.toString() ?? 'null'}`
@@ -57,7 +57,7 @@ async function serve(req, res, mapName = 'aurora') {
 * @param { String[] } params 
 * @param { EMCMap } map 
 */
-const get = async (params, map) => {
+const get = async (params, query, map) => {
     args = params.slice(1) // Start from param after data type.
     const [dataType] = params,
           single = arg(0), filter = arg(1),
@@ -82,6 +82,32 @@ const get = async (params, map) => {
             }
 
             return validParam(filter) ?? await map.Towns.invitable(single, false)
+        }
+        case 'gps': {
+            if (args.length < 2) return 'Not enough arguments specified! Refer to the documentation.'
+
+            const xCoord = parseInt(query.x.toLowerCase())
+            if (!xCoord) return "Parameter `x` is invalid! A number is required."
+
+            const zCoord = parseInt(query.z.toLowerCase())
+            if (!zCoord) return "Parameter `z` is invalid! A number is required."
+
+            const loc = { x: xCoord, z: zCoord }
+            const type = query.type.toLowerCase()
+
+            switch(type) {
+                case 'avoidpublic': return await map.GPS.findRoute(loc, { 
+                    avoidPublic: true, 
+                    avoidPvp: false 
+                })
+                case 'avoidpvp': return await map.GPS.findRoute(loc, { 
+                    avoidPublic: false, 
+                    avoidPvp: true 
+                })
+                case 'safest': return await map.GPS.safestRoute(loc)
+                case 'fastest':
+                default: return await map.GPS.fastestRoute(loc)
+            }  
         }
         case 'nearby': {
             if (args.length < 4) return 'Not enough arguments specified! Refer to the documentation.'
