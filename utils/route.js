@@ -84,7 +84,6 @@ const get = async (params, query, map) => {
             return validParam(filter) ?? await map.Towns.invitable(single, false)
         }
         case 'gps': {
-            console.log(query)
             if (!query.x && !query.z) return 'Not enough arguments specified! Refer to the documentation.'
 
             const xCoord = parseInt(query.x.toLowerCase())
