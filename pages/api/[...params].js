@@ -1,4 +1,4 @@
-const serve = require('../../utils/generic').default
+import serve from '../../utils/generic.js'
 
 export default (req, res) => serve(req, res)
 export const config = {

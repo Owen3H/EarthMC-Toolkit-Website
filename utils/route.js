@@ -1,11 +1,15 @@
-const { Aurora, Nova, Map: EMCMap } = require("earthmc"),
-      cache = require("memory-cache"),
-      { Errors } = require("earthmc")
+import { 
+    Map as EMCMap,
+    Aurora, Nova, 
+    Errors 
+} from "earthmc"
+
+import cache from "memory-cache"
       
 var args = []
 const arg = index => args[index]?.toLowerCase() ?? null
 
-const rateLimit = require('./rate-limit.ts')
+import rateLimit from './rate-limit'
 const limiter = rateLimit({ interval: 10*1000 })
 
 const getIP = req =>

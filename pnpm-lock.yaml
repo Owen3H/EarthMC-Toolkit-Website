@@ -9,8 +9,8 @@ dependencies:
     specifier: ^2.8.5
     version: 2.8.5
   earthmc:
-    specifier: 8.0.0
-    version: 8.0.0
+    specifier: 8.0.1
+    version: 8.0.1
   lru-cache:
     specifier: ^7.13.1
     version: 7.18.3
@@ -27,13 +27,16 @@ dependencies:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
   typescript:
-    specifier: ^4.7.4
+    specifier: ^4.9.5
     version: 4.9.5
 
 devDependencies:
   '@types/node':
     specifier: ^20.2.5
     version: 20.5.6
+  '@types/react':
+    specifier: ^18.2.21
+    version: 18.2.21
 
 packages:
 
@@ -168,6 +171,22 @@ packages:
     resolution: {integrity: sha512-Gi5wRGPbbyOTX+4Y2iULQ27oUPrefaB0PxGQJnfyWN3kvEDGM3mIB5M/gQLmitZf7A9FmLeaqxD3L1CXpm3VKQ==}
     dev: true
 
+  /@types/prop-types@15.7.5:
+    resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
+    dev: true
+
+  /@types/react@18.2.21:
+    resolution: {integrity: sha512-neFKG/sBAwGxHgXiIxnbm3/AAVQ/cMRS93hvBpg8xYRbeQSPVABp9U2bRnPf0iI4+Ucdv3plSxKK+3CW2ENJxA==}
+    dependencies:
+      '@types/prop-types': 15.7.5
+      '@types/scheduler': 0.16.3
+      csstype: 3.1.2
+    dev: true
+
+  /@types/scheduler@0.16.3:
+    resolution: {integrity: sha512-5cJ8CB4yAx7BH1oMvdU0Jh9lrEXyPkar6F9G/ERswkCuvP4KQZfZkSjcMbAICCpQTN4OuZn8tz0HiKv9TGZgrQ==}
+    dev: true
+
   /async-mutex@0.4.0:
     resolution: {integrity: sha512-eJFZ1YhRR8UN8eBLoNzcDPcy/jqjsg6I1AP+KvWQX80BqOSW1oJPJXDylPUEeMr2ZQvHgnQ//Lp6f3RQ1zI7HA==}
     dependencies:
@@ -193,8 +212,12 @@ packages:
       vary: 1.1.2
     dev: false
 
-  /earthmc@8.0.0:
-    resolution: {integrity: sha512-ya+nbSNKJ/5KsktT2O98RVVe45ZEyP7umXaNW/xFbRROv0yJsxFZTKyk31kHXF+sh5OLRgCMU0js89SKvTsbwA==}
+  /csstype@3.1.2:
+    resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
+    dev: true
+
+  /earthmc@8.0.1:
+    resolution: {integrity: sha512-kcx36IUDuTE1iPbJfY2RzmOh0U8r+vGxBtkO2yAdeyUtDa2qITKAB9l2OS74E9SjZMh5sWKFQIDY5OhSFk6cCA==}
     engines: {node: '>=16.8.0'}
     dependencies:
       async-mutex: 0.4.0

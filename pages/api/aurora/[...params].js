@@ -1,5 +1,5 @@
-const route = require('../../../utils/route'),
-      Cors = require('cors')
+import route from '../../../utils/route.js'
+import Cors from 'cors'
 
 // Initializing the cors middleware
 const cors = Cors({ methods: ['GET', 'POST', 'PUT', 'OPTIONS'] })
