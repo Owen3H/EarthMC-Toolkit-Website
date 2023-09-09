@@ -1,6 +1,6 @@
-import { getServerInfo, endpoint } from 'earthmc'
+const { getServerInfo, endpoint } = require('earthmc')
 
-import rateLimit from './rate-limit'
+const rateLimit = require('./rate-limit.ts')
 const limiter = rateLimit({ interval: 7*1000 })
 
 const getIP = req =>
