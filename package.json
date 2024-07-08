@@ -20,13 +20,13 @@
   "homepage": "https://github.com/EarthMC-Toolkit/Toolkit-Website#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "earthmc": "8.0.1",
+    "earthmc": "9.7.0",
     "lru-cache": "^7.13.1",
     "memory-cache": "^0.2.0",
     "next": "^12.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "^4.7.4"
+    "typescript": "5.5.3"
   },
   "devDependencies": {
     "@types/node": "^20.2.5"
