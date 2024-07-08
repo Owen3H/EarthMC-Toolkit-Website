@@ -11,111 +11,100 @@
 	<body class="is-preload">
 
 		<!-- Sidebar -->
-			<section id="sidebar">
+		<section id="sidebar">
+			<div class="inner">
+				<nav>
+					<ul>
+						<li><a href="#about">Overview</a></li>
+						<li><a href="#links">Resources</a></li>
+						<li><a href="#docs">Documentation</a></li>
+						<li><a href="#help">Support</a></li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		<!-- Wrapper -->
+		<div id="wrapper">
+			<!-- About -->
+			<section id="about" class="wrapper style1 fullscreen fade-up">
 				<div class="inner">
-					<nav>
-						<ul>
-							<li><a href="#about">Overview</a></li>
-							<li><a href="#links">Resources</a></li>
-							<li><a href="#docs">Documentation</a></li>
-							<li><a href="#help">Support</a></li>
-						</ul>
-					</nav>
+					<h1>EarthMC Toolkit</h1>
+					<p>A collection of unofficial <a href="https://earthmc.net"><nobr>EarthMC</nobr></a> related tools.</p>
+					<ul class="actions">
+						<li><a href="#links" class="button large scrolly">View Collection</a></li>
+					</ul>
 				</div>
 			</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
-				<!-- About -->
-					<section id="about" class="wrapper style1 fullscreen fade-up">
+			<!-- Resources -->
+			<section id="links" class="wrapper style2 spotlights">
+				<section>
+					<a href="invite.html" class="image"><img src="images/emcs.png" alt="" data-position="center center" /></a>
+					<div class="content">
 						<div class="inner">
-							<h1>EarthMC Toolkit</h1>
-							<p>A collection of unofficial <a href="https://earthmc.net"><nobr>EarthMC</nobr></a> related tools.</p>
+							<h2>EarthMC Stats</h2>
+							<p>A discord bot able to show just about anything related to EarthMC.</p>
 							<ul class="actions">
-								<li><a href="#links" class="button large scrolly">View Collection</a></li>
+								<li><a href="invite.html" class="button">Invite to Server</a></li>
 							</ul>
 						</div>
-					</section>
+					</div>
+				</section>
 
-				<!-- Resources -->
-					<section id="links" class="wrapper style2 spotlights">
-						<section>
-							<a href="invite.html" class="image"><img src="images/emcs.png" alt="" data-position="center center" /></a>
-							<div class="content">
-								<div class="inner">
-									<h2>EarthMC Stats</h2>
-									<p>Our Discord bot can show you just about anything related to EarthMC.</p>
-									<ul class="actions">
-										<li><a href="invite.html" class="button">Invite to Server</a></li>
-									</ul>
-								</div>
-							</div>
-						</section>
-						<section>
-							<a href="https://github.com/EarthMC-Stats/EarthMCEssentials#readme" 
-							   class="image"><img src="images/emce.png" alt="" data-position="top center" /></a>
-							<div class="content">
-								<div class="inner">
-									<h2>EarthMC Essentials</h2>
-									<p>Let the EMCE Minecraft mod provide you with on-screen info about people and places, so you never have to look at the dynmap!</p>
-									<ul class="actions">
-										<li><a href="https://github.com/EarthMC-Stats/EarthMCEssentials#readme" 
-											   class="button">View on Github</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</section>
-						<section>
-							<a class="image"><img src="" alt="" data-position="25% 25%" /></a>
-							<div class="content">
-								<div class="inner">
-									<h2>EarthMC API</h2>
-									<p>The API is an easy way to access EarthMC data such as towns, nations, residents and more.</p>
-									<ul class="actions">
-										<li><a href="./docs/api.html" class="button">Quick Start</a></li>
-									</ul>
-								</div>
-							</div>
-						</section>
-					</section>
-					
-				<!-- Documentation -->
-					<section id="docs" class="wrapper style1-alt fade-up">
+				<section>
+					<a href="https://github.com/EarthMC-Stats/EarthMCEssentials#readme" 
+						class="image"><img src="images/emce.png" alt="" data-position="top center" /></a>
+					<div class="content">
 						<div class="inner">
-							<h2>Documentation</h2>
-							<ul>
-								<li><a href="./docs/commands.html">Bot Commands</a></li>
-								<li><a href="./docs/api.html">EarthMC API</a></li>
-								<li><a href="./docs/npm.html">NPM Package</a></li>
+							<h2>EarthMC Essentials</h2>
+							<p>Let the EMCE Minecraft mod provide you with on-screen info about people and places, so you never have to look at the dynmap!</p>
+							<ul class="actions">
+								<li><a href="https://github.com/EarthMC-Stats/EarthMCEssentials#readme" 
+										class="button">View on Github</a>
+								</li>
 							</ul>
 						</div>
-					</section>
+					</div>
+				</section>
+			</section>
+				
+			<!-- Documentation -->
+			<section id="docs" class="wrapper style1-alt fade-up">
+				<div class="inner">
+					<h2>Documentation</h2>
+					<ul>
+						<li><a href="./docs/commands.html">Bot Commands</a></li>
+						<li><a href="./docs/api.html">EarthMC API</a></li>
+						<li><a href="./docs/npm.html">NPM Package</a></li>
+					</ul>
+				</div>
+			</section>
 
-				<!-- Support -->
-					<section id="help" class="wrapper style3 fade-up">
-						<div class="inner">
-							<h2>Support</h2>
-							<p>Need help? We are happy to answer to your questions or take advice over at our discord.</p>
-							<section>
-								<h3>Join our <a href="https://discord.gg/AVtgkcRgFs">development server</a></h3>
-								<p>Here you can report bugs, give suggestions or register alliances!</p>
-								<iframe src="https://discord.com/widget?id=966271635894190090&theme=dark" 
-									    width="500" height="425" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
-								</iframe>
-							</section>
-						</div>
+			<!-- Support -->
+			<section id="help" class="wrapper style3 fade-up">
+				<div class="inner">
+					<h2>Support</h2>
+					<p>Need help? We are happy to answer to your questions or take advice over at our discord.</p>
+					<section>
+						<h3>Join our <a href="https://discord.gg/AVtgkcRgFs">development server</a></h3>
+						<p>Here you can report bugs, give suggestions or register alliances!</p>
+						<iframe src="https://discord.com/widget?id=966271635894190090&theme=dark" 
+								width="500" height="425" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+						</iframe>
 					</section>
-			<div>
+				</div>
+			</section>
+		<div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
 
 	</body>
 </html>

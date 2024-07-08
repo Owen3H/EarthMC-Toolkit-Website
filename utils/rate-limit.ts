@@ -6,7 +6,7 @@ type Options = {
   interval?: number
 }
 
-function rateLimit(options?: Options) {
+export default function rateLimit(options?: Options) {
   const tokenCache = new LRU({
     max: options?.uniqueTokenPerInterval || 500,
     ttl: options?.interval || 20000
@@ -19,9 +19,9 @@ function rateLimit(options?: Options) {
         
         tokenCount[0] += 1
 
-        const currentUsage = tokenCount[0],
-              isRateLimited = currentUsage >= limit,
-              remaining = isRateLimited ? 0 : limit - currentUsage
+        const currentUsage = tokenCount[0]
+        const isRateLimited = currentUsage >= limit
+        const remaining = isRateLimited ? 0 : limit - currentUsage
 
         res.setHeader('X-RateLimit-Limit', limit)
         res.setHeader('X-RateLimit-Remaining', remaining)
@@ -30,5 +30,3 @@ function rateLimit(options?: Options) {
     })
   }
 }
-
-module.exports = rateLimit

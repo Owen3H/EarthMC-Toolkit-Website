@@ -1,12 +1,12 @@
-const { Aurora, Nova, Map: EMCMap } = require("earthmc"),
-      cache = require("memory-cache"),
-      { Errors } = require("earthmc")
-      
+import { Aurora, Nova } from "earthmc"
+import cache from "memory-cache"
+
+import rateLimit from './rate-limit.ts'
+const limiter = rateLimit({ interval: 10 * 1000 })
+
 var args = []
 const arg = index => args[index]?.toLowerCase() ?? null
 
-const rateLimit = require('./rate-limit.ts')
-const limiter = rateLimit({ interval: 10*1000 })
 
 const getIP = req =>
     req.ip || req.headers['x-real-ip'] ||
@@ -17,15 +17,15 @@ async function serve(req, res, mapName = 'aurora') {
     try { await limiter.check(res, 15, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
-    let map = mapName == 'nova' ? Nova : Aurora,
-        { method, query } = req,
-        { params } = query
+    const map = mapName == 'nova' ? Nova : Aurora
+    const { method, query } = req
+    const { params } = query
     
     console.log(`${method} request invoked on ${mapName}`)
 
     let out = (method == 'PUT' || method == 'POST')
-            ? await set(map, req, params)
-            : await get(params, query, map)
+        ? await set(map, req, params)
+        : await get(params, query, map)
 
     if (!out && method == 'GET') {
         let errMsg = `Request failed! Response: ${out?.toString() ?? 'null'}`
@@ -55,86 +55,15 @@ async function serve(req, res, mapName = 'aurora') {
 
 /**
 * @param { String[] } params 
-* @param { EMCMap } map 
 */
-const get = async (params, query, map) => {
+const get = async (params, _query, map) => {
     args = params.slice(1) // Start from param after data type.
-    const [dataType] = params,
-          single = arg(0), filter = arg(1),
-          mapName = map == Nova ? 'nova' : 'aurora' 
+
+    const [dataType] = params
+    const single = arg(0)
+    const mapName = map == Nova ? 'nova' : 'aurora' 
 
     switch(dataType.toLowerCase()) {
-        case 'towns': {
-            if (!single) return await map.Towns.all()
-            if (!filter) return await map.Towns.get(single)
-
-            return validParam(filter) ?? await map.Nations.joinable(single)
-        }
-        case 'nations': {
-            if (!single) return await map.Nations.all()
-            if (!filter) {
-                let nation = await map.Nations.get(single)
-
-                if (nation instanceof Errors.FetchError) return 'fetch-error'
-                if (nation instanceof Errors.NotFoundError) return `${single} does not exist.`
-
-                return nation
-            }
-
-            return validParam(filter) ?? await map.Towns.invitable(single, false)
-        }
-        case 'gps': {
-            if (!query.x && !query.z) return 'Not enough arguments specified! Refer to the documentation.'
-
-            const xCoord = parseInt(query.x.toLowerCase())
-            if (!xCoord) return "Parameter `x` is invalid! A number is required."
-
-            const zCoord = parseInt(query.z.toLowerCase())
-            if (!zCoord) return "Parameter `z` is invalid! A number is required."
-
-            const loc = { x: xCoord, z: zCoord }
-            const type = query.type || 'fastest'
-
-            switch(type.toLowerCase()) {
-                case 'avoidpublic': return await map.GPS.findRoute(loc, { 
-                    avoidPublic: true, 
-                    avoidPvp: false 
-                })
-                case 'avoidpvp': return await map.GPS.findRoute(loc, { 
-                    avoidPublic: false, 
-                    avoidPvp: true 
-                })
-                case 'safest': return await map.GPS.safestRoute(loc)
-                case 'fastest':
-                default: return await map.GPS.fastestRoute(loc)
-            }  
-        }
-        case 'nearby': {
-            if (args.length < 4) return 'Not enough arguments specified! Refer to the documentation.'
-
-            let type = validParam(single)
-            if (type) return type
-
-            const xCoord = parseInt(args[1])
-            const zCoord = parseInt(args[2])
-
-            const xRadius = parseInt(args[3])
-            const zRadius = parseInt(args[4] ?? xRadius)
-
-            let inputs = [xCoord, zCoord, xRadius, zRadius]
-
-            switch (single) {
-                case 'towns': return await map.Towns.nearby(...inputs)
-                case 'nations': {
-                    const nearbyNations = await map.Nations.nearby(...inputs)
-                    console.log(nearbyNations.map(n => `${n.name} - x: ${n.capital.x} z: ${n.capital.z}`))
-
-                    return nearbyNations
-                }
-                case 'players':
-                default: return await map.Players.nearby(...inputs)
-            }
-        }
         case 'news': {
             let news = cache.get(`${mapName}_news`)
             if (!news) return 'cache-miss'
@@ -155,10 +84,6 @@ const get = async (params, query, map) => {
                 default: return !single ? alliances : alliances.find(a => a.allianceName.toLowerCase() == single)
             }
         }
-        case 'townless':
-        case 'townlessplayers': return await map.Players.townless() ?? 'fetch-error'
-        case 'onlineplayers': return single ? await map.Players.get(single) : await map.Players.online()
-        case 'residents': return single ? await map.Residents.get(single) : await map.Residents.all()
         default: return `Parameter ${dataType} not recognized.`
     }
 }
@@ -191,22 +116,19 @@ const set = async (map, req, params) => {
 
 //const removeNulls = obj => Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null))
 
-const validParam = param => {
-    let arr = ['invitable', 'joinable', 'towns', 'nations', 'players', 'pact', 'sub', 'normal']
-    return arr.includes(param) ? null : `Parameter '${param}' not recognized.`
-}
+// const validParam = param => {
+//     let arr = ['invitable', 'joinable', 'towns', 'nations', 'players', 'pact', 'sub', 'normal']
+//     return arr.includes(param) ? null : `Parameter '${param}' not recognized.`
+// }
 
-function runMiddleware(req, res, fn) {
-    return new Promise((resolve, reject) => {
-        fn(req, res, (result) => {
-            if (result instanceof Error) return reject(result)
-            return resolve(result)
-        })
+export const runMiddleware = (req, res, fn) => new Promise((resolve, reject) => {
+    fn(req, res, (result) => {
+        if (result instanceof Error) return reject(result)
+        return resolve(result)
     })
-}
+})
 
 export {
     serve as default,
     serve,
-    runMiddleware
 }

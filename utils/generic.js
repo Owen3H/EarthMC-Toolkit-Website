@@ -1,7 +1,7 @@
-const { getServerInfo, endpoint } = require('earthmc')
+import { getServerInfo, endpoint } from 'earthmc'
 
-const rateLimit = require('./rate-limit.ts')
-const limiter = rateLimit({ interval: 7*1000 })
+import rateLimit from './rate-limit.ts'
+const limiter = rateLimit({ interval: 7 * 1000 })
 
 const getIP = req =>
     req.ip || req.headers['x-real-ip'] ||
@@ -9,8 +9,8 @@ const getIP = req =>
     req.connection.remoteAddress
 
 async function getData(query) {
-    let [type, ts] = query.params,
-        map = query.map
+    const [type, ts] = query.params
+    const map = query.map
 
     switch(type.toLowerCase()) {
         case 'serverinfo': return await getServerInfo()
