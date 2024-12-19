@@ -5,7 +5,7 @@ import Cors from 'cors'
 const cors = Cors({ methods: ['GET', 'POST', 'PUT', 'OPTIONS'] })
 async function handler(req, res) {
     await runMiddleware(req, res, cors)
-    serve(req, res, 'aurora') 
+    serve(req, res, 'aurora')
 }
 
 export default handler

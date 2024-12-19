@@ -24,19 +24,21 @@ const novaHeaders = [{
     key: "Cache-Control",
     value: "s-maxage=300, stale-while-revalidate=300"
   }]
-}, {
-  source: "/api/nova/alliances",
-  headers: [{
-    key: "Cache-Control",
-    value: "s-maxage=31536000"
-  }]
-}, {
-  source: "/api/nova/alliances/:allianceName",
-  headers: [{
-    key: "Cache-Control",
-    value: "s-maxage=31536000"
-  }]
 }]
+
+// }, {
+//   source: "/api/nova/alliances",
+//   headers: [{
+//     key: "Cache-Control",
+//     value: "s-maxage=31536000"
+//   }]
+// }, {
+//   source: "/api/nova/alliances/:allianceName",
+//   headers: [{
+//     key: "Cache-Control",
+//     value: "s-maxage=31536000"
+//   }]
+// }]
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
