@@ -5,7 +5,7 @@
   "main": "./public/assets/js/main.js",
   "type": "module",
   "scripts": {
-    "reinstall": "rimraf node_modules && bun i",
+    "prune": "rimraf node_modules && bun i",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
@@ -22,7 +22,7 @@
   "homepage": "https://github.com/EarthMC-Toolkit/Toolkit-Website#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "earthmc": "9.10.0",
+    "earthmc": "10.0.2",
     "lru-cache": "10.4.0",
     "memory-cache": "^0.2.0",
     "next": "^14.2.5",

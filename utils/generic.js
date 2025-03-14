@@ -29,7 +29,7 @@ async function serve(req, res) {
     try { await limiter.check(res, 5, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
-    let out = await getData(req.query)   
+    const out = await getData(req.query)   
     if (!out) return res.status(400).send(`Parameter ${req.query.params[0]} not recognized.`)
 
     res.setHeader('Access-Control-Allow-Origin', '*')

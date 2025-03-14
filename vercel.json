@@ -8,10 +8,6 @@
         "pages/api/aurora/*.js": {
             "memory": 1024,
             "maxDuration": 10
-        },
-        "pages/api/nova/*.js": {
-            "memory": 512,
-            "maxDuration": 7
         }
     }
 }

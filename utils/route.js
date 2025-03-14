@@ -69,13 +69,15 @@ const get = async (params, _query, mapName) => {
 
     switch(dataType.toLowerCase()) {
         case 'news': {
+            if (mapName == "nova") return '404' // TODO: Actually remove Nova instead of this check.
+
             let news = cache.get(`${mapName}_news`)
             if (!news) return 'cache-miss'
 
             return !single ? news : news.all.filter(n => n.message.toLowerCase().includes(single))
         }
         case 'alliances': {
-            if (mapName == "nova") return '404'
+            if (mapName == "nova") return '404' // TODO: Actually remove Nova instead of this check.
 
             let alliances = cache.get(`${mapName}_alliances`)
             if (!alliances) return 'cache-miss'

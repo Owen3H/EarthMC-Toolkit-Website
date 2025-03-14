@@ -18,13 +18,13 @@ const auroraHeaders = [{
   }]
 }]
 
-const novaHeaders = [{
-  source: "/api/nova/news",
-  headers: [{
-    key: "Cache-Control",
-    value: "s-maxage=300, stale-while-revalidate=300"
-  }]
-}]
+// const novaHeaders = [{
+//   source: "/api/nova/news",
+//   headers: [{
+//     key: "Cache-Control",
+//     value: "s-maxage=300, stale-while-revalidate=300"
+//   }]
+// }]
 
 // }, {
 //   source: "/api/nova/alliances",
@@ -46,7 +46,7 @@ const nextConfig = {
   poweredByHeader: false,
   eslint: { ignoreDuringBuilds: true },
   async headers() {
-    return [...auroraHeaders, ...novaHeaders]
+    return [...auroraHeaders, /*...novaHeaders*/]
   }
 }
 
