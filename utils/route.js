@@ -1,7 +1,10 @@
 import cache from "memory-cache"
-
 import rateLimit from './rate-limit.ts'
-const limiter = rateLimit({ interval: 10 * 1000 })
+
+const reqLimit = 15
+const ttl = 20*1000 // 15/20 = 0.75req/s | 45req/m
+
+const limiter = rateLimit({ interval: ttl })
 
 var args = []
 const arg = index => args[index]?.toLowerCase() ?? null
@@ -14,10 +17,10 @@ const getIP = req =>
 /**
  * @param { any } req 
  * @param { any } res
- * @param { 'aurora' | 'nova' } mapName 
+ * @param { 'aurora' } mapName 
  */
 async function serve(req, res, mapName = 'aurora') {
-    try { await limiter.check(res, 15, getIP(req)) } 
+    try { await limiter.check(res, reqLimit, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     const { method, query } = req
@@ -59,7 +62,7 @@ async function serve(req, res, mapName = 'aurora') {
 /**
  * @param { String[] } params 
  * @param { any } _query 
- * @param { 'aurora' | 'nova' } mapName
+ * @param { 'aurora' } mapName
  */
 const get = async (params, _query, mapName) => {
     args = params.slice(1) // Start from param after data type.
@@ -69,16 +72,12 @@ const get = async (params, _query, mapName) => {
 
     switch(dataType.toLowerCase()) {
         case 'news': {
-            if (mapName == "nova") return '404' // TODO: Actually remove Nova instead of this check.
-
             let news = cache.get(`${mapName}_news`)
             if (!news) return 'cache-miss'
 
             return !single ? news : news.all.filter(n => n.message.toLowerCase().includes(single))
         }
         case 'alliances': {
-            if (mapName == "nova") return '404' // TODO: Actually remove Nova instead of this check.
-
             let alliances = cache.get(`${mapName}_alliances`)
             if (!alliances) return 'cache-miss'
 
@@ -99,11 +98,14 @@ const get = async (params, _query, mapName) => {
 /**
  * @param { any } req 
  * @param { String[] } params
- * @param { 'aurora' | 'nova' } mapName
+ * @param { 'aurora' } mapName
  */
 const set = async (req, params, mapName) => {
     const authKey = req.headers['authorization']
-    if (authKey != process.env.AUTH_KEY) return 'no-auth'
+    if (authKey != process.env.AUTH_KEY) {
+        console.error("Invalid auth key: " + authKey)
+        return 'no-auth'
+    }
 
     const body = req.body
     if (!body || Object.keys(body).length < 1) return null

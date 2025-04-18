@@ -1,7 +1,11 @@
 import { getServerInfo, endpoint } from 'earthmc'
 
 import rateLimit from './rate-limit.ts'
-const limiter = rateLimit({ interval: 7 * 1000 })
+
+const reqLimit = 5
+const ttl = 10*1000 // 5/10 = 0.5req/s | 30req/m
+
+const limiter = rateLimit({ interval: ttl })
 
 const getIP = req =>
     req.ip || req.headers['x-real-ip'] ||
@@ -26,7 +30,7 @@ async function getData(query) {
 }
 
 async function serve(req, res) {
-    try { await limiter.check(res, 5, getIP(req)) } 
+    try { await limiter.check(res, reqLimit, getIP(req)) } 
     catch { return res.status(429).json({ error: 'Rate limit exceeded' }) }
 
     const out = await getData(req.query)   
