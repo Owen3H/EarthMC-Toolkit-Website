@@ -1,10 +1,11 @@
-import { getServerInfo, endpoint } from 'earthmc'
+import { endpoint } from 'earthmc'
 
 import rateLimit from './rate-limit.ts'
 
 const reqLimit = 5
-const ttl = 10*1000 // 5/10 = 0.5req/s | 30req/m
+const ttl = 10*1000
 
+// reqLimit/tll = 0.5req/s or 30req/m
 const limiter = rateLimit({ interval: ttl })
 
 const getIP = req =>
@@ -17,7 +18,6 @@ async function getData(query) {
     const map = query.map
 
     switch(type.toLowerCase()) {
-        case 'serverinfo': return await getServerInfo()
         case 'archive': {
             endpoint.useArchive(ts)
             return await endpoint.mapData(map).then(data => { 

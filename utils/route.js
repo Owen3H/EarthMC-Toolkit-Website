@@ -2,8 +2,9 @@ import cache from "memory-cache"
 import rateLimit from './rate-limit.ts'
 
 const reqLimit = 15
-const ttl = 20*1000 // 15/20 = 0.75req/s | 45req/m
+const ttl = 20*1000
 
+// reqLimit/ttl = 0.75req/s or 45req/m
 const limiter = rateLimit({ interval: ttl })
 
 var args = []
@@ -15,8 +16,8 @@ const getIP = req =>
     req.connection.remoteAddress
 
 /**
- * @param { any } req 
- * @param { any } res
+ * @param { import("next").NextApiRequest } req 
+ * @param { import("next").NextApiResponse } res
  * @param { 'aurora' } mapName 
  */
 async function serve(req, res, mapName = 'aurora') {
@@ -61,7 +62,7 @@ async function serve(req, res, mapName = 'aurora') {
 
 /**
  * @param { String[] } params 
- * @param { any } _query 
+ * @param { any } _query // No type. Unused
  * @param { 'aurora' } mapName
  */
 const get = async (params, _query, mapName) => {
@@ -96,7 +97,7 @@ const get = async (params, _query, mapName) => {
 }
 
 /**
- * @param { any } req 
+ * @param { import("next").NextApiRequest } req 
  * @param { String[] } params
  * @param { 'aurora' } mapName
  */
@@ -124,13 +125,6 @@ const set = async (req, params, mapName) => {
     if (out) cache.put(`${mapName}_${dataType}`, out)
     return out
 }
-
-//const removeNulls = obj => Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null))
-
-// const validParam = param => {
-//     let arr = ['invitable', 'joinable', 'towns', 'nations', 'players', 'pact', 'sub', 'normal']
-//     return arr.includes(param) ? null : `Parameter '${param}' not recognized.`
-// }
 
 export const runMiddleware = (req, res, fn) => new Promise((resolve, reject) => {
     fn(req, res, (result) => {
